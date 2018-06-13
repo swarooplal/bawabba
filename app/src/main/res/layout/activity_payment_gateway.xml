@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/original"
+    android:layout_height="match_parent">
+
+    <RadioGroup
+        android:id="@+id/subscription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center">
+        <RadioButton
+            android:id="@+id/subscription1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6 month Subscription"
+            android:textColor="#000"
+            android:textSize="13sp"
+            android:tag="1"
+            android:buttonTint="#fff"
+
+            android:checked="true"
+            />
+        <RadioButton
+            android:id="@+id/subscription2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12 month Subscription"
+            android:textSize="13sp"
+            android:textColor="#000"
+            android:tag="2"
+            android:buttonTint="#fff"
+            />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_marginTop="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="#4D000000"
+            android:gravity="center"
+            android:text="amount"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/numberEditText"
+            android:background="@drawable/rectanguaredit"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:paddingLeft="5dp"
+           android:textColorHint="@color/white"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:hint="card_number"
+            android:inputType="numberSigned" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/monthEditText"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:background="@drawable/rectanguaredit"
+                android:hint="card_month"
+                android:textSize="12sp"
+                android:paddingLeft="3dp"
+                android:inputType="numberSigned"
+                android:textColorHint="@color/white" />
+
+            <EditText
+                android:id="@+id/yearEditText"
+                android:background="@drawable/rectanguaredit"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:textColorHint="@color/white"
+                android:layout_marginLeft="33dp"
+                android:textSize="12sp"
+                android:paddingLeft="3dp"
+                android:hint="card_year"
+                android:inputType="numberSigned" />
+
+            <EditText
+                android:id="@+id/cvcEditText"
+                android:background="@drawable/rectanguaredit"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="33dp"
+                android:textSize="12sp"
+                android:paddingLeft="3dp"
+                android:textColorHint="@color/white"
+                android:hint="card_cvc"
+                android:inputType="numberSigned" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/ownerEditText"
+            android:layout_gravity="center"
+            android:background="@drawable/rectanguaredit"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:paddingLeft="5dp"
+            android:textColorHint="@color/white"
+            android:layout_marginTop="15dp"
+            android:hint="card_owner" />
+
+        <Button
+            android:id="@+id/payButton"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:onClick="pay"
+            android:text="pay" />
+
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="16dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/errorTextView"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="16dp"
+        android:gravity="center_vertical"
+        android:textColor="#F00" />
+</LinearLayout>
+</RelativeLayout>

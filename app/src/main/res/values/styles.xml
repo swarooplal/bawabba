@@ -1,0 +1,170 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimaryDark">@color/actionbar</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorHint">@color/bg_main</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+
+    </style>
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">#FFF</item>
+        <item name="android:listDivider">@drawable/divider_gray</item>
+    </style>
+
+    <style name="counterText">
+        <item name="android:textColor">#aa5353cc</item>
+    </style>
+
+    <style name="counterOverride">
+        <item name="android:textColor">#ff0000</item>
+    </style>
+
+
+    <!--<style name="spinnerTheme" parent="android:Theme">-->
+    <!--<item name="android:textColor">@color/white</item>-->
+    <!--</style>-->
+
+
+
+
+    <!--<style name="CustomTabWidgetText"-->
+    <!--parent="@android:style/TextAppearance.Widget.TabWidget">-->
+    <!--<item name="android:textSize">8sp</item>-->
+    <!--<item name="android:textStyle">bold</item>-->
+    <!--<item name="android:textAllCaps">false</item>-->
+    <!--</style>-->
+
+    <style name="Cropper.Widget.Drawer.Seperator" parent="android:Widget.DeviceDefault.Light.TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginBottom">@dimen/drawer_text_padding</item>
+        <item name="android:layout_marginTop">@dimen/drawer_text_padding</item>
+        <item name="android:background">#5FFF</item>
+    </style>
+
+    <style name="Cropper.Widget.Drawer.Title.TextView" parent="android:Widget.DeviceDefault.Light.TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/drawer_text_padding</item>
+        <item name="android:textSize">@dimen/drawer_text_size</item>
+        <item name="android:clickable">false</item>
+        <item name="android:textColor">#8FFF</item>
+    </style>
+    <style name="Cropper.Widget.Drawer.Option.TextView" parent="android:Widget.DeviceDefault.Light.TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/drawer_text_padding</item>
+        <item name="android:textSize">@dimen/drawer_text_size</item>
+        <item name="android:clickable">true</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+
+    </style>
+
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+    <style name="MaterialDialogSheet" parent="@android:style/Theme.Dialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowAnimationStyle">@style/MaterialDialogSheetAnimation</item>
+    </style>
+
+    <style name="MaterialDialogSheetAnimation">
+        <item name="android:windowEnterAnimation">@anim/popup_show</item>
+        <item name="android:windowExitAnimation">@anim/popup_hide</item>
+    </style>
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">#666</item>
+        <item name="colorControlActivated">#F6BE00</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="CustomTabs" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textAllCaps">false</item>
+
+    </style>
+
+    <style name="TabWidgetTheme" parent="AppTheme">
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
+        <item name="android:textColorSecondary">@color/bottomnavigation</item>
+    </style>
+
+    <style name="CropTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/multiple_image_select_primary</item>
+        <item name="colorPrimaryDark">@color/multiple_image_select_primaryDark</item>
+        <item name="android:windowBackground">@color/multiple_image_select_primary</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+    <style name="AppTheme.BlueAccent">
+        <item name="colorAccent">@color/color_blue_qb</item>
+    </style>
+    <style name="OverrideMultipleImageSelectTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/multiple_image_select_primary</item>
+        <item name="colorPrimaryDark">@color/multiple_image_select_primaryDark</item>
+        <item name="colorAccent">@color/multiple_image_select_accent</item>
+        <item name="actionModeStyle">@style/OverrideCustomActionModeStyle</item>
+        <item name="windowActionModeOverlay">true</item>
+    </style>
+
+    <style name="OverrideCustomActionModeStyle" parent="Base.Widget.AppCompat.ActionMode">
+        <item name="background">@color/multiple_image_select_primary</item>
+    </style>
+    <style name="OverrideCustomToolbarTheme" parent="Base.ThemeOverlay.AppCompat.ActionBar">
+    </style>
+
+
+    <!--<style name="OverrideMultipleImageSelectTheme" parent="Theme.AppCompat.NoActionBar">-->
+    <!--<item name="colorPrimary">@color/multiple_image_select_primary</item>-->
+    <!--<item name="colorPrimaryDark">@color/multiple_image_select_primaryDark</item>-->
+    <!--<item name="colorAccent">@color/multiple_image_select_accent</item>-->
+    <!---->
+
+    <!--<item name="windowActionModeOverlay">true</item>-->
+    <!--</style>-->
+    <!--<style name="OverrideCustomToolbarTheme" parent="Base.ThemeOverlay.AppCompat.ActionBar">-->
+    <!--</style>-->
+
+    <!--<style name="listSeparatorTextViewStyle" parent="Theme.AppCompat.NoActionBar">-->
+    <!--...-->
+    <!--<item name="android:listSeparatorTextViewStyle">@color/listSeparatorText</item>-->
+    <!--</style>-->
+
+    <style name="CustomTheme" parent="AppTheme.NoActionBar">
+        <item name="android:tabWidgetStyle">@style/CustomTabWidgetText</item>
+        <item name="android:windowActionBar">true</item>
+    </style>
+    <style name="CustomTabWidgetText">
+        <item name="android:textSize">25dp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+
+    <style name="action_button_bs">
+        <item name="android:textColor">#3B73CC</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!-- Base application theme. -->
+
+
+</resources>
+

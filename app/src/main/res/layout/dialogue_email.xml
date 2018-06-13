@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="200dp"
+    android:layout_gravity="center"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Please enter your password to confirm email change"
+        android:textColor="#000"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/tvTitle"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Title"
+        android:background="@drawable/grey_box"
+        android:gravity="left"
+        android:hint="Password"
+        android:layout_centerInParent="true"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:textColor="#6b6a6a"
+        android:textColorHint="#a6a6a6"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:layout_below="@+id/tvTitle"
+        android:background="#cfcfcf"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/tvTitle">
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.50"
+            android:textAllCaps="false"
+            android:textColor="#0083C9"
+            android:background="@color/white"
+            android:text="Cancel"/>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/dialog_info"
+            android:background="#cfcfcf" />
+
+        <Button
+            android:id="@+id/ok"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textAllCaps="false"
+            android:layout_weight="0.50"
+            android:textColor="#0083C9"
+            android:background="@color/white"
+            android:text="OK"/>
+    </LinearLayout>
+</RelativeLayout>
+

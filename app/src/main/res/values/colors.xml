@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#009688</color>
+    <color name="colorPrimaryDark">#00796b</color>
+    <color name="colorAccent">#6d6b6b</color>
+    <color name="bg_login">#26ae90</color>
+    <color name="bg_register">#2e3237</color>
+    <color name="bg_main">#428bca</color>
+    <color name="white">#FFFFFF</color>
+    <color name="input_login">#222222</color>
+    <color name="input_login_hint">#999999</color>
+    <color name="input_register">#888888</color>
+    <color name="input_register_bg">#3b4148</color>
+    <color name="input_register_hint">#5e6266</color>
+    <color name="btn_login">#26ae90</color>
+    <color name="btn_login_bg">#eceef1</color>
+    <color name="lbl_name">#333333</color>
+    <color name="btn_logut_bg">#ff6861</color>
+    <color name="colorpimary1">#3f3e3e</color>
+    <color name="facebook">#3b5998 </color>
+    <color name="linkedin">#0077B5</color>
+    <color name="navcolor">#0083c9</color>
+    <color name="grid1">#298FC2</color>
+    <color name="gray">#e9e9e9</color>
+
+    <color name="portfolioText">#00BFFF</color>
+    <color name="bottomnavigation">#387FD7</color>
+    <color name="actionbar">#0277BD</color>
+    <color name="divider_color">#e0e0e0</color>
+    <color name="selected_list_item_color">#e0e0e0</color>
+    <!--<color name="multiple_image_select_primary">#00BFFF</color>-->
+    <!--<color name="multiple_image_select_albumTextBackground">#99FFFFFF</color>-->
+    <!--<color name="multiple_image_select_primaryDark">#0277BD</color>-->
+    <!--<color name="multiple_image_select_toolbarPrimaryText">#FFFFFF</color>-->
+
+    <color name="multiple_image_select_primary">#00BFFF</color>
+    <color name="multiple_image_select_primaryDark">#0277BD</color>
+    <color name="listSeparatorText">#00BFFF</color>
+    <color name="multiple_image_select_secondaryText">#fff</color>
+    <color name="multiple_image_select_primaryText">#000</color>
+    <color name="multiple_image_select_toolbarPrimaryText">#FFFFFF</color>
+    <color name="multiple_image_select_albumTextBackground">#99FFFFFF</color>
+    <color name="multiple_image_select_imageSelectBackground">#FFFFFF</color>
+    <color name="ucrop_color_toolbar">#00BFFF</color>
+
+    <color name="spinnerTextColor">#FFFFFF</color>
+
+    <color name="bottom_lib_dialog_item_text_color">#00BFFF</color>
+    <color name="bottom_lib_dialog_title_text_color">#00BFFF</color>
+    <color name="bottom_lib_dialog_cancel_text_color">#387FD7</color>
+    <color name="notification_color">#387FD7</color>
+    <color name="textdark">#565557</color>
+
+</resources>

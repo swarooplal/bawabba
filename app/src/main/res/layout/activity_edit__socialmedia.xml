@@ -1,0 +1,540 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.bawaaba.rninja4.rookie.activity.ProfileTab.Edit_Socialmedia">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/background_repeat"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textColor="#fff"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Edit Social Medias"
+                    android:textSize="18sp" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tvSave"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:textColor="#fff"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="15dp"
+                    android:text="Save"
+                    android:textAllCaps="false"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="vertical"
+        android:scrollbarSize="2dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:background="#FFFFFF"
+            android:id="@+id/linear"
+            android:orientation="vertical">
+
+
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/mono"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/five" />
+
+                <EditText
+                    android:id="@+id/edit_mono"
+                    android:layout_width="320dp"
+                    android:layout_height="35dp"
+                    android:textColor="#B6B6B6"
+                    android:textSize="13sp"
+                    android:paddingLeft="10dp"
+                    android:hint="500Px"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toRightOf="@+id/mono"
+                    android:background="@drawable/grey_box" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/behance"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/behance" />
+
+                <EditText
+                    android:id="@+id/edit_behance"
+                    android:layout_width="320dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#B6B6B6"
+                    android:paddingLeft="10dp"
+                    android:hint="Behance"
+                    android:textSize="13sp"
+                    android:layout_toRightOf="@+id/behance"
+                    android:background="@drawable/grey_box" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/facebook"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/facebook" />
+
+                <EditText
+                    android:id="@+id/edit_facebook"
+                    android:layout_width="320dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:hint="Facebook"
+                    android:textColor="#B6B6B6"
+                    android:paddingLeft="10dp"
+                    android:textSize="13sp"
+                    android:layout_toRightOf="@+id/facebook"
+                    android:background="@drawable/grey_box" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/dribble"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/dribbble" />
+
+                <EditText
+                    android:id="@+id/edit_dribble"
+                    android:layout_width="320dp"
+                    android:layout_height="35dp"
+                    android:textColor="#B6B6B6"
+                    android:textSize="13sp"
+                    android:paddingLeft="10dp"
+                    android:hint="Dribble"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toRightOf="@+id/dribble"
+                    android:background="@drawable/grey_box" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/github"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/github" />
+
+                <EditText
+                    android:id="@+id/edit_github"
+                    android:layout_width="320dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:hint="Github"
+                    android:textColor="#B6B6B6"
+                    android:paddingLeft="10dp"
+                    android:textSize="13sp"
+                    android:layout_toRightOf="@+id/github"
+                    android:background="@drawable/grey_box" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/bitbucket"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/bitbucket" />
+
+                <EditText
+                    android:id="@+id/edit_bitbucket"
+                    android:layout_width="320dp"
+                    android:layout_height="35dp"
+                    android:textColor="#B6B6B6"
+                    android:hint="Bitbucket"
+                    android:textSize="13sp"
+                    android:paddingLeft="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toRightOf="@+id/bitbucket"
+                    android:background="@drawable/grey_box" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/google_plus"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/googleplus" />
+
+                <EditText
+                    android:id="@+id/edit_google_plus"
+                    android:layout_width="320dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#B6B6B6"
+                    android:paddingLeft="10dp"
+                    android:hint="Google Plus"
+                    android:textSize="13sp"
+                    android:layout_toRightOf="@+id/google_plus"
+                    android:background="@drawable/grey_box" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/instagram"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/instagram_new" />
+
+                <EditText
+                    android:id="@+id/edit_instagram"
+                    android:layout_width="320dp"
+                    android:layout_height="35dp"
+                    android:textColor="#B6B6B6"
+                    android:hint="instagram"
+                    android:paddingLeft="10dp"
+                    android:textSize="13sp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toRightOf="@+id/instagram"
+                    android:background="@drawable/grey_box" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/linkedin"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/linkedin_new" />
+
+                <EditText
+                    android:id="@+id/edit_linkedin"
+                    android:layout_width="320dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:paddingLeft="10dp"
+                    android:hint="Linkedin"
+                    android:textColor="#B6B6B6"
+                    android:textSize="13sp"
+                    android:layout_toRightOf="@+id/linkedin"
+                    android:background="@drawable/grey_box" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/pinterest"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/pinterest" />
+
+                <EditText
+                    android:id="@+id/edit_pineterest"
+                    android:layout_width="320dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:hint="Pinterest"
+                    android:textColor="#B6B6B6"
+                    android:paddingLeft="10dp"
+                    android:textSize="13sp"
+                    android:layout_toRightOf="@+id/pinterest"
+                    android:background="@drawable/grey_box" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/soundcloud"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/soundcloud" />
+
+                <EditText
+                    android:id="@+id/edit_sounclod"
+                    android:layout_width="320dp"
+                    android:layout_height="35dp"
+                    android:textColor="#B6B6B6"
+                    android:textSize="13sp"
+                    android:hint="Soundcloud"
+                    android:paddingLeft="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toRightOf="@+id/soundcloud"
+                    android:background="@drawable/grey_box" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/stack"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/stack" />
+
+                <EditText
+                    android:id="@+id/edit_stack"
+                    android:layout_width="320dp"
+                    android:layout_height="35dp"
+                    android:textColor="#B6B6B6"
+                    android:hint="Stack"
+                    android:textSize="13sp"
+                    android:paddingLeft="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toRightOf="@+id/stack"
+                    android:background="@drawable/grey_box" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/twit"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/twitter" />
+
+                <EditText
+                    android:id="@+id/edit_twit"
+                    android:layout_width="320dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#B6B6B6"
+                    android:paddingLeft="10dp"
+                    android:textSize="13sp"
+                    android:hint="Twitter"
+                    android:layout_toRightOf="@+id/twit"
+                    android:background="@drawable/grey_box" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/vimeo"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/vimeo" />
+
+                <EditText
+                    android:id="@+id/edit_vimeo"
+                    android:layout_width="320dp"
+                    android:textColor="#B6B6B6"
+                    android:textSize="13sp"
+                    android:hint="Vimeo"
+                    android:paddingLeft="10dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toRightOf="@+id/vimeo"
+                    android:background="@drawable/grey_box" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/youtube"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/youtube" />
+
+                <EditText
+                    android:id="@+id/edit_youtube"
+                    android:layout_width="320dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#B6B6B6"
+                    android:paddingLeft="10dp"
+                    android:hint="Youtube"
+                    android:textSize="13sp"
+                    android:layout_toRightOf="@+id/youtube"
+                    android:background="@drawable/grey_box" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/link"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/otherurl" />
+
+                <EditText
+                    android:id="@+id/edit_otherlink"
+                    android:layout_width="320dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#B6B6B6"
+                    android:hint="Other URL"
+                    android:paddingLeft="10dp"
+                    android:textSize="13sp"
+                    android:layout_toRightOf="@+id/link"
+                    android:background="@drawable/grey_box" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="80dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/website"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/website" />
+
+                <EditText
+                    android:id="@+id/edit_website"
+                    android:layout_width="320dp"
+                    android:layout_height="35dp"
+                    android:textColor="#B6B6B6"
+                    android:textSize="13sp"
+                    android:paddingLeft="10dp"
+                    android:hint="Website"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toRightOf="@+id/website"
+                    android:background="@drawable/grey_box" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
+
+

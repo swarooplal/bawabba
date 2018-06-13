@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar2"
+    android:orientation="vertical"
+    android:layout_width="300dp"
+    android:layout_height="20dp"
+    android:layout_gravity="top">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Tool_name"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="@drawable/halfbackground"
+        android:textColor="@color/white"
+        android:fontFamily="sans-serif"
+        android:textSize="20dp"
+        android:id="@+id/toolbar_title" />
+
+</android.support.v7.widget.Toolbar>

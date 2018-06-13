@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.bawaaba.rninja4.rookie.activity.ProfileTab.SkillEditActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/background_repeat"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#fff"
+                    android:text="Edit skills"
+                    android:textStyle="bold"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.DrawerLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/drawer_layout"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+
+
+            <LinearLayout
+                android:id="@+id/toolBar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:scaleType = "fitXY"
+                android:background="#dfdfdf"
+                >
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/tvSearchHere"
+                    android:layout_width="360dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/search_box"
+                    android:drawableLeft="@drawable/search_main"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="#7C7C7C"
+                    android:gravity="left|center"
+                    android:hint="Search"
+                    android:imeActionLabel="Search"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:paddingLeft="15dp"
+                    android:textColor="#7C7C7C"
+                    android:textColorHint="#CACACA"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvskills"
+                android:layout_marginTop="50dp"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/tvSearchHere"
+                android:layout_above="@+id/tvSave"
+                android:layout_height="match_parent"
+                tools:ignore="NotSibling">
+            </android.support.v7.widget.RecyclerView>
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tvSave"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:background="#78BE20"
+                android:gravity="center"
+                android:text="Save"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:textAllCaps="false" />
+        </RelativeLayout>
+        <android.support.design.widget.NavigationView
+            android:id="@+id/nvView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:fitsSystemWindows="true"
+            android:background="#fff"
+            app:menu="@menu/nav_menu" />
+    </android.support.v4.widget.DrawerLayout>
+</LinearLayout>

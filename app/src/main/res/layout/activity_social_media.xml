@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context="com.bawaaba.rninja4.rookie.activity.ProfileTab.SocialMedia">
+
+
+    <com.bawaaba.rninja4.rookie.custom_views.MyGridView
+        android:id="@+id/gvSocialMedia"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:verticalSpacing="8dp"
+        android:layout_gravity="center"
+        android:numColumns="7">
+
+    </com.bawaaba.rninja4.rookie.custom_views.MyGridView>
+
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/socialmedia_count"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:textAllCaps="false"
+        android:text="No social media's added yet."
+        android:textSize="15sp"
+        android:textColor="#BDBDBD"
+        />
+
+
+    <LinearLayout
+        android:id="@+id/llEditPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/edit_social"
+            android:paddingTop="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:text="EDIT SOCIAL MEDIA"
+            android:layout_marginBottom="4dp"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif"
+            android:textColor="#0083C9"
+            android:textSize="11sp"/>
+    </LinearLayout>
+</LinearLayout>
+

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context="com.bawaaba.rninja4.rookie.Account.GeneralSettingsActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/background_repeat"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textColor="#FFFFFF"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="General Settings"
+                    android:textSize="18sp" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tvSave"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="15dp"
+                    android:text="Save"
+                    android:textAllCaps="true"
+                    android:textSize="18sp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="7dp">
+
+        <RadioButton
+            android:id="@+id/rbHire"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="#A8A8A8"
+            android:text="Hirer/Reviewer" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30sp"
+            android:text="(Profile will not be visible in search)"
+            android:textColor="#EF8201" />
+
+        <RadioButton
+            android:id="@+id/rbWork"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="#A8A8A8"
+            android:text="Freelancer/Small Business" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30sp"
+            android:text="(Profile will be visible in search)"
+            android:textColor="#EF8201" />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/etDescription"
+            android:layout_marginTop="10dp"
+            android:layout_width="320dp"
+            android:layout_height="120dp"
+            android:inputType="textMultiLine"
+            android:textColor="#A8A8A8"
+            android:hint="Description"
+            android:textSize="13sp"
+            android:gravity="top|left"
+            android:padding="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/box_edittext"
+
+            />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btnSubmit"
+            android:layout_marginTop="10dp"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:textAllCaps="false"
+            android:layout_gravity="center"
+            android:background="#0083C9"
+            android:text="Next"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</LinearLayout>
+

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.bawaaba.rninja4.rookie.Account.Deactivate_reason">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="top">
+
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@drawable/background_repeat"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/deactivate"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="right|center"
+                        android:layout_marginRight="10dp"
+                        android:paddingLeft="3dp"
+                        android:layout_gravity="center"
+                        android:textColor="#fff"
+                        android:text="Deactivate"
+                        android:textStyle="bold"
+                        android:textSize="18sp" />
+
+                    <!--<android.support.v7.widget.AppCompatTextView-->
+                    <!--android:id="@+id/save"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:textColor="#fff"-->
+                    <!--android:gravity="center_vertical|right"-->
+                    <!--android:onClick="senddatatoserver"-->
+                    <!--android:paddingRight="15dp"-->
+                    <!--android:text="Save"-->
+                    <!--app:textAllCaps="false"-->
+                    <!--android:textAllCaps="true"-->
+                    <!--android:textSize="18sp" />-->
+
+                </LinearLayout>
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
+    </LinearLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:layout_marginTop="70dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Reason for leaving"
+            android:layout_marginLeft="15dp"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif"
+            android:textColor="#868686"
+            />
+
+
+        <RadioGroup
+            android:id="@+id/reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_gravity="center">
+
+            <RadioButton
+                android:id="@+id/use"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="I don't find Bawabba useful "
+                android:textColor="#868686"
+                android:textSize="13sp"
+                android:buttonTint="#A8A8A8"
+                android:checked="true"
+                />
+            <RadioButton
+                android:id="@+id/safe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="I don't find Bawabba safe"
+                android:textSize="13sp"
+                android:textColor="#868686"
+                android:buttonTint="#A8A8A8"
+                />
+
+            <RadioButton
+                android:id="@+id/expect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bawabba did not meet my expectation"
+                android:textSize="13sp"
+                android:textColor="#868686"
+                android:buttonTint="#A8A8A8"
+                />
+            <RadioButton
+                android:id="@+id/other"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Other"
+                android:textSize="13sp"
+                android:textColor="#868686"
+                android:buttonTint="#A8A8A8"
+                />
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/other_reason"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/blue_box_corner"
+            android:gravity="top|left"
+            android:layout_below="@id/reason"
+            android:hint="Reason for leaving"
+            android:textColorHint="#868686"
+            android:inputType="textMultiLine"
+            android:padding="10dp"
+            android:textColor="#868686"
+            android:fontFamily="sans-serif"
+            android:paddingBottom="60dp"
+            android:textSize="15dp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

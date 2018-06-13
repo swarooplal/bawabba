@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context="com.bawaaba.rninja4.rookie.activity.ProfileTab.Edit_reviewpostedbyhirer">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp">
+
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/post_review"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="7dp"
+            android:gravity="center_vertical"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:minHeight="35dp"
+            android:textAllCaps="false"
+            android:text="Reviews posted by me" />
+
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/posted_review"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="7dp"
+            android:gravity="center_vertical"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:minHeight="35dp"
+            android:visibility="gone"
+            android:textAllCaps="false"
+            android:text="Reviews posted" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/review_count"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:textColor="#FFA500" />
+    </LinearLayout>
+    <View
+        android:id="@+id/UnderLine"
+        android:layout_width="160dp"
+        android:layout_height="2dp"
+        android:layout_gravity="left"
+        android:layout_below="@+id/post_review"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="7dp"
+        android:background="#0083C9" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvReviews"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/no_review"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:gravity="top"
+            android:text="No reviews..."
+            android:textColor="#FF666666"
+            android:textSize="13sp"
+            />
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

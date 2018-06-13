@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:orientation="vertical"
+    tools:context="com.bawaaba.rninja4.rookie.activity.ProfileTab.LanguageTab">
+
+    <!--<android.support.v7.widget.AppCompatTextView-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--android:layout_marginBottom="8dp"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:fontFamily="sans-serif"-->
+    <!--android:id="@+id/tab_lang"-->
+    <!--android:textSize="13sp"/>-->
+
+    <co.lujun.androidtagview.TagContainerLayout
+        android:id="@+id/tagcontainerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="6dp"
+        app:container_enable_drag="false"
+        app:container_background_color="#FFFFFF"
+        app:container_border_color="#FFFFFF"
+        app:tag_border_color="#BDBDBD"
+        app:tag_text_size="14sp"
+        app:tag_background_color="#FFFFFF"
+        app:tag_corner_radius="8dp"
+        app:tag_background="@color/white"
+        app:tag_vertical_padding="4dp"
+        app:horizontal_interval="10dp"
+        app:vertical_interval="5dp"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/lang_count"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:text="No languages added yet."
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        android:textColor="#BDBDBD"/>
+
+    <LinearLayout
+        android:id="@+id/llEditPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/edit_lang"
+            android:paddingTop="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:fontFamily="sans-serif"
+            android:text="EDIT LANGUAGES"
+            android:layout_marginBottom="4dp"
+            android:layout_gravity="center"
+            android:textColor="#0083C9"
+            android:textSize="11sp" />
+    </LinearLayout>
+</RelativeLayout>

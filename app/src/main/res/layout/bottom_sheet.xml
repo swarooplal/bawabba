@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popup_window"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|center"
+    android:background="@android:color/white"
+    android:padding="10dp"
+    android:orientation="vertical">
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/fragment_history_bottom_sheet_edit"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="60dp"-->
+        <!--android:clickable="true"-->
+        <!--android:focusable="true"-->
+        <!--android:foreground="?android:attr/selectableItemBackground"-->
+        <!--android:orientation="vertical"-->
+        <!--android:padding="16dp">-->
+
+
+        <EditText
+            android:layout_marginTop="10dp"
+            android:id="@+id/popup_keyword"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rectanguaredit"
+            android:contextClickable="true"
+            android:fontFamily="sans-serif"
+            android:hint="Search"
+            android:inputType="textCapWords"
+            android:paddingLeft="10dp"
+            android:textColor="#DDAAAAAA"
+            android:textSize="13sp" />
+
+        <EditText
+            android:layout_marginTop="10dp"
+            android:id="@+id/popup_skill"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rectanguaredit"
+            android:contextClickable="true"
+            android:fontFamily="sans-serif"
+            android:hint="Skills"
+            android:inputType="textCapWords"
+            android:paddingLeft="10dp"
+            android:textColor="#DDAAAAAA"
+            android:textSize="13sp" />
+
+        <EditText
+            android:layout_marginTop="10dp"
+            android:id="@+id/popup_location"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rectanguaredit"
+            android:contextClickable="true"
+            android:fontFamily="sans-serif"
+            android:hint="Location"
+            android:inputType="textCapWords"
+            android:paddingLeft="10dp"
+            android:textColor="#DDAAAAAA"
+            android:textSize="13sp" />
+
+
+    <Button
+        android:id="@+id/popup_serach"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button"
+        android:text="Search"
+        android:textAllCaps="false"
+        android:textColor="@color/bg_login"
+        android:textSize="15dp"
+        android:textStyle="bold"/>
+    </LinearLayout>

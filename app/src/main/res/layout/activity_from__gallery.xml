@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.bawaaba.rninja4.rookie.activity.portfolioTab.From_Gallery">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/audio_titlename"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:background="@drawable/rectangular_edit2"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:textColorHint="#000"
+            android:hint="Title"
+            android:textStyle="bold"
+            android:inputType="textEmailAddress"
+            android:textColor="#000"
+            android:fontFamily="sans-serif"
+            android:paddingLeft="20dp"
+            android:textSize="15dp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/galery_text"
+                android:layout_width="250dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/rectangular_edit2"
+                android:fontFamily="sans-serif"
+                android:hint=""
+                android:paddingLeft="5dp"
+                android:textColor="#000"
+                android:textColorHint="#000"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/galery_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="3dp"
+                android:backgroundTint="#00ACE6"
+                android:text="">
+
+            </Button>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/galery_save"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="3dp"
+            android:backgroundTint="#00ACE6"
+            android:textColor="#fff"
+            android:text="Save">
+
+        </Button>
+
+        <TextView
+            android:id="@+id/textViewResponse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+</LinearLayout>
+    </LinearLayout>

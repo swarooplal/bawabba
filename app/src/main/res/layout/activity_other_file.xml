@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:orientation="vertical"
+    tools:context="com.bawaaba.rninja4.rookie.activity.portfolioTab.OtherFile">
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/port_other_url"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="1dp"
+        android:scrollbars="vertical" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/link_count"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:fontFamily="sans-serif"
+        android:gravity="top|center"
+        android:textAllCaps="false"
+        android:text="No links added yet."
+        android:textSize="15sp"
+        android:textColor="#FF666666"  />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_below="@+id/services"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/edit_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="4dp"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:paddingRight="10dp"
+            android:text="EDIT OTHERS"
+            android:textStyle="bold"
+            android:textSize="11sp"
+            android:textColor="#0083C9"
+            />
+        <TextView
+            android:id="@+id/add_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="4dp"
+            android:fontFamily="sans-serif"
+            android:textAllCaps="true"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:layout_marginLeft="10dp"
+            android:visibility="gone"
+            android:text="ADD OTHER URL"
+            android:textSize="10sp"
+            android:textColor="#0083C9"/>
+    </LinearLayout>
+</RelativeLayout>
+
+

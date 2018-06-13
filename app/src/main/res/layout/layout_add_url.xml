@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:id="@+id/ivDelete"
+        android:layout_width="23dp"
+        android:layout_height="23dp"
+        android:layout_gravity="right|top"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="5dp"
+        android:padding="3dp"
+        android:src="@drawable/cross" />
+
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Note:Enter only valid Youtube and Vimeo URL"-->
+    <!--android:textSize="15sp"-->
+    <!--android:textColor="#CFCFCF"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:paddingLeft="5dp"/>-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/ivDelete"-->
+    <!--android:layout_width="30dp"-->
+    <!--android:layout_height="30dp"-->
+    <!--android:layout_gravity="right"-->
+    <!--android:padding="3dp"-->
+    <!--android:src="@drawable/cross"/>-->
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/etAddUrl"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/grey_box"
+        android:gravity="left|center"
+        android:hint="URL"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:padding="4dp"
+        android:textColor="#9b9999"
+        android:textColorHint="#FF666666"
+        android:textSize="13sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="7dp"
+        android:layout_height="1dp"
+        android:background="#EDEDED" />
+
+</LinearLayout>

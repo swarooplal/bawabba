@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/root"
+              style="@style/ListItem"
+              android:paddingLeft="@dimen/list_item_side_margin"
+              android:paddingRight="@dimen/list_item_side_margin"
+              tools:ignore="RtlHardcoded">
+
+    <RelativeLayout
+        android:layout_width="60dp"
+        android:layout_height="60dp">
+
+        <ImageView
+            android:id="@+id/image_dialog_icon"
+            style="@style/ListItemIconStyle"
+            android:src="@drawable/user"
+            tools:ignore="ContentDescription"/>
+
+        <TextView
+            android:id="@+id/txtOnlineOffline"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_alignBottom="@+id/image_dialog_icon"
+            android:layout_alignRight="@+id/image_dialog_icon"
+            android:background="@drawable/shape_rectangle_offline"
+            android:visibility="gone"
+            tools:text=""/>
+    </RelativeLayout>
+
+    <LinearLayout
+        style="@style/WeightWidth"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_dialog_name"
+            style="@style/DialogNameStyle"
+            tools:text="Room name"/>
+
+        <TextView
+            android:id="@+id/text_dialog_last_message"
+            style="@style/DialogLastMessageStyle"
+            tools:text="Long last message to see how margin on the right side works"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_dialog_unread_count"
+        style="@style/DialogUnreadCounterStyle"
+        android:visibility="visible"
+        tools:text="4"/>
+</LinearLayout>

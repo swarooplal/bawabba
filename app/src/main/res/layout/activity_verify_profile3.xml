@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.bawaaba.rninja4.rookie.Account.Verify_profile3">
+
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/background_repeat"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/btnSave"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingRight="10dp"
+                    android:gravity="center"
+                    android:textColor="#fff"
+                    android:layout_gravity="center"
+                    android:text="Verify Profile"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/verify_tile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#979797"
+            android:textSize="13sp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:text="@string/verify2"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/user_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/user"
+        app:civ_border_color="@color/white"
+        app:civ_border_width="2dp" />
+
+        <ImageButton
+            android:id="@+id/user_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignBottom="@+id/user_image"
+            android:layout_alignEnd="@+id/user_image"
+            android:layout_alignRight="@+id/user_image"
+            android:layout_marginBottom="17dp"
+            android:background="@drawable/verify_mark"
+            android:clickable="true"
+            android:tint="@color/colorAccent" />
+    </RelativeLayout>
+
+
+</LinearLayout>

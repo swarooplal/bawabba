@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/cardview_light_background"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/file_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLength="60"
+        android:gravity="center_vertical"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:textSize="12sp" />
+
+
+    <TextView
+        android:id="@+id/file_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:maxLength="150"
+        android:textStyle="italic"
+        android:textColor="#7c7a7a"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/file_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:textColor="#7c7a7a"
+        android:textSize="12sp" />
+
+</LinearLayout>

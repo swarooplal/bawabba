@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.bawaaba.rninja4.rookie.Account.Verify_Profile">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/background_repeat"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:text="Verify Profile"
+                    android:textSize="18sp" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tvSave"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="15dp"
+                    android:text="Submit"
+                    app:textAllCaps="false"
+                    android:textAllCaps="true"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/verify_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:padding="20dp"
+                android:text="@string/verify_profile"
+                android:textSize="15sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:id="@+id/first_image"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:background="@drawable/verified1" />
+
+                <ImageView
+                    android:id="@+id/second_image"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/first_image"
+                    android:layout_toRightOf="@+id/first_image"
+                    android:background="@drawable/verified_2" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/keykode"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center_horizontal"
+                android:text="Your Keycode is"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/keybutton"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/new_button"
+                android:backgroundTint="#F6BE00"
+                android:gravity="center"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="22dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/proof_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif"
+                android:paddingLeft="18dp"
+                android:text="Proof of Identity"
+                android:textSize="15sp" />
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/proof_edit"
+                    android:layout_width="130dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangular_edit2"
+                    android:gravity="left|center"
+                    android:hint="Choose a file"
+                    android:paddingLeft="5dp"
+                    android:textColorHint="#9E9E9E" />
+
+                <ImageView
+                    android:id="@+id/proof_button"
+                    android:layout_width="35dp"
+                    android:layout_height="match_parent"
+                    android:background="#36a9e7"
+                    android:padding="5dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/paper_clip"
+                    android:tint="@color/white" />
+            </LinearLayout>
+
+
+
+            <TextView
+                android:id="@+id/keykode_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:fontFamily="sans-serif"
+                android:paddingLeft="18dp"
+                android:text="Keycode Verification"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/keycode_edit"
+                    android:layout_width="130dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangular_edit2"
+                    android:gravity="left|center"
+                    android:hint="Choose a file"
+                    android:paddingLeft="5dp"
+                    android:textColorHint="#9E9E9E" />
+
+                <ImageView
+                    android:id="@+id/keycode_button"
+                    android:layout_width="35dp"
+                    android:layout_height="match_parent"
+                    android:background="#36a9e7"
+                    android:padding="5dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/paper_clip"
+                    android:tint="@color/white" />
+            </LinearLayout>
+            <Button
+                android:id="@+id/save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_review"
+                android:text="Save"
+                android:visibility="gone"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,160 @@
+<resources>
+    <string name="app_name">"Bawabba "</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_name">Full Name</string>
+    <string name="hint_name2">Last Name</string>
+    <string name="contact">Contact Number</string>
+    <string name="dob">Date of Birth</string>
+    <string name="btn_register">REGISTER</string>
+    <string name="btn_link_to_register">Don\'t have an account? Sign Up</string>
+    <string name="btn_link_to_login">Already have an account? Login Now</string>
+    <string name="welcome">Welcome to Rookie Ninja</string>
+    <string name="btn_logout">LOGOUT</string>
+    <string name="name">Fullname</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+    <string name="search_title">Search</string>
+    <string name="search_hint">Search :</string>
+    <string name="action_settings">action</string>
+    <string name="Tool_name"> Find the perfect fit here</string>
+    <string name="Tool_name1">Find your Ideal Ninja by Browsing their skills</string>
+    <string name="header1">Digital Designer</string>
+    <string name="Login">Login and become Ninja</string>
+    <string name="Toolname2">Welcome to Bawabba</string>
+    <string name="Toolname3">Create Bawabba Profile </string>
+    <string name="Toolname4">Search</string>
+    <string name="facebook">Sign up with Facebook</string>
+    <string name="linkedin">Sign up with LinkedIn</string>
+    <string name="err_msg_name">Enter your full name</string>
+    <string name="err_msg_email">Enter valid email address</string>
+    <string name="err_msg_password">Enter the password</string>
+    <string name="skill_hint">Skills :</string>
+    <string name="location_hint">Location :</string>
+    <string name="drawer_open">Drawer Opened</string>
+    <string name="drawer_close">Drawer Closed</string>
+    <string name="forget">Forgot Password?</string>
+    <string name="netconnection">No Internet Found.Check your \n \t\t connection or try again. </string>
+    <string name="experience1"> I am here to Find more clients  \n (Profile will be visible in search) </string>
+    <string name="experience2"> I am here to hire services \n (Profile will not be visible in search) </string>
+    <string name="facebook_app_id">870003769833794</string>
+    <string name="resetpassword">Enter your email address below,and we will send you a link to \n reset your password.</string>
+    <string name="fb_login_protocol_scheme">fb1301643216544821</string>
+    <string name="company">Company Name</string>
+    <string name="Images">Portfolio Images</string>
+    <string name="Videos">Portfolio Videos</string>
+    <string name="Audios">Portfolio Audios</string>
+    <string name="Files">Portfolio PDF</string>
+    <string name="error">Error</string>
+    <string name="text_welcome_message">Welcome to Android Tutorials Hub</string>
+    <string name="text_dialog_bottom_sheet">Dialog Bottom Sheet</string>
+    <string name="text_expand_me">Expand Me</string>
+    <string name="text_collapse_me">Share With</string>
+    <string name="text_expand_bottom_sheet">Expand Bottom Sheet</string>
+    <string name="text_collapse_bottom_sheet">Collapse Bottom Sheet</string>
+    <string name="text_hide_bottom_sheet">Hide Bottom Sheet</string>
+    <string name="text_show_bottom_sheet_dialog">Show Bottom Sheet Dialog</string>
+    <string name="result_image_desc">crop result</string>
+    <string name="blocked_text">Once you block someone,that person can no longer send any messages to you.</string>
+
+    <string name="main_drawer_load">Load Image for cropping</string>
+    <string name="main_drawer_open">Open navigation drawer</string>
+    <string name="main_drawer_close">Close navigation drawer</string>
+
+    <string name="main_action_crop">CROP</string>
+    <string name="main_action_rotate">Rotate 90 degrees clockwise</string>
+    <string name="main_action_flip">Flip</string>
+    <string name="main_action_flip_horizontally">Flip horizontally</string>
+    <string name="main_action_flip_vertically">Flip vertically</string>
+    <string name="drawer_option_title">Crop View Presets</string>
+    <string name="drawer_option_oval">Circular</string>
+    <string name="drawer_option_rect">Rectangular</string>
+    <string name="drawer_option_min_max">Min/Max limits override</string>
+    <string name="drawer_option_customized_overlay">Customized Overlay</string>
+    <string name="drawer_option_scale_center">Scale Center Inside</string>
+    <string name="drawer_option_title2">Customization Toggles</string>
+    <string name="drawer_option_toggle_scale">Image Scale: %1s</string>
+    <string name="drawer_option_toggle_shape">Crop Shape: %1s</string>
+    <string name="drawer_option_toggle_guidelines">Guidelines: %1s</string>
+    <string name="drawer_option_toggle_aspect_ratio">Aspect Ratio: %1s</string>
+    <string name="drawer_option_toggle_auto_zoom">Auto zoom: %1s</string>
+    <string name="drawer_option_toggle_max_zoom">Max zoom level: %1s</string>
+    <string name="drawer_option_set_initial_crop_rect">Set initial crop rectangle</string>
+    <string name="drawer_option_reset_crop_rect">Reset crop rectangle to initial</string>
+    <string name="drawer_option_toggle_multitouch">Multitouch: %1s</string>
+    <string name="drawer_option_toggle_show_overlay">Show Overlay: %1s</string>
+    <string name="drawer_option_toggle_show_progress_bar">Show Progress Bar: %1s</string>
+
+    <string name="terms">By clicking on \'Send Message\' I agree to the Bawabba Terms &amp; Conditions and Privacy Policy.</string>
+
+    <string name="verify_profile">Your customer is looking for the best prospects, and a Verified Profile
+        makes him/her feel more confident.Moreover at Bawabba, a Verified profile always is a Priority Profile
+        as compared to  a non-verified one.
+    </string>
+
+    <string name="deactivation">
+
+        If for some reason you wish to reactivate your account, just enter your earlier username and password. We will reactivate your account.</string>
+
+
+    <string name="amount">Pay $10</string>
+    <string name="hint_card_number">Card number</string>
+    <string name="hint_card_month">Month</string>
+    <string name="hint_card_year">Year</string>
+    <string name="hint_card_cvc">CVC</string>
+    <string name="hint_card_owner">Cardholder name</string>
+    <string name="pay">Pay!</string>
+    <string name="edit_text_invalid">Invalid field</string>
+    <string name="congrats">Your token is %s. You can send this token to your application server.</string>
+    <string name="error1">Error getting token…</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="splash_string">Bawabba is one stop online service portal that connects top talent to service seekers.</string>
+    <string name="verify">Your Request has been rejected.For furthur queries please contact :</string>
+
+    <string name="verify2">Your account has been reviewed and verified by the team of Bawabba.A blue check-mark will apper on your profile picture.</string>
+    <string name="dlg_login">Login…</string>
+    <string name="login_chat_login_error">Login Chat error. Please relogin. Error</string>
+    <string name="connection_error">Chat connection has been dropped</string>
+    <string name="reconnect_alert">Reconnecting in %s seconds</string>
+
+    <string name="public_group_chat_cannot_be_deleted">Public Group chat can be deleted only by owner</string>
+    <string name="chat_attachment">Attachment</string>
+    <string name="dialogs_logged_in_as">Logged in as %s</string>
+    <string name="create_chat">Creating chat…</string>
+    <string name="dialogs_list_hint">Select a Dialog to Chat</string>
+    <string name="menu_dialogs_delete">Delete</string>
+    <string name="dialogs_deletion_error">Dialogue deletion errors</string>
+    <string name="dialogs_creation_error">Dialogue creation errors</string>
+    <string name="menu_dialogs_logout">Logout</string>
+    <string name="menu_select_people_done">Done</string>
+    <string name="select_users_list_hint">Select Users  you want to chat</string>
+    <string name="select_users_edit_chat">Add users to chat</string>
+    <string name="select_users_create_chat">Create new chat</string>
+    <string name="select_users_get_users_error">Choose atleast one participant</string>
+    <string name="placeholder_username_you">%s (you)</string>
+    <string name="select_users_choose_users">Please Choose atleast one participant</string>
+    <string name="sender_id">603786186058</string>
+    <!-- 761750217637 -->
+    <string name="error_leave_chat">Error leaving room</string>
+    <string name="chat_load_users_error">Load chat users errors</string>
+    <string name="chat_info_add_people_error">Add people errors</string>
+    <string name="chat_unsupported_type">Unsupported dialog type</string>
+    <string name="menu_chat_info">Chat info</string>
+    <string name="menu_add_users_to_chat">Add Users to chat</string>
+    <string name="menu_leave_chat">Leave Chat</string>
+    <string name="menu_delete_chat">Delete Chat</string>
+    <string name="chat_wait_for_attachments_to_upload">Wait for all attachements to upload</string>
+    <string name="dlg_restoring_chat_session">Restoring Chat Session</string>
+    <string name="error_recreate_session">Login Chat error</string>
+    <string name="splash_app_title">ChatSample</string>
+    <string name="login_select_user_for_login">Select users for login to chat</string>
+    <string name="login_cant_obtain_users">Can\\\'t obtain users errors</string>
+    <string name="notification_title">New message arrived!</string>
+    <string name="notification_title_new">Push Message!</string>
+    <string name="change_email">A verification email has been sent  to your new email address.</string>
+    <string name="change_password">Your password changed Successfully.Please login with your new password again</string>
+</resources>
+

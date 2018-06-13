@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        android:textColor="#000"
+        android:text="Logout"/>
+
+    <TextView
+        android:id="@+id/dialog_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Title"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="#000"
+        android:text="Are you sure, you want to delete the video?"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/dialog_info"
+        android:background="#cfcfcf" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="2dp"
+        android:layout_below="@id/dialog_info">
+
+        <Button
+            android:id="@+id/no_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.50"
+            android:textAllCaps="false"
+            android:textColor="#0083C9"
+            android:background="@color/white"
+            android:text="No"/>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/dialog_info"
+            android:background="#cfcfcf" />
+
+        <Button
+            android:id="@+id/yes_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textAllCaps="false"
+            android:layout_weight="0.50"
+            android:textColor="#0083C9"
+            android:background="@color/white"
+            android:text="Yes"/>
+    </LinearLayout>
+</RelativeLayout>

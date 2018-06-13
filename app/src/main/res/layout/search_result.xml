@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="145dp"
+    android:background="@color/white"
+    android:clickable="true"
+    android:orientation="horizontal"
+    android:padding="4dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="70dp"
+            android:scaleType="fitXY"
+            android:layout_marginTop="12dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="8dp"
+            android:id="@+id/profile_img"/>
+
+        <ImageButton
+            android:id="@+id/verify_button"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:visibility="gone"
+            android:layout_alignBottom="@+id/profile_img"
+            android:layout_alignEnd="@+id/profile_img"
+            android:layout_alignRight="@+id/profile_img"
+            android:background="@drawable/verify_mark"
+            android:clickable="true"
+            android:tint="@color/colorAccent" />
+
+        <TextView
+            android:layout_width="17dp"
+            android:layout_height="14dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/count_review"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="6dp"
+            android:gravity="center"
+            android:background="#FFA500"
+            android:textStyle="bold"
+            android:textSize="10sp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/profile_img" />
+
+        <RatingBar
+            android:id="@+id/ratings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="6dp"
+            android:numStars="5"
+            android:stepSize="1"
+            android:theme="@style/RatingBar"
+            android:isIndicator="true"
+            android:scaleX=".2"
+            android:scaleY=".2"
+            android:transformPivotX="0dp"
+            android:transformPivotY="0dp"
+            android:layout_below="@+id/profile_img"
+            android:layout_toRightOf="@id/count_review"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/Review_count"
+            android:layout_marginLeft="23dp"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:textSize="10sp"
+            android:textColor="#666"
+            android:layout_below="@+id/count_review" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textProfileName"
+            android:layout_marginLeft="17dp"
+            android:layout_marginTop="8dp"
+            android:textColor="#484848"
+            android:textStyle="bold"
+            android:layout_toRightOf="@id/profile_img"
+            android:layout_toLeftOf="@+id/textPrice"
+            tools:ignore="UnknownId" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/profile_skill"
+            android:layout_marginLeft="17dp"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:layout_below="@id/textProfileName"
+            android:layout_toRightOf="@id/profile_img"
+            android:layout_toEndOf="@id/profile_img"
+            android:textColor="#666"
+            android:textStyle="italic"
+            android:textSize="15sp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/profile_bio"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:layout_marginLeft="17dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/profile_skill"
+            android:textSize="15sp"
+            android:layout_toRightOf="@id/profile_img"
+            android:textColor="#666"/>
+    </RelativeLayout>
+</RelativeLayout>

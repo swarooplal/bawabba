@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.bawaaba.rninja4.rookie.activity.portfolioTab.From_Url">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <EditText
+            android:id="@+id/audio_titlename"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:background="@drawable/rectangular_edit2"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:textColorHint="#000"
+            android:hint="Title"
+            android:textStyle="bold"
+            android:inputType="textEmailAddress"
+            android:textColor="#000"
+            android:fontFamily="sans-serif"
+            android:paddingLeft="20dp"
+            android:textSize="15dp" />
+
+        <EditText
+            android:id="@+id/audio_url"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:background="@drawable/rectangular_edit2"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:textColorHint="#000"
+            android:hint="Audio_Url"
+            android:textStyle="bold"
+            android:inputType="textEmailAddress"
+            android:textColor="#000"
+            android:fontFamily="sans-serif"
+            android:paddingLeft="20dp"
+            android:textSize="15dp" />
+
+        <Button
+            android:id="@+id/url_save"
+            android:background="@drawable/button_review"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#00ACE6"
+            android:textColor="#fff"
+            android:text="Save">
+
+        </Button>
+
+</LinearLayout>
+</LinearLayout>

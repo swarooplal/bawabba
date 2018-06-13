@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:orientation="vertical"
+    tools:context="com.bawaaba.rninja4.rookie.activity.portfolioTab.PortfolioAudio">
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/port_audios"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="35dp"
+        android:paddingTop="7dp"
+        android:scrollbars="vertical"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/audio_count"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:fontFamily="sans-serif"
+        android:gravity="top|center"
+        android:textAllCaps="false"
+        android:text="No audios added yet."
+        android:textSize="15sp"
+        android:textColor="#FF666666" />
+
+    <LinearLayout
+        android:id="@+id/audio_linear"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:gravity="center"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/edit_audio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:text="EDIT AUDIOS"
+            android:textStyle="bold"
+            android:textColor="#0083C9"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+</RelativeLayout>
+

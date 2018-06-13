@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_chat_container"
+    style="@style/MatchParent"
+    android:background="@drawable/chat_background"
+    tools:ignore="RtlHardcoded">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_repeat">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_back"
+                android:visibility="visible"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                style="@style/ListItemIconStyle"
+                android:layout_toRightOf="@+id/imageBack"
+                android:src="@drawable/user"
+                tools:ignore="ContentDescription" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/txtAuthorName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/imageView"
+                android:layout_alignTop="@+id/imageView"
+                android:layout_toRightOf="@+id/imageView"
+                android:gravity="center_vertical"
+                android:text="Message Details"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/txtTyping"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/imageView"
+                android:layout_toRightOf="@+id/imageView"
+                android:text="typing..."
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
+        android:id="@+id/list_chat_messages"
+        style="@style/ListViewWithoutDividerStyle"
+        android:layout_above="@+id/layout_attachment_preview_container"
+        android:layout_below="@+id/toolbar"
+        android:listSelector="@android:color/transparent"
+        android:stackFromBottom="true" />
+
+    <!--<com.example.rninja4.rookie.ui.widget.MaskedImageView-->
+        <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+        <!--android:id="@+id/image_my_attachment"-->
+        <!--android:layout_width="@dimen/chat_message_attachment_size"-->
+        <!--android:layout_height="@dimen/chat_message_attachment_size"-->
+        <!--android:scaleType="centerCrop"-->
+        <!--android:visibility="visible"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--app:mask="@drawable/outgoing_message_bg"/>-->
+
+    <ProgressBar
+        android:id="@+id/progress_chat"
+        style="@style/CenterProgressBarStyle" />
+
+    <LinearLayout
+        android:id="@+id/layout_attachment_preview_container"
+        style="@style/MatchWidth"
+        android:layout_height="96dp"
+        android:layout_above="@+id/layout_chat_send_container"
+        android:background="?attr/colorPrimary"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <View
+            android:id="@+id/divider_chat_attachments"
+            style="@style/HorizontalDividerStyle" />
+
+        <com.bawaaba.rninja4.rookie.ui.widget.AttachmentPreviewAdapterView
+            android:id="@+id/adapter_view_attachment_preview"
+            style="@style/MatchWidth" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider_chat"
+        style="@style/HorizontalDividerStyle"
+        android:layout_above="@+id/layout_chat_send_container" />
+
+    <LinearLayout
+        android:id="@+id/layout_chat_send_container"
+        style="@style/MatchWidth"
+        android:layout_alignParentBottom="true"
+        android:background="?attr/colorPrimary"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/button_chat_attachment"
+            style="@style/BorderlessImageButtonStyle"
+            android:layout_gravity="center_vertical"
+            android:onClick="onAttachmentsClick"
+            android:src="@drawable/ic_action_attachment" />
+
+        <EditText
+            android:id="@+id/edit_chat_message"
+            style="@style/WeightWidth"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/box_edittext_gray"
+            android:hint="@string/chat_edit_text_hint"
+            android:inputType="textShortMessage|textMultiLine"
+            android:maxLines="5"
+            android:maxLength="1024"
+            android:paddingBottom="6dp"
+            android:paddingLeft="7dp"
+            android:paddingTop="6dp" />
+
+        <TextView
+            android:id="@+id/button_chat_send"
+            style="@style/WrapContent"
+            android:layout_gravity="center_vertical"
+            android:background="@null"
+            android:clickable="true"
+            android:padding="10dp"
+            android:text="@string/chat_send"
+            android:textColor="@color/input_login_hint"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+</RelativeLayout>

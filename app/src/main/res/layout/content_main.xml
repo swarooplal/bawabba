@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="35dp"
+        android:scrollbars="vertical"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/image_count"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:fontFamily="sans-serif"
+        android:gravity="top|center"
+        android:text="No images added yet."
+        android:textAllCaps="false"
+        android:textColor="#FF666666"
+        android:textSize="15sp" />
+    <LinearLayout
+        android:id="@+id/llEditPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tvEditPhotos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif"
+            android:textSize="11sp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="EDIT IMAGES"
+            android:textStyle="bold"
+            android:textColor="#0083C9" />
+    </LinearLayout>
+</RelativeLayout>
+

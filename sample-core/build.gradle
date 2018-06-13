@@ -1,0 +1,24 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation "com.quickblox:quickblox-android-sdk-messages:$rootProject.qbSdkVersion"
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile "com.android.support:design:${rootProject.designVersion}"
+    compile "com.github.johnkil.android-robototextview:robototextview:${rootProject.robotoTextViewVersion}"
+}

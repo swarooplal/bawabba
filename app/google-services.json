@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "603786186058",
+    "firebase_url": "https://bawabba-183405.firebaseio.com",
+    "project_id": "bawabba-183405",
+    "storage_bucket": "bawabba-183405.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:603786186058:android:91b78396e89aca2c",
+        "android_client_info": {
+          "package_name": "com.bawaaba.rninja4.rookie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "603786186058-6qbjqnvvl9ip174hd4n3978l2s933b45.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "603786186058-6qbjqnvvl9ip174hd4n3978l2s933b45.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgKW1YlxxGnvs9v0CkDP2cyiVRzBsC0lA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

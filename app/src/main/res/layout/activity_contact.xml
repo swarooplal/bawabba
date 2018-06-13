@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.bawaaba.rninja4.rookie.activity.ContactActivity">
+
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/background_repeat"
+            android:scaleType = "fitXY"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.06"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textColor="#ffffff"
+                    android:text="Contact"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:background="@drawable/grey_box"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:hint="Name"
+            android:textColorHint="#CFCFCF"
+            android:inputType="textPersonName"
+            android:textColor="#000"
+            android:maxLength="45"
+            android:fontFamily="sans-serif"
+            android:paddingLeft="10dp"
+            android:textSize="15dp" />
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:background="@drawable/grey_box"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:hint="@string/hint_email"
+            android:maxLength="100"
+            android:textColorHint="#CFCFCF"
+            android:inputType="textEmailAddress"
+            android:textColor="#000"
+            android:fontFamily="sans-serif"
+            android:paddingLeft="10dp"
+            android:textSize="15dp" />
+
+        <EditText
+            android:id="@+id/conatact_num"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:background="@drawable/grey_box"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:maxLength="15"
+            android:hint="Contact Number"
+            android:textColorHint="#CFCFCF"
+            android:inputType="phone"
+            android:textColor="#000"
+            android:fontFamily="sans-serif"
+            android:paddingLeft="10dp"
+            android:textSize="15dp" />
+
+        <!--<android.support.design.widget.TextInputLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:counterEnabled="true"-->
+            <!--app:counterMaxLength="10"-->
+            <!--app:counterTextAppearance="@style/counterText"-->
+            <!--app:counterOverflowTextAppearance="@style/counterOverride">-->
+
+        <EditText
+            android:id="@+id/message"
+            android:layout_width="320dp"
+            android:layout_height="120dp"
+            android:background="@drawable/grey_box"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:hint="Message"
+            android:maxLength="1500"
+            android:gravity="top|left"
+            android:textColorHint="#CFCFCF"
+            android:inputType="textMultiLine"
+            android:textColor="#000"
+            android:fontFamily="sans-serif"
+            android:padding="10dp"
+            android:textSize="15dp" />
+        <!--</android.support.design.widget.TextInputLayout>-->
+
+        <TextView
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:textSize="13sp"
+            android:textColor="#CFCFCF"
+            android:fontFamily="sans-serif"
+            android:text="@string/terms" />
+
+        <Button
+            android:id="@+id/send_message"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:layout_width="320dp"
+            android:layout_height="40dp"
+            android:text="Send Message"
+            android:layout_gravity="center"
+            android:background="@drawable/new_button"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>

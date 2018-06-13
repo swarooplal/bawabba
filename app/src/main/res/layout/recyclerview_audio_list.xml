@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/cardview_light_background"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/ivPlay"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/playbutton"
+            />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tvAudioName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="Song Namme"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/ivEditAudio"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="3dp"
+            android:src="@drawable/edit_title" />
+
+        <ImageView
+            android:id="@+id/tvDeleteAudio"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="3dp"
+            android:src="@drawable/delete" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#dfdddd" />
+
+</LinearLayout>
