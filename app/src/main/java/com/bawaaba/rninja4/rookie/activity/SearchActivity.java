@@ -52,10 +52,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 //import com.google.android.gms.location.places.Place;
 //import com.google.android.gms.location.places.ui.PlaceAutocomplete;
@@ -118,6 +123,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         session = new SessionManager(getApplicationContext());
         HashMap<String, String> user = db.getUserDetails();
         final String db_id = user.get("uid");
+        unread_notification();
 
        // getSupportActionBar().setCustomView(R.layout.actiontitle_layout4);
         ActionBar actionBar = getSupportActionBar();
@@ -405,6 +411,62 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 break;
 
         }
+
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unread_notification();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        unread_notification();
+    }
+
+    private void unread_notification() {
+        Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getApplicationContext()).getApiService().notification("app-client",
+                "123321",
+                ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId(),
+                ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getLoginToken(),
+                ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId());
+
+        responseBodyCall.enqueue(new Callback<ResponseBody>() {
+
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response)
+            {
+                if (response.body() != null) {
+                    try {
+                        String responseString = new String(response.body().bytes());
+                        if (responseString != null) {
+                            JSONObject jsonObject = null;
+                            try {
+                                jsonObject = new JSONObject(responseString);
+                                String count=jsonObject.getString("count");
+                                if(!count.equals("0")){
+                                    textBadgeItem.setText(count);
+                                    textBadgeItem.show(false);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                    dialog.dismiss();
+//                    Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 

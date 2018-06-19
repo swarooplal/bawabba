@@ -23,25 +23,14 @@ public class AppController extends CoreApp {
     public static final String TAG = AppController.class.getSimpleName();
 
     private RequestQueue mRequestQueue;
-
     private static final String QB_CONFIG_DEFAULT_FILE_NAME = "qb_config.json";
     private QbConfigs qbConfigs;
     private static AppController instance;
-
     public static final String APP_ID = "63578";
     public static final String AUTH_KEY = "uBCnkCW-DhTpG2L";
     public static final String AUTH_SECRET = "qeHzBb7PwxrLzgX";
     public static final String ACCOUNT_KEY = "tEzfi5kzn3CAMPSVc41J";
 
-//    {
-//        "app_id": "66977",
-//            "auth_key": "OnpJYFqqbAb4U2B",
-//            "auth_secret": "X3SbOM6ypEQ3hJE",
-//            "account_key": "1uhMsmEaWog82cxWnzsz",
-//            "api_domain": "https://api.quickblox.com",
-//            "chat_domain": "chat.quickblox.com",
-//            "gcm_sender_id": "761750217637"
-//    }
     @Override
     public void onCreate() {
         super.onCreate();
@@ -49,7 +38,7 @@ public class AppController extends CoreApp {
         ActivityLifecycle.init(this);
         QBSettings.getInstance().init(instance, APP_ID, AUTH_KEY, AUTH_SECRET);
         QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
-        QBSettings.getInstance().setEnablePushNotification(true);
+        QBSettings.getInstance().setEnablePushNotification(false);
         QBSettings.getInstance().setSubscribePushStrategy(SubscribePushStrategy.ALWAYS);
 //        QBSettings.getInstance().setEnablePushNotification(false);
 //        QBSettings.getInstance().setSubscribePushStrategy(SubscribePushStrategy.NEVER);
@@ -75,6 +64,7 @@ public class AppController extends CoreApp {
             }
         });
     }
+
     public static synchronized AppController getInstance() {
         return instance;
     }

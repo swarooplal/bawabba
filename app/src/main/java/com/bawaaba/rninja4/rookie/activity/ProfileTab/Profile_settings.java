@@ -59,15 +59,8 @@ public class Profile_settings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_settings);
-
         db = new SQLiteHandler(getApplicationContext());
         session = new SessionManager(getApplicationContext());
-
-//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//        getSupportActionBar().setCustomView(R.layout.actiontitle_layout5);
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.gradient));
-
         BottomNavigationBar bottomNavigationView = (BottomNavigationBar)
                 findViewById(R.id.bottom_bar);
         bottomNavigationView.setFirstSelectedPosition(3);

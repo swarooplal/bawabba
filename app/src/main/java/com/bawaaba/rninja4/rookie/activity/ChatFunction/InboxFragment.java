@@ -1,10 +1,12 @@
 package com.bawaaba.rninja4.rookie.activity.ChatFunction;
 
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bawaaba.rninja4.rookie.R;
-import com.bawaaba.rninja4.rookie.activity.adapters.InboxrecyclerviewAdapter;
+import com.bawaaba.rninja4.rookie.activity.ChatFunction.recyclerview_swipe.RecyclerItemTouchHelper;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
 import com.bawaaba.rninja4.rookie.helper.SessionManager;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
@@ -25,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,13 +40,16 @@ import retrofit2.Response;
  * Created by rninja4 on 10/17/17.
  */
 
-public class InboxFragment extends BaseFragment {
+public class InboxFragment extends BaseFragment implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
 ;
     private RecyclerView rvInbox;
     private SQLiteHandler db;
     private SessionManager session;
-
+    List<Email> emails=new ArrayList<>();
+    InboxAdapter inboxrecyclerviewAdapter;
+    public static final String DELETE_INBOX_ITEM="delete";
+    public static final String UPDATE_INBOX_ITEM="update";
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,6 +57,29 @@ public class InboxFragment extends BaseFragment {
         rvInbox = (RecyclerView) rootView.findViewById(R.id.rvInbox);
         LinearLayoutManager layoutManager = new LinearLayoutManager(rootView.getContext(), LinearLayoutManager.VERTICAL, true);
         rvInbox.setLayoutManager(layoutManager);
+        apiCall();
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(rvInbox);
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback1 = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT | ItemTouchHelper.UP) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                // Row is swiped from recycler view
+                // remove it from adapter
+            }
+
+            @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            }
+        };
+
+        // attaching the touch helper to recycler view
+        new ItemTouchHelper(itemTouchHelperCallback1).attachToRecyclerView(rvInbox);
         return rootView;
     }
 
@@ -77,39 +106,6 @@ public class InboxFragment extends BaseFragment {
                     ObjectFactory.getInstance().getAppPreference(getActivity()).getUserId(),
                     ObjectFactory.getInstance().getAppPreference(getActivity()).getLoginToken(),
                     ObjectFactory.getInstance().getAppPreference(getActivity()).getUserId());
-//            responseBodyCall.enqueue(new Callback<ResponseBody>() {
-//                @Override
-//                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                    if (response.body() != null) {
-//                        try {
-//                            String responseString = new String(response.body().bytes());
-//                            System.out.println("InboxFragment.onResponse" +responseString);
-//                            Log.e("inbox reponse",responseString);
-//
-//                            if (responseString != null) {
-//                                JSONObject jsonObject = new JSONObject(responseString);
-//                                if (jsonObject != null) {
-//                                    InboxResponse inboxResponse = new Gson().fromJson(responseString, InboxResponse.class);
-////                                    String inbox_count= String.valueOf(inboxResponse.getEmails().size());
-////                                    Log.e("Inbox_count",inbox_count);
-//                                    if (!inboxResponse.getError()) {
-//                                        setAdapter(inboxResponse.getEmails());
-//                                    }
-//                                }
-//                            }
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
-//                @Override
-//                public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                    //Toast.makeText(getActivity(), "failed to load..", Toast.LENGTH_SHORT).show();
-//                }
-//            });
-
             responseBodyCall.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -125,7 +121,8 @@ public class InboxFragment extends BaseFragment {
 //                                    String inbox_count= String.valueOf(inboxResponse.getEmails().size());
 //                                    Log.e("Inbox_count",inbox_count);
                                     if (!inboxResponse.getError()) {
-                                        setAdapter(inboxResponse.getEmails());
+                                        emails=inboxResponse.getEmails();
+                                        setAdapter(emails);
                                     }
                                 }
                             }
@@ -152,11 +149,13 @@ public class InboxFragment extends BaseFragment {
 
     private void setAdapter(final List<Email> emails) {
 
-        InboxrecyclerviewAdapter inboxrecyclerviewAdapter = new InboxrecyclerviewAdapter(getContext(), getActivity(), emails);
+         inboxrecyclerviewAdapter = new InboxAdapter( getActivity(), emails);
         rvInbox.setAdapter(inboxrecyclerviewAdapter);
-        inboxrecyclerviewAdapter.setOnClickListener(new InboxrecyclerviewAdapter.AdvertisementsRecyclerViewClickListener() {
+        inboxrecyclerviewAdapter.setOnClickListener(new InboxAdapter.AdvertisementsRecyclerViewClickListener() {
             @Override
             public void onClicked(int position, View v) {
+                String row_id = emails.get(position).getId();
+                deleteOrUpdateChat(UPDATE_INBOX_ITEM,row_id);
                 Intent intent = new Intent(getActivity(), InboxDetailsActivity.class);
                 intent.putExtra("FROM", emails.get(position).getEmail());
                 intent.putExtra("CONTACT", emails.get(position).getPhone());
@@ -167,8 +166,53 @@ public class InboxFragment extends BaseFragment {
             }
         });
     }
-    private void initViews() {
+
+
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+
+        if (viewHolder instanceof InboxAdapter.MyViewHolder) {
+            String row_id = emails.get(viewHolder.getAdapterPosition()).getId();
+            // remove the item from recycler view
+            inboxrecyclerviewAdapter.removeItem(viewHolder.getAdapterPosition());
+            deleteOrUpdateChat(DELETE_INBOX_ITEM,row_id);
+
+        }
 
     }
+
+    private void deleteOrUpdateChat(String status, String row_id) {
+
+        Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getContext()).getApiService().email_status("app-client",
+                "123321",
+                ObjectFactory.getInstance().getAppPreference(getContext()).getUserId(),
+                ObjectFactory.getInstance().getAppPreference(getContext()).getLoginToken(),
+                ObjectFactory.getInstance().getAppPreference(getContext()).getUserId(),
+                row_id,status
+        );
+        responseBodyCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.body() != null) {
+                    try {
+                        String responseString = new String(response.body().bytes());
+
+                        if (responseString != null) {
+                            JSONObject jsonObject = new JSONObject(responseString);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
+}
 

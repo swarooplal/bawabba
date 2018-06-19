@@ -45,7 +45,7 @@ public class BlockList extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.rvblock);
 
-        mAdapter = new BlockListAdapter(BlockList.this,movieList);
+        mAdapter = new BlockListAdapter(BlockList.this, movieList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -56,7 +56,7 @@ public class BlockList extends AppCompatActivity {
     private void PopulateBlockUsers() {
         QBPrivacyList list = null;
         try {
-            privacyListsManager= QBChatService.getInstance().getPrivacyListsManager();
+            privacyListsManager = QBChatService.getInstance().getPrivacyListsManager();
 
             list = privacyListsManager.getPrivacyList("public");
         } catch (SmackException.NotConnectedException e) {
@@ -70,10 +70,10 @@ public class BlockList extends AppCompatActivity {
         List<QBPrivacyListItem> items = list.getItems();
         for (QBPrivacyListItem item : items) {
 
-            if (item.getType() == QBPrivacyListItem.Type.USER_ID ) {
-                if (!item.isAllow()){
-                    String str=item.getValueForType();
-                    String[] split =str.split("-");
+            if (item.getType() == QBPrivacyListItem.Type.USER_ID) {
+                if (!item.isAllow()) {
+                    String str = item.getValueForType();
+                    String[] split = str.split("-");
 
 
                     QBUsers.getUser(Integer.parseInt(split[0])).performAsync(new QBEntityCallback<QBUser>() {
@@ -81,9 +81,9 @@ public class BlockList extends AppCompatActivity {
                         public void onSuccess(QBUser qbUser, Bundle bundle) {
                             QBPrivacyList list = null;
 
-                            BlockModel blockModelObj=new BlockModel();
-                            blockModelObj.setNameOfUser(""+qbUser.getFullName());
-                            blockModelObj.setUserId(""+qbUser.getId());
+                            BlockModel blockModelObj = new BlockModel();
+                            blockModelObj.setNameOfUser("" + qbUser.getFullName());
+                            blockModelObj.setUserId("" + qbUser.getId());
                             blockModelObj.setImagpath(qbUser.getCustomData());
                             movieList.add(blockModelObj);
                             mAdapter.notifyDataSetChanged();
@@ -106,8 +106,6 @@ public class BlockList extends AppCompatActivity {
         mDialogo = new ProgressDialog(this);
         mDialogo.setMessage("Loading...");
         mDialogo.setCanceledOnTouchOutside(false);
-        //  mDialogo.show();
-
         String user, password;
 
         user = ObjectFactory.getInstance().getAppPreference(this).getUserId();
@@ -122,8 +120,8 @@ public class BlockList extends AppCompatActivity {
                     qbUser.setPassword(qbSession.getToken());
 
                     if (QBChatService.getInstance().isLoggedIn()) {
-                        privacyListsManager=QBChatService.getInstance().getPrivacyListsManager();
-                        if (privacyListsManager!=null){
+                        privacyListsManager = QBChatService.getInstance().getPrivacyListsManager();
+                        if (privacyListsManager != null) {
                             PopulateBlockUsers();
                         }
                     } else {
@@ -140,7 +138,7 @@ public class BlockList extends AppCompatActivity {
                             }
                         });
                     }
-                }catch (Exception e) {
+                } catch (Exception e) {
                     mDialogo.dismiss();
                 }
 

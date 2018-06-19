@@ -460,13 +460,35 @@ password:123456*/
                 @Header("Auth-Key") String authkey,
                 @Header("User-Id") String userId,
                 @Header("Token") String Token,
-
                 @Field("profile_id") String profile_id,
                 @Field("name") String name,
                 @Field("email") String email,
                 @Field("phone") String phone,
                 @Field("message") String message
 
+        );
+        @FormUrlEncoded
+        @POST("api/user/notification")
+        Call<ResponseBody> notification(
+                @Header("Client-Service") String client_service,
+                @Header("Auth-Key") String authkey,
+                @Header("User-Id") String userId,
+                @Header("Token") String Token,
+                @Field("user_id") String user_id
+
+        );
+
+        @FormUrlEncoded
+        @POST("api/user/hiremail_status")
+        Call<ResponseBody> email_status(
+                @Header("Client-Service") String client_service,
+                @Header("Auth-Key") String authkey,
+                @Header("User-Id") String userId,
+                @Header("Token") String Token,
+
+                @Field("user_id") String user_id,
+                @Field("row_id") String row_id,
+                @Field("action") String action
         );
 
     }

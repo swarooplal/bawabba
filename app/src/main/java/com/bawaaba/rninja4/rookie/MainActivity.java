@@ -16,6 +16,7 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -54,8 +55,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 
 public class MainActivity extends AppCompatActivity implements IConsts {
@@ -103,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements IConsts {
         getSupportActionBar().hide();
         tvSearchHere = (AppCompatEditText) findViewById(R.id.tvSearchHere);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        unread_notification();
 //        tvSearchHere.setInputType(InputType.TYPE_CLASS_TEXT);
 //        tvSearchHere.requestFocus();
 //        InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -199,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements IConsts {
                             Intent to_profile = new Intent(MainActivity.this, ProfileView.class);
                             startActivity(to_profile);
                             finish();
-                        }else{
+                        } else {
                             Intent to_login = new Intent(MainActivity.this, LoginActivity.class);
                             startActivity(to_login);
                             finish();
@@ -224,16 +231,30 @@ public class MainActivity extends AppCompatActivity implements IConsts {
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unread_notification();
+    }
+
+    @Override
+    protected void onResume() {
+
+        unread_notification();
+        super.onResume();
+    }
 
     public void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MessageEvent event) {
         isMessageArrived();
@@ -257,15 +278,18 @@ public class MainActivity extends AppCompatActivity implements IConsts {
         } catch (Exception e) {
         }
     }
-    private void hideText(){
+
+    private void hideText() {
         textBadgeItem.setText("");
         textBadgeItem.hide();
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         finish();
     }
+
     private void searchUser(final String keyword, final String skills, final String location) {
         if (keyword.isEmpty() && skills.isEmpty() && location.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Please enter some values", Toast.LENGTH_LONG).show();
@@ -320,6 +344,52 @@ public class MainActivity extends AppCompatActivity implements IConsts {
             };
             AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
         }
+    }
+
+    private void unread_notification() {
+
+        Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getApplicationContext()).getApiService().notification("app-client",
+                "123321",
+                ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId(),
+                ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getLoginToken(),
+                ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId());
+
+        responseBodyCall.enqueue(new Callback<ResponseBody>() {
+
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                if (response.body() != null) {
+                    try {
+                        String responseString = new String(response.body().bytes());
+                        if (responseString != null) {
+                            JSONObject jsonObject = null;
+                            Log.d("read_responseString", responseString.toString());
+                            try {
+                                jsonObject = new JSONObject(responseString);
+                                String count = jsonObject.getString("count");
+                                if (!count.equals("0")) {
+                                    textBadgeItem.setText(count);
+                                    textBadgeItem.show(false);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
+
     }
 }
 

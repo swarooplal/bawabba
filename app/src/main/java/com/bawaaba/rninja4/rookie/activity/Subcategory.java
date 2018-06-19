@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.ashokvarma.bottomnavigation.TextBadgeItem;
 import com.bawaaba.rninja4.rookie.JSONParser;
 import com.bawaaba.rninja4.rookie.MainActivity;
 import com.bawaaba.rninja4.rookie.R;
@@ -31,15 +32,21 @@ import com.bawaaba.rninja4.rookie.SkillView;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
 import com.bawaaba.rninja4.rookie.helper.SessionManager;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
+import com.bawaaba.rninja4.rookie.utils.Utils;
 
 import org.apache.http.NameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 import static com.bawaaba.rninja4.rookie.utils.Constants.BASE_URL;
 
@@ -59,6 +66,7 @@ public class Subcategory extends TabActivity {
     private ActionBarDrawerToggle drawerToggle;
     private SQLiteHandler db;
     private SessionManager session;
+    private TextBadgeItem textBadgeItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +77,7 @@ public class Subcategory extends TabActivity {
         session = new SessionManager(getApplicationContext());
         HashMap<String, String> user = db.getUserDetails();
         final String db_id = user.get("uid");
+        textBadgeItem = Utils.getTextBadge();
 
 //        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        nvDrawer = (NavigationView) findViewById(R.id.nvView);
@@ -79,7 +88,7 @@ public class Subcategory extends TabActivity {
         bottomNavigationView
                 .addItem(new BottomNavigationItem(R.drawable.ic_home1, "Home").setActiveColorResource(R.color.bottomnavigation))
                 .addItem(new BottomNavigationItem(R.drawable.ic_search1, "Search").setActiveColorResource(R.color.bottomnavigation))
-                .addItem(new BottomNavigationItem(R.drawable.ic_inbox1, "Inbox").setActiveColorResource(R.color.bottomnavigation))
+                .addItem(new BottomNavigationItem(R.drawable.ic_inbox1, "Inbox").setBadgeItem(textBadgeItem).setActiveColorResource(R.color.bottomnavigation))
                 .addItem(new BottomNavigationItem(R.drawable.ic_profile, "Profile").setActiveColorResource(R.color.bottomnavigation))
                 .setFirstSelectedPosition(0)
                 .initialise();
@@ -261,6 +270,63 @@ public class Subcategory extends TabActivity {
 //        });
 //    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unread_notification();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("bootificatio", "resume");
+        unread_notification();
+    }
+
+    private void unread_notification() {
+
+        Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getApplicationContext()).getApiService().notification("app-client",
+                "123321",
+                ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId(),
+                ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getLoginToken(),
+                ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId());
+
+        responseBodyCall.enqueue(new Callback<ResponseBody>() {
+
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response)
+            {
+                if (response.body() != null) {
+                    try {
+                        String responseString = new String(response.body().bytes());
+                        if (responseString != null) {
+                            JSONObject jsonObject = null;
+                            try {
+                                jsonObject = new JSONObject(responseString);
+                                String count=jsonObject.getString("count");
+                                if(!count.equals("0")){
+                                    textBadgeItem.setText(count);
+                                    textBadgeItem.show(false);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                    dialog.dismiss();
+//                    Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     private class GetCategory extends AsyncTask<Void, Void, Void> {
         TabHost tabHost = getTabHost();
         private Context context;

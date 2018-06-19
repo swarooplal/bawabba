@@ -324,6 +324,7 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
             bottomNavigationView.setFirstSelectedPosition(1);
         }
         textBadgeItem = Utils.getTextBadge();
+        unread_notification();
         ObjectFactory.getInstance().getAppPreference(getApplicationContext()).saveCurrentActivity("ProfileView");
         isMessageArrived();
         bottomNavigationView
@@ -1116,6 +1117,8 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
         unregisterQbChatListeners();
     }
 
+
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MessageEvent event) {
         isMessageArrived();
@@ -1871,6 +1874,7 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
     protected void onResume() {
         super.onResume();
         mlam.dispatchResume();
+        unread_notification();
     }
 
     @Override
@@ -2258,4 +2262,48 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
         }
         dialog.dismiss();
     }
+    private void unread_notification() {
+        Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getApplicationContext()).getApiService().notification("app-client",
+                "123321",
+                ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId(),
+                ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getLoginToken(),
+                ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId());
+
+        responseBodyCall.enqueue(new Callback<ResponseBody>() {
+
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response)
+            {
+                if (response.body() != null) {
+                    try {
+                        String responseString = new String(response.body().bytes());
+                        if (responseString != null) {
+                            JSONObject jsonObject = null;
+                            try {
+                                jsonObject = new JSONObject(responseString);
+                                String count=jsonObject.getString("count");
+                                if(!count.equals("0")){
+                                    textBadgeItem.setText(count);
+                                    textBadgeItem.show(false);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                    dialog.dismiss();
+//                    Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }
