@@ -20,6 +20,7 @@ import com.bawaaba.rninja4.rookie.helper.SessionManager;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
 import com.bawaaba.rninja4.rookie.utils.BaseChatActivity;
 import com.bawaaba.rninja4.rookie.utils.Utils;
+import com.quickblox.chat.model.QBChatDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +41,7 @@ public class ChatActivity extends BaseChatActivity  {
     private SessionManager session;
     private String inbox_count;
     private TextBadgeItem textBadgeItem;
+    String inbox_incount="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,7 +114,14 @@ public class ChatActivity extends BaseChatActivity  {
 */
         initialize();
     }
-
+    private int getUnreadMsgCount(QBChatDialog chatDialog){
+        Integer unreadMessageCount = chatDialog.getUnreadMessageCount();
+        if (unreadMessageCount == null) {
+            return 0;
+        } else {
+            return unreadMessageCount;
+        }
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -123,8 +132,8 @@ public class ChatActivity extends BaseChatActivity  {
         viewPager = findViewById(R.id.tc_viewpager);
         tabLayout = findViewById(R.id.tablayout_tc);
         ChatviewPagerAdapter pagerAdapter = new ChatviewPagerAdapter(getSupportFragmentManager());
-        pagerAdapter.addFrag(new ChatFragment(), "Chat "+"   "+"("+"5"+")");
-        pagerAdapter.addFrag(new InboxFragment(), "Inbox"+"   "+"("+"9"+")");
+        pagerAdapter.addFrag(new ChatFragment(), "Chat");
+        pagerAdapter.addFrag(new InboxFragment(), "Inbox");
         viewPager.setOffscreenPageLimit(1);
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setTabMode(TabLayout.GRAVITY_CENTER);
@@ -182,8 +191,8 @@ public class ChatActivity extends BaseChatActivity  {
                             try {
                                 Log.d("read.....", "hhhioii");
                                 jsonObject = new JSONObject(responseString);
-                                String count = jsonObject.getString("count");
-                                int count_not= Integer.parseInt(count);
+                                inbox_incount = jsonObject.getString("count");
+                                int count_not= Integer.parseInt(inbox_incount);
                                 if (count_not!=0) {
                                     textBadgeItem.setText(count_not+"");
                                     textBadgeItem.show(true);

@@ -38,10 +38,10 @@ public class AppController extends CoreApp {
         ActivityLifecycle.init(this);
         QBSettings.getInstance().init(instance, APP_ID, AUTH_KEY, AUTH_SECRET);
         QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
-        QBSettings.getInstance().setEnablePushNotification(false);
+        QBSettings.getInstance().setEnablePushNotification(true);
         QBSettings.getInstance().setSubscribePushStrategy(SubscribePushStrategy.ALWAYS);
 //        QBSettings.getInstance().setEnablePushNotification(false);
-//        QBSettings.getInstance().setSubscribePushStrategy(SubscribePushStrategy.NEVER);
+
         initPushManager();
         SubscribeService.subscribeToPushes(instance, true);
     }

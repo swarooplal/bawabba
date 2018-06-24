@@ -309,7 +309,18 @@
         </service>
 
 
-
+        <!--<service-->
+            <!--android:name="com.quickblox.messages.services.fcm.QBFcmPushListenerService">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.google.firebase.MESSAGING_EVENT" />-->
+            <!--</intent-filter>-->
+        <!--</service>-->
+        <!--<service-->
+            <!--android:name="com.quickblox.messages.services.fcm.QBFcmPushInstanceIDService">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>-->
+            <!--</intent-filter>-->
+        <!--</service>-->
         <meta-data
             android:name="com.quickblox.messages.TYPE"
             android:value="GCM" />
@@ -355,7 +366,6 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <!-- ./Firebase Notifications -->
     </application>
 
 </manifest>

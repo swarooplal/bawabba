@@ -1,10 +1,14 @@
 package com.bawaaba.rninja4.rookie.activity.ChatFunction;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -54,9 +58,11 @@ import com.quickblox.messages.model.QBEnvironment;
 import com.quickblox.messages.model.QBEvent;
 import com.quickblox.messages.model.QBNotificationType;
 import com.quickblox.messages.model.QBPushType;
+import com.quickblox.sample.core.gcm.GooglePlayServicesHelper;
 import com.quickblox.sample.core.ui.dialog.ProgressDialogFragment;
 import com.quickblox.sample.core.utils.KeyboardUtils;
 import com.quickblox.sample.core.utils.Toaster;
+import com.quickblox.sample.core.utils.constant.GcmConsts;
 import com.quickblox.sample.core.utils.imagepick.ImagePickHelper;
 import com.quickblox.sample.core.utils.imagepick.OnImagePickedListener;
 import com.quickblox.users.QBUsers;
@@ -104,6 +110,15 @@ public class ChatNewActivity extends BaseActivity implements OnImagePickedListen
     private ArrayList<QBChatMessage> unShownMessages;
     private int skipPagination = 0;
     private ChatMessageListener chatMessageListener;
+    private GooglePlayServicesHelper googlePlayServicesHelper;
+    private BroadcastReceiver pushBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String message = intent.getStringExtra(GcmConsts.EXTRA_GCM_MESSAGE);
+            Log.i(TAG, "Receiving event " + GcmConsts.ACTION_NEW_GCM_EVENT + " with data: " + message);
+            //retrieveMessage(message);
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,6 +127,8 @@ public class ChatNewActivity extends BaseActivity implements OnImagePickedListen
 
         getSupportActionBar().hide();
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        googlePlayServicesHelper = new GooglePlayServicesHelper();
+        registerReceiver();
 
         qbChatDialog = (QBChatDialog) getIntent().getSerializableExtra(EXTRA_DIALOG_ID);
 
@@ -206,9 +223,15 @@ public class ChatNewActivity extends BaseActivity implements OnImagePickedListen
             qbChatDialog = QbDialogHolder.getInstance().getChatDialogById(savedInstanceState.getString(EXTRA_DIALOG_ID));
         }
     }
+    private void registerReceiver() {
+        googlePlayServicesHelper.checkPlayServicesAvailable(this);
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(pushBroadcastReceiver,
+                new IntentFilter(GcmConsts.ACTION_NEW_GCM_EVENT));
+    }
     @Override
     protected void onResume() {
+        registerReceiver();
         super.onResume();
         ChatHelper.getInstance().addConnectionListener(chatConnectionListener);
     }
@@ -224,6 +247,12 @@ public class ChatNewActivity extends BaseActivity implements OnImagePickedListen
         releaseChat();
         sendDialogId();
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(pushBroadcastReceiver);
     }
 
     @Override
@@ -541,6 +570,8 @@ public class ChatNewActivity extends BaseActivity implements OnImagePickedListen
             QBPushNotifications.createEvent(event).performAsync(new QBEntityCallback<QBEvent>() {
                 @Override
                 public void onSuccess(QBEvent qbEvent, Bundle args) {
+
+                    Log.d("haiiiiiiilog","jsjsjjdj");
                 }
 
                 @Override

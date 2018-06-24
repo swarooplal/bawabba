@@ -87,7 +87,7 @@ public class ChatFragment extends Fragment implements
     private int skipRecords = 0;
     private boolean isProcessingResultInProgress;
 
-    private BroadcastReceiver pushBroadcastReceiver;
+
     private GooglePlayServicesHelper googlePlayServicesHelper;
     private DialogsAdapter dialogsAdapter;
     private QBChatDialogMessageListener allDialogsMessagesListener;
@@ -98,6 +98,14 @@ public class ChatFragment extends Fragment implements
     private LinearLayout emptyHintLayout;
 //    private ListView dialogsListView;
     private SwipeMenuListView dialogsListView;
+    private BroadcastReceiver pushBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String message = intent.getStringExtra(GcmConsts.EXTRA_GCM_MESSAGE);
+            Log.i(TAG, "Receiving event " + GcmConsts.ACTION_NEW_GCM_EVENT + " with data: " + message);
+            //retrieveMessage(message);
+        }
+    };
 
     @Nullable
     @Override
@@ -106,8 +114,8 @@ public class ChatFragment extends Fragment implements
         mActivity = getActivity();
 
         googlePlayServicesHelper = new GooglePlayServicesHelper();
-
-        pushBroadcastReceiver = new PushBroadcastReceiver();
+        registerReceiver();
+//        pushBroadcastReceiver = new PushBroadcastReceiver();
 
         allDialogsMessagesListener = new AllDialogsMessageListener();
         systemMessagesListener = new SystemMessagesListener();
@@ -313,12 +321,19 @@ public class ChatFragment extends Fragment implements
         } catch (Exception e) {
         }
     }
+    private void registerReceiver() {
+        googlePlayServicesHelper.checkPlayServicesAvailable(getActivity());
 
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(pushBroadcastReceiver,
+                new IntentFilter(GcmConsts.ACTION_NEW_GCM_EVENT));
+    }
     @Override
     public void onResume() {
         super.onResume();
-        googlePlayServicesHelper.checkPlayServicesAvailable(mActivity);
-        LocalBroadcastManager.getInstance(mActivity).registerReceiver(pushBroadcastReceiver, new IntentFilter(GcmConsts.ACTION_NEW_GCM_EVENT));
+        registerReceiver();
+//        googlePlayServicesHelper.checkPlayServicesAvailable(mActivity);
+//        LocalBroadcastManager.getInstance(getContext()).registerReceiver(pushBroadcastReceiver,
+//                new IntentFilter("new-push-event"));
     }
 
     @Override
@@ -523,18 +538,18 @@ public class ChatFragment extends Fragment implements
         }
     }
 
-    private class PushBroadcastReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Get extra data included in the Intent
-            String message = intent.getStringExtra(GcmConsts.EXTRA_GCM_MESSAGE);
-            requestBuilder.setSkip(skipRecords = 0);
-            loadDialogsFromQb(true, true);
-            ObjectFactory.getInstance().getAppPreference(mActivity).saveNewMessageArrived(true);
-            EventBus.getDefault().post(new MessageEvent("Comes from ChatFragment"));
+//    private class PushBroadcastReceiver extends BroadcastReceiver {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            // Get extra data included in the Intent
+//            String message = intent.getStringExtra(GcmConsts.EXTRA_GCM_MESSAGE);
+//            requestBuilder.setSkip(skipRecords = 0);
+//            loadDialogsFromQb(true, true);
+//            ObjectFactory.getInstance().getAppPreference(mActivity).saveNewMessageArrived(true);
+//            EventBus.getDefault().post(new MessageEvent("Comes from ChatFragment"));
 //            NotificationUtils.showNotification(mActivity, MainActivity.class, ResourceUtils.getString(R.string.notification_title_new), message, R.mipmap.ic_notification, 1);
-        }
-    }
+//        }
+//    }
 
     private class SystemMessagesListener implements QBSystemMessageListener {
         @Override

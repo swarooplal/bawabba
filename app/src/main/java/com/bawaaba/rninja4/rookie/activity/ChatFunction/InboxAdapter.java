@@ -32,7 +32,6 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.MyViewHolder
             tvName = (AppCompatTextView) itemView.findViewById(R.id.tvName);
             tvTime = (AppCompatTextView) itemView.findViewById(R.id.tvTime);
             tvMessage = (AppCompatTextView) itemView.findViewById(R.id.tvMessage);
-
             viewBackground = view.findViewById(R.id.view_background);
             viewForeground = view.findViewById(R.id.view_foreground);
             view.setOnClickListener(this);
@@ -82,16 +81,8 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.MyViewHolder
 
     public void removeItem(int position) {
         emails.remove(position);
-        // notify the item removed by position
-        // to perform recycler view delete animations
-        // NOTE: don't call notifyDataSetChanged()
         notifyItemRemoved(position);
     }
 
-//    public void restoreItem(Item item, int position) {
-//        cartList.add(position, item);
-//        // notify item added by position
-//        notifyItemInserted(position);
-//    }
 }
 
