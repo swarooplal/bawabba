@@ -7,6 +7,7 @@ import android.app.LocalActivityManager;
 import android.app.ProgressDialog;
 import android.app.TabActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -38,17 +39,9 @@ import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.ashokvarma.bottomnavigation.TextBadgeItem;
-import com.bumptech.glide.Glide;
-import com.bawaaba.rninja4.rookie.App.AppConfig;
-import com.bawaaba.rninja4.rookie.App.AppController;
 import com.bawaaba.rninja4.rookie.BioTab.Description;
 import com.bawaaba.rninja4.rookie.BioTab.EditDetails;
 import com.bawaaba.rninja4.rookie.BioTab.Services;
@@ -70,6 +63,7 @@ import com.bawaaba.rninja4.rookie.activity.portfolioTab.PortfolioFile;
 import com.bawaaba.rninja4.rookie.activity.portfolioTab.PortfolioImage;
 import com.bawaaba.rninja4.rookie.activity.portfolioTab.PortfolioReview;
 import com.bawaaba.rninja4.rookie.activity.portfolioTab.PortfolioVideo;
+import com.bawaaba.rninja4.rookie.firbase.Config;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
 import com.bawaaba.rninja4.rookie.helper.SessionManager;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
@@ -82,6 +76,7 @@ import com.bawaaba.rninja4.rookie.utils.TinyDB;
 import com.bawaaba.rninja4.rookie.utils.Utils;
 import com.bawaaba.rninja4.rookie.utils.chat.ChatHelper;
 import com.bawaaba.rninja4.rookie.utils.qb.callback.QbDialogHolder;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.kbeanie.multipicker.api.ImagePicker;
 import com.quickblox.auth.QBAuth;
@@ -125,31 +120,29 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-import static com.bawaaba.rninja4.rookie.App.AppConfig.URL_REPORT_ABUSE;
 
-//import com.example.rninja4.rookie.activity.ProfileTab.LanguageTab;
 
-public class ProfileView extends TabActivity implements  IConsts, ManagingDialogsCallbacks,MyDialogFragment.InterfaceCommunicator {
+public class ProfileView extends TabActivity implements IConsts, ManagingDialogsCallbacks, MyDialogFragment.InterfaceCommunicator {
     MyDialogFragment dialogFrag;
     QBPrivacyList qbPrivacyList;
     private static final String TAG = ProfileView.class.getSimpleName();
-    private static final String service_spec ="Services";
-    private static final String description_spec ="Description";
+    private static final String service_spec = "Services";
+    private static final String description_spec = "Description";
     //   Tabs for skill,image,social media
-    private static final String SKILL_SPEC ="Skills";
-    private static final String LANGUAGE_SPEC ="Language";
-    private static final String SOCIALMEDIA_SPEC ="Social Media";
-    private static final String IMAGES_SPEC ="Images";
-    private static final String VIDEOS_SPEC ="Videos";
-    private static final String AUDIO_SPEC ="Audios";
-    private static final String FILE_SPEC ="Pdf";
-    private static final String OTHER_SPEC ="OtherFiles";
-    private static final String REVIEW_SPEC ="Reviews";
-    private static final String REVIEWBY_ME_SPEC ="";
+    private static final String SKILL_SPEC = "Skills";
+    private static final String LANGUAGE_SPEC = "Language";
+    private static final String SOCIALMEDIA_SPEC = "Social Media";
+    private static final String IMAGES_SPEC = "Images";
+    private static final String VIDEOS_SPEC = "Videos";
+    private static final String AUDIO_SPEC = "Audios";
+    private static final String FILE_SPEC = "Pdf";
+    private static final String OTHER_SPEC = "OtherFiles";
+    private static final String REVIEW_SPEC = "Reviews";
+    private static final String REVIEWBY_ME_SPEC = "";
     JSONParser jsonParser = new JSONParser();
     RelativeLayout family;
     NestedScrollView mainScroll;
-    String userRegID="";
+    String userRegID = "";
     private TextView txtName;
     private TextView txtLocation;
     private TextView editdetails;
@@ -224,11 +217,11 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
     private AppCompatTextView review_count_hirer;
     private AppCompatTextView review_posted;
     private String imagebase = "";
-    Button btn_reportuser,btn_blockuser,btn_cancel;
+    Button btn_reportuser, btn_blockuser, btn_cancel;
     BottomSheetDialog dialog;
-    boolean isOtherUserBlocked=false;
-    String strOtherUserId="";
-
+    boolean isOtherUserBlocked = false;
+    String strOtherUserId = "";
+    public String reg_id;
 
     public void isMessageArrived() {
         try {
@@ -248,10 +241,11 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
         }
     }
 
-    private void hideText(){
+    private void hideText() {
         textBadgeItem.setText("");
         textBadgeItem.hide();
     }
+
     QBPrivacyListsManager privacyListsManager;
     TinyDB tinyDB;
 
@@ -263,7 +257,7 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
         allDialogsMessagesListener = new AllDialogsMessageListener();
         systemMessagesListener = new SystemMessagesListener();
         dialogsManager = new DialogsManager();
-        tinyDB =new TinyDB(ProfileView.this);
+        tinyDB = new TinyDB(ProfileView.this);
         createChatSesion();
 
 //        mainScroll = (NestedScrollView) findViewById(R.id.nested);
@@ -298,14 +292,14 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
         fab_review = (ImageView) findViewById(R.id.fab_review);
 //        review_post=(TextView)findViewById(R.id.edit_review_post);
 //        post_review=(LinearLayout)findViewById(R.id.review_linear);
-        underline=(View)findViewById(R.id.UnderLine);
+        underline = (View) findViewById(R.id.UnderLine);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fabMessage = (FloatingActionButton) findViewById(R.id.fab1);
         fabSetting = (FloatingActionButton) findViewById(R.id.fab2);
-        report_profile=(ImageButton) findViewById(R.id.report_profile);
-        review_count=(TextView) findViewById(R.id.review_count);
-        editReview_by_me=(TextView)findViewById(R.id.edit_review_by_me);
+        report_profile = (ImageButton) findViewById(R.id.report_profile);
+        review_count = (TextView) findViewById(R.id.review_count);
+        editReview_by_me = (TextView) findViewById(R.id.edit_review_by_me);
         rvReviews_hire = (RecyclerView) findViewById(R.id.rvReviews);
         db = new SQLiteHandler(getApplicationContext());
         session = new SessionManager(getApplicationContext());
@@ -316,11 +310,11 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
         profileId = search_user_id;
         BottomNavigationBar bottomNavigationView = (BottomNavigationBar)
                 findViewById(R.id.bottom_bar);
-        if(!session.isLoggedIn()){
+        if (!session.isLoggedIn()) {
             bottomNavigationView.setFirstSelectedPosition(1);
-        }else if(search_user_id == null || db_id.equals(search_user_id)) {
+        } else if (search_user_id == null || db_id.equals(search_user_id)) {
             bottomNavigationView.setFirstSelectedPosition(3);
-        }else{
+        } else {
             bottomNavigationView.setFirstSelectedPosition(1);
         }
         textBadgeItem = Utils.getTextBadge();
@@ -358,7 +352,7 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
                             startActivity(to_inbox);
 //                        overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_in_left);
                             finish();
-                        }else {
+                        } else {
                             Intent to_login = new Intent(ProfileView.this, LoginActivity.class);
                             startActivity(to_login);
                             finish();
@@ -648,7 +642,7 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
                                     inputPassword.setError("Invalid Password");
                                 } else {
 
-                                    checkLogin(email, password);
+                                    check_login(email, password);
 
                                 }
                             } else {
@@ -674,87 +668,87 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
                             return false;
                         }
 
-                        // Login form for Add Review
-                        private void checkLogin(final String email, final String password) {
-
-                            String tag_string_req = "req_login";
-                            //pDialog.setMessage("Logging in ...");
-                            //  showDialog();
-
-                            StringRequest strReq = new StringRequest(Request.Method.POST,
-                                    AppConfig.URL_LOGIN, new Response.Listener<String>() {
-
-                                @Override
-                                public void onResponse(String response) {
-                                    Log.e(TAG, "Login Response: " + response.toString());
-                                    // hideDialog();
-
-                                    try {
-                                        JSONObject jObj = new JSONObject(response);
-                                        boolean error = jObj.getBoolean("error");
-                                        if (!error) {
-                                            session.setLogin(true);
-
-                                            JSONObject user = jObj.getJSONObject("user");
-                                            String name = user.getString("name");
-                                            String uid = user.getString("uid");
-                                            String email = user.getString("email");
-                                            String token = user.getString("token");
-                                            String verify_code = user.getString("verify_code");
-                                            boolean result = db.addUser(name, email, uid, token,verify_code,password);
-                                            if (result) {
-                                                Intent get_id = getIntent();
-                                                String profile_id = get_id.getStringExtra("reg_id");
-                                                Intent to_profile = new Intent(ProfileView.this, ProfileView.class);
-                                                to_profile.putExtra("reg_id", profile_id);
-                                                startActivity(to_profile);
-                                                finish();
-                                            }
-                                        } else {
-                                            String errorMsg = jObj.getString("error_msg");
-                                            Toast.makeText(getApplicationContext(),
-                                                    errorMsg, Toast.LENGTH_LONG).show();
-                                        }
-                                    } catch (JSONException e) {
-                                        // JSON error
-                                        e.printStackTrace();
-                                        Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                                    }
-
-                                }
-                            }, new Response.ErrorListener() {
-
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Intent i3 = new Intent(ProfileView.this, Internetconnection.class);
-                                    i3.putExtra("current_class", "Loginactivity");
-                                    Log.e(TAG, "Login Error: " + error.getMessage());
-                                    Toast.makeText(getApplicationContext(),
-                                            "Please connect to internet", Toast.LENGTH_LONG).show();
-                                    startActivity(i3);
-                                    // hideDialog();
-                                    finish();
-                                }
-                            }) {
-                                @Override
-                                protected Map<String, String> getParams() {
-                                    // Posting parameters to login url
-                                    Map<String, String> params = new HashMap<String, String>();
-                                    params.put("email", email);
-                                    params.put("password", password);
-                                    return params;
-                                }
-
-                                @Override
-                                public Map<String, String> getHeaders() throws AuthFailureError {
-                                    Map headers = new HashMap();
-                                    headers.put("Client-Service", "app-client");
-                                    headers.put("Auth-Key", "123321");
-                                    return headers;
-                                }
-                            };
-                            AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
-                        }
+//                        // Login form for Add Review
+//                        private void checkLogin(final String email, final String password) {
+//
+//                            String tag_string_req = "req_login";
+//                            //pDialog.setMessage("Logging in ...");
+//                            //  showDialog();
+//
+//                            StringRequest strReq = new StringRequest(Request.Method.POST,
+//                                    AppConfig.URL_LOGIN, new Response.Listener<String>() {
+//
+//                                @Override
+//                                public void onResponse(String response) {
+//                                    Log.e(TAG, "Login Response: " + response.toString());
+//                                    // hideDialog();
+//
+//                                    try {
+//                                        JSONObject jObj = new JSONObject(response);
+//                                        boolean error = jObj.getBoolean("error");
+//                                        if (!error) {
+//                                            session.setLogin(true);
+//
+//                                            JSONObject user = jObj.getJSONObject("user");
+//                                            String name = user.getString("name");
+//                                            String uid = user.getString("uid");
+//                                            String email = user.getString("email");
+//                                            String token = user.getString("token");
+//                                            String verify_code = user.getString("verify_code");
+//                                            boolean result = db.addUser(name, email, uid, token, verify_code, password);
+//                                            if (result) {
+//                                                Intent get_id = getIntent();
+//                                                String profile_id = get_id.getStringExtra("reg_id");
+//                                                Intent to_profile = new Intent(ProfileView.this, ProfileView.class);
+//                                                to_profile.putExtra("reg_id", profile_id);
+//                                                startActivity(to_profile);
+//                                                finish();
+//                                            }
+//                                        } else {
+//                                            String errorMsg = jObj.getString("error_msg");
+//                                            Toast.makeText(getApplicationContext(),
+//                                                    errorMsg, Toast.LENGTH_LONG).show();
+//                                        }
+//                                    } catch (JSONException e) {
+//                                        // JSON error
+//                                        e.printStackTrace();
+//                                        Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+//                                    }
+//
+//                                }
+//                            }, new Response.ErrorListener() {
+//
+//                                @Override
+//                                public void onErrorResponse(VolleyError error) {
+//                                    Intent i3 = new Intent(ProfileView.this, Internetconnection.class);
+//                                    i3.putExtra("current_class", "Loginactivity");
+//                                    Log.e(TAG, "Login Error: " + error.getMessage());
+//                                    Toast.makeText(getApplicationContext(),
+//                                            "Please connect to internet", Toast.LENGTH_LONG).show();
+//                                    startActivity(i3);
+//                                    // hideDialog();
+//                                    finish();
+//                                }
+//                            }) {
+//                                @Override
+//                                protected Map<String, String> getParams() {
+//                                    // Posting parameters to login url
+//                                    Map<String, String> params = new HashMap<String, String>();
+//                                    params.put("email", email);
+//                                    params.put("password", password);
+//                                    return params;
+//                                }
+//
+//                                @Override
+//                                public Map<String, String> getHeaders() throws AuthFailureError {
+//                                    Map headers = new HashMap();
+//                                    headers.put("Client-Service", "app-client");
+//                                    headers.put("Auth-Key", "123321");
+//                                    return headers;
+//                                }
+//                            };
+//                            AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+//                        }
                     });
 
                     mBuilder.setView(mView);
@@ -765,7 +759,7 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
             });
         }
 
-        if (session.isLoggedIn() && db_id != null){
+        if (session.isLoggedIn() && db_id != null) {
 //            report_profile.setOnClickListener(new View.OnClickListener() {
 //
 //                private EditText report_message;
@@ -891,12 +885,13 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
                     init_modal_bottomsheet();
                 }
             });
-        }else{
+        } else {
             report_profile.setOnClickListener(new View.OnClickListener() {
 
                 private Button btnLogin;
                 private TextView forgotPassword;
                 private TextView Signup;
+
                 @Override
                 public void onClick(View v) {
 
@@ -940,7 +935,7 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
                                     inputPassword.setError("Invalid Password");
                                 } else {
 
-                                    checkLogin(email, password);
+                                    check_login(email, password);
 
                                 }
                             } else {
@@ -966,89 +961,91 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
                             return false;
                         }
 
-                        // Login form for Add Review
-                        private void checkLogin(final String email, final String password) {
 
-                            String tag_string_req = "req_login";
-                            //pDialog.setMessage("Logging in ...");
-                            //  showDialog();
 
-                            StringRequest strReq = new StringRequest(Request.Method.POST,
-                                    AppConfig.URL_LOGIN, new Response.Listener<String>() {
-
-                                @Override
-                                public void onResponse(String response) {
-                                    Log.e(TAG, "Login Response: " + response.toString());
-                                    // hideDialog();
-
-                                    try {
-                                        JSONObject jObj = new JSONObject(response);
-                                        boolean error = jObj.getBoolean("error");
-                                        if (!error) {
-                                            session.setLogin(true);
-
-                                            JSONObject user = jObj.getJSONObject("user");
-                                            String name = user.getString("name");
-                                            String uid = user.getString("uid");
-                                            String email = user.getString("email");
-                                            String token = user.getString("token");
-                                            String verify_code = user.getString("verify_code");
-                                            boolean result = db.addUser(name, email, uid, token,verify_code,password);
-                                            if (result) {
-                                                Intent get_id = getIntent();
-                                                String profile_id = get_id.getStringExtra("reg_id");
-                                                Intent to_profile = new Intent(ProfileView.this, ProfileView.class);
-                                                to_profile.putExtra("reg_id", profile_id);
-                                                startActivity(to_profile);
-                                                finish();
-                                            }
-
-                                        } else {
-                                            String errorMsg = jObj.getString("error_msg");
-                                            Toast.makeText(getApplicationContext(),
-                                                    errorMsg, Toast.LENGTH_LONG).show();
-                                        }
-                                    } catch (JSONException e) {
-                                        // JSON error
-                                        e.printStackTrace();
-                                        Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                                    }
-
-                                }
-                            }, new Response.ErrorListener() {
-
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Intent i3 = new Intent(ProfileView.this, Internetconnection.class);
-                                    i3.putExtra("current_class", "Loginactivity");
-                                    Log.e(TAG, "Login Error: " + error.getMessage());
-                                    Toast.makeText(getApplicationContext(),
-                                            "Please connect to internet", Toast.LENGTH_LONG).show();
-                                    startActivity(i3);
-                                    // hideDialog();
-                                    finish();
-                                }
-                            }) {
-                                @Override
-                                protected Map<String, String> getParams() {
-                                    // Posting parameters to login url
-                                    Map<String, String> params = new HashMap<String, String>();
-
-                                    params.put("email", email);
-                                    params.put("password", password);
-                                    return params;
-                                }
-
-                                @Override
-                                public Map<String, String> getHeaders() throws AuthFailureError {
-                                    Map headers = new HashMap();
-                                    headers.put("Client-Service", "app-client");
-                                    headers.put("Auth-Key", "123321");
-                                    return headers;
-                                }
-                            };
-                            AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
-                        }
+//                        // Login form for Add Review
+//                        private void checkLogin(final String email, final String password) {
+//
+//                            String tag_string_req = "req_login";
+//                            //pDialog.setMessage("Logging in ...");
+//                            //  showDialog();
+//
+//                            StringRequest strReq = new StringRequest(Request.Method.POST,
+//                                    AppConfig.URL_LOGIN, new Response.Listener<String>() {
+//
+//                                @Override
+//                                public void onResponse(String response) {
+//                                    Log.e(TAG, "Login Response: " + response.toString());
+//                                    // hideDialog();
+//
+//                                    try {
+//                                        JSONObject jObj = new JSONObject(response);
+//                                        boolean error = jObj.getBoolean("error");
+//                                        if (!error) {
+//                                            session.setLogin(true);
+//
+//                                            JSONObject user = jObj.getJSONObject("user");
+//                                            String name = user.getString("name");
+//                                            String uid = user.getString("uid");
+//                                            String email = user.getString("email");
+//                                            String token = user.getString("token");
+//                                            String verify_code = user.getString("verify_code");
+//                                            boolean result = db.addUser(name, email, uid, token,verify_code,password);
+//                                            if (result) {
+//                                                Intent get_id = getIntent();
+//                                                String profile_id = get_id.getStringExtra("reg_id");
+//                                                Intent to_profile = new Intent(ProfileView.this, ProfileView.class);
+//                                                to_profile.putExtra("reg_id", profile_id);
+//                                                startActivity(to_profile);
+//                                                finish();
+//                                            }
+//
+//                                        } else {
+//                                            String errorMsg = jObj.getString("error_msg");
+//                                            Toast.makeText(getApplicationContext(),
+//                                                    errorMsg, Toast.LENGTH_LONG).show();
+//                                        }
+//                                    } catch (JSONException e) {
+//                                        // JSON error
+//                                        e.printStackTrace();
+//                                        Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+//                                    }
+//
+//                                }
+//                            }, new Response.ErrorListener() {
+//
+//                                @Override
+//                                public void onErrorResponse(VolleyError error) {
+//                                    Intent i3 = new Intent(ProfileView.this, Internetconnection.class);
+//                                    i3.putExtra("current_class", "Loginactivity");
+//                                    Log.e(TAG, "Login Error: " + error.getMessage());
+//                                    Toast.makeText(getApplicationContext(),
+//                                            "Please connect to internet", Toast.LENGTH_LONG).show();
+//                                    startActivity(i3);
+//                                    // hideDialog();
+//                                    finish();
+//                                }
+//                            }) {
+//                                @Override
+//                                protected Map<String, String> getParams() {
+//                                    // Posting parameters to login url
+//                                    Map<String, String> params = new HashMap<String, String>();
+//
+//                                    params.put("email", email);
+//                                    params.put("password", password);
+//                                    return params;
+//                                }
+//
+//                                @Override
+//                                public Map<String, String> getHeaders() throws AuthFailureError {
+//                                    Map headers = new HashMap();
+//                                    headers.put("Client-Service", "app-client");
+//                                    headers.put("Auth-Key", "123321");
+//                                    return headers;
+//                                }
+//                            };
+//                            AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+//                        }
 
 
                     });
@@ -1079,7 +1076,6 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
 
         tabHost4 = (TabHost) findViewById(R.id.myFifthTabhost);
         tabHost4.setup(mlam);
-
 
 
 //        TabHost.TabSpec ReviewSpec = tabHost3.newTabSpec(REVIEW_SPEC);
@@ -1118,11 +1114,11 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
     }
 
 
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MessageEvent event) {
         isMessageArrived();
     }
+
     private void registerQbChatListeners() {
         incomingMessagesManager = QBChatService.getInstance().getIncomingMessagesManager();
         systemMessagesManager = QBChatService.getInstance().getSystemMessagesManager();
@@ -1155,14 +1151,66 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
 
     private ProgressDialog mDialogo;
 
+    private void check_login(final String email, final String password) {
+        SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
+        reg_id = pref.getString("regId", null);
+        Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getApplicationContext()).getApiService().login("app-client",
+                "123321", email, password, reg_id, "android"
+        );
+        responseBodyCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+
+                if (response.body() != null) {
+                    try {
+                        String responseString = new String(response.body().bytes());
+                        JSONObject jObj = new JSONObject(responseString);
+                        boolean error = jObj.getBoolean("error");
+                        if (!error) {
+                            session.setLogin(true);
+                            JSONObject user = jObj.getJSONObject("user");
+                            String name = user.getString("name");
+                            String uid = user.getString("uid");
+                            String email = user.getString("email");
+                            String token = user.getString("token");
+                            String verify_code = user.getString("verify_code");
+                            boolean result = db.addUser(name, email, uid, token, verify_code, password);
+                            if (result) {
+                                Intent get_id = getIntent();
+                                String profile_id = get_id.getStringExtra("reg_id");
+                                Intent to_profile = new Intent(ProfileView.this, ProfileView.class);
+                                to_profile.putExtra("reg_id", profile_id);
+                                startActivity(to_profile);
+                                finish();
+                            }
+
+                        } else {
+                            String errorMsg = jObj.getString("error_msg");
+                            Toast.makeText(getApplicationContext(),
+                                    errorMsg, Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        // JSON error
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
     private void createChatSesion() {
         mDialogo = new ProgressDialog(this);
         mDialogo.setMessage("Loading...");
         mDialogo.setCanceledOnTouchOutside(false);
-       // mDialogo.show();
-
+        // mDialogo.show();
         String user, password;
-
         user = ObjectFactory.getInstance().getAppPreference(this).getUserId();
         password = QB_PASSWORD;
 
@@ -1180,7 +1228,7 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
                         QBChatService.getInstance().login(qbUser, new QBEntityCallback() {
                             @Override
                             public void onSuccess(Object o, Bundle bundle) {
-                                privacyListsManager=QBChatService.getInstance().getPrivacyListsManager();
+                                privacyListsManager = QBChatService.getInstance().getPrivacyListsManager();
                                 mDialogo.dismiss();
                             }
 
@@ -1191,8 +1239,7 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
                             }
                         });
                     }
-                }catch (Exception e)
-                {
+                } catch (Exception e) {
                     mDialogo.dismiss();
                 }
             }
@@ -1205,7 +1252,7 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
 
     }
 
-    private void showQbUserInformation(){
+    private void showQbUserInformation() {
         try {
             QBSystemMessagesManager qbSystemMessagesManager = QBChatService.getInstance().getSystemMessagesManager();
             qbSystemMessagesManager.addSystemMessageListener(new SystemMessagesListener());
@@ -1228,7 +1275,7 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
                         openPrivateChatWindow(users);
                     } else {
 
-                     //   mDialogo.dismiss();
+                        //   mDialogo.dismiss();
                         Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "User must install new app, than logout and login again.", Snackbar.LENGTH_LONG);
                         View sbView = snackbar.getView();
                         TextView textView = sbView.findViewById(android.support.design.R.id.snackbar_text);
@@ -1236,6 +1283,7 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
                         snackbar.show();
                     }
                 }
+
                 @Override
                 public void onError(QBResponseException errors) {
                     mDialogo.dismiss();
@@ -1245,23 +1293,24 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
             mDialogo.dismiss();
         }
     }
-    private void openPrivateChatWindow(ArrayList<QBUser> selectedUsers){
+
+    private void openPrivateChatWindow(ArrayList<QBUser> selectedUsers) {
 
         try {
             if (isPrivateDialogExist(selectedUsers)) {
                 mDialogo.dismiss();
                 selectedUsers.remove(ChatHelper.getCurrentUser());
                 QBChatDialog existingPrivateDialog = QbDialogHolder.getInstance().getPrivateDialogWithUser(selectedUsers.get(0));
-          //           isProcessingResultInProgress = false;
+                //           isProcessingResultInProgress = false;
                 Intent intent = new Intent(ProfileView.this, ChatNewActivity.class);
                 intent.putExtra(ChatNewActivity.EXTRA_DIALOG_ID, existingPrivateDialog);
-                intent.putExtra("from","profile");
+                intent.putExtra("from", "profile");
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 
 
             } else {
-               // ProgressDialogFragment.show(getSupportFragmentManager(), R.string.create_chat);
+                // ProgressDialogFragment.show(getSupportFragmentManager(), R.string.create_chat);
                 createDialog(selectedUsers);
             }
         } catch (Exception e) {
@@ -1277,10 +1326,10 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
                         public void onSuccess(QBChatDialog dialog, Bundle args) {
                             mDialogo.dismiss();
                             //isProcessingResultInProgress = false;
-                           dialogsManager.sendSystemMessageAboutCreatingDialog(systemMessagesManager, dialog);
+                            dialogsManager.sendSystemMessageAboutCreatingDialog(systemMessagesManager, dialog);
                             Intent intent = new Intent(ProfileView.this, ChatNewActivity.class);
                             intent.putExtra(ChatNewActivity.EXTRA_DIALOG_ID, dialog);
-                            intent.putExtra("from","profile");
+                            intent.putExtra("from", "profile");
                             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                         }
@@ -1394,11 +1443,11 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
 //        return encodedImage;
 //    }
 
-    private void setReviewApi(String rating, float rate, String review,String imageRating ) {
+    private void setReviewApi(String rating, float rate, String review, String imageRating) {
 
         System.out.println("ProfileView.setReviewApi profileId" + profileId);
 
-        Log.e("RevieImagechecking",imageRating);
+        Log.e("RevieImagechecking", imageRating);
         System.out.println("ProfileView.setReviewApi prof" + ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId());
         final Dialog dialog = ObjectFactory.getInstance().getUtils(ProfileView.this).showLoadingDialog(ProfileView.this);
         dialog.show();
@@ -1430,7 +1479,7 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
                                     //dialogParent.dismiss();
                                     Toast.makeText(ProfileView.this, "Successfully reviewed", Toast.LENGTH_SHORT).show();
                                     Intent to_profile = new Intent(ProfileView.this, ProfileView.class);
-                                    to_profile.putExtra("reg_id",profileId);
+                                    to_profile.putExtra("reg_id", profileId);
                                     startActivity(to_profile);
                                     finish();
                                     // apiCallToUpdateProfileDatas();
@@ -1457,148 +1506,148 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
 
     }
 
-    //For maintaining the lifecycle without breaking when loacl activity manger is adding
 
     private void profileuser(final String uid) {
-        String tag_string_req = "req_profile";
-        Log.e(TAG, "Profile Responsescheck: " + uid);
         HashMap<String, String> user = db.getUserDetails();
         final String db_id = (user.get("uid") == null) ? "null" : user.get("uid");
-        Log.e("uidcheck", db_id);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", uid);
+        params.put("db_id", (db_id != null) ? db_id : "no");
         final Dialog dialog = ObjectFactory.getInstance().getUtils(ProfileView.this).showLoadingDialog(ProfileView.this);
         dialog.show();
+        Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getApplicationContext()).getApiService().profileDetails("app-client",
+                "123321",params);
 
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                AppConfig.URL_PROFILE, new Response.Listener<String>() {
+        responseBodyCall.enqueue(new Callback<ResponseBody>() {
+
             @Override
-            public void onResponse(String response) {
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
                 dialog.dismiss();
+
                 try {
                     swipe.setRefreshing(false);
 
                 } catch (Exception e) {
                 }
-                Log.e(TAG, "Profile Responses: " + response.toString());
-                Profileresponse profileresponse = new Gson().fromJson(response, Profileresponse.class);
-                ObjectFactory.getInstance().getAppPreference(getApplicationContext()).setProfileResponse(response);
+                if (response.body() != null) {
 
-                try {
-                    JSONObject jObj = new JSONObject(response);
-                    boolean error = jObj.getBoolean("error");
-                    if (!error) {
+                    try {
+                        String responseString = new String(response.body().bytes());
+                        Profileresponse profileresponse = new Gson().fromJson(responseString, Profileresponse.class);
+                        ObjectFactory.getInstance().getAppPreference(getApplicationContext()).setProfileResponse(responseString);
+                        JSONObject jObj = new JSONObject(responseString);
+                        boolean error = jObj.getBoolean("error");
+                        if (!error) {
+                            JSONObject user = jObj.getJSONObject("UserData");
+                            //  Log.e("profile image", String.valueOf(user));
+                            String profile_image = user.getString("profile_img");
+                            String name = user.getString("name");
+                            String dob = (user.getString("dob") != "null") ? user.getString("dob") : "";
+                            String contactnumber = (user.getString("phone") != "null") ? user.getString("phone") : "";
+                            String location = user.getString("location");
+                            String profile_url = user.getString("profile_url");
+                            final String role = user.getString("role");
+                            final String category = user.getString("category");
+                            final String gender = user.getString("gender");
+                            final String verify = user.getString("verify");
 
-                        JSONObject user = jObj.getJSONObject("UserData");
-                        //  Log.e("profile image", String.valueOf(user));
-                        String profile_image = user.getString("profile_img");
-                        String name = user.getString("name");
-                        String dob = (user.getString("dob") != "null") ? user.getString("dob") : "";
-                        String contactnumber = (user.getString("phone") != "null") ? user.getString("phone") : "";
-                        String location = user.getString("location");
-                        String profile_url = user.getString("profile_url");
-                        final String role = user.getString("role");
-                        final String category = user.getString("category");
-                        final String gender = user.getString("gender");
-                        final String verify = user.getString("verify");
-
-                        if (verify.matches("0")) {
-                            user_button.setVisibility(View.VISIBLE);
-                        } else {
-                            user_button.setVisibility(View.GONE);
-                        }
-
-                        Log.e("check ver",verify);
-
-                        final String finalProfile_image1 = profile_image;
-                        fabSetting.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent to_prof_settings = new Intent(ProfileView.this, Profile_settings.class);
-                                to_prof_settings.putExtra("verify", verify);
-                                to_prof_settings.putExtra("profile_img", finalProfile_image1);
-                                startActivity(to_prof_settings);
+                            if (verify.matches("0")) {
+                                user_button.setVisibility(View.VISIBLE);
+                            } else {
+                                user_button.setVisibility(View.GONE);
+                            }
+                            Log.e("check ver", verify);
+                            final String finalProfile_image1 = profile_image;
+                            fabSetting.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent to_prof_settings = new Intent(ProfileView.this, Profile_settings.class);
+                                    to_prof_settings.putExtra("verify", verify);
+                                    to_prof_settings.putExtra("profile_img", finalProfile_image1);
+                                    startActivity(to_prof_settings);
 //                                 finish();
-                            }
-                        });
-                        Log.e("role", role);
-                        final String finalProfile_image = profile_image;
-                        final String finalName = name;
-                        final String finalDob = dob;
-                        final String finalContactnumber = contactnumber;
-                        final String finalLocation = location;
-                        final String finalProfile_url = profile_url;
+                                }
+                            });
+                            Log.e("role", role);
+                            final String finalProfile_image = profile_image;
+                            final String finalName = name;
+                            final String finalDob = dob;
+                            final String finalContactnumber = contactnumber;
+                            final String finalLocation = location;
+                            final String finalProfile_url = profile_url;
 
-                        editReview.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent to_edit_review = new Intent(ProfileView.this, Edit_Review_Postedbyme.class);
-                                startActivity(to_edit_review);
-                            }
-                        });
+                            editReview.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent to_edit_review = new Intent(ProfileView.this, Edit_Review_Postedbyme.class);
+                                    startActivity(to_edit_review);
+                                }
+                            });
 
-                        editdetails.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent to_editdetails = new Intent(ProfileView.this, EditDetails.class);
-                                to_editdetails.putExtra("user_id", uid);
-                                to_editdetails.putExtra("profile_img", finalProfile_image);
-                                to_editdetails.putExtra("name", finalName);
-                                to_editdetails.putExtra("dob", finalDob);
-                                to_editdetails.putExtra("phone", finalContactnumber);
-                                to_editdetails.putExtra("location", finalLocation);
-                                to_editdetails.putExtra("profile_url", finalProfile_url);
-                                to_editdetails.putExtra("gender", gender);
-                                startActivity(to_editdetails);
-                                //   finish();
-                            }
-                        });
+                            editdetails.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent to_editdetails = new Intent(ProfileView.this, EditDetails.class);
+                                    to_editdetails.putExtra("user_id", uid);
+                                    to_editdetails.putExtra("profile_img", finalProfile_image);
+                                    to_editdetails.putExtra("name", finalName);
+                                    to_editdetails.putExtra("dob", finalDob);
+                                    to_editdetails.putExtra("phone", finalContactnumber);
+                                    to_editdetails.putExtra("location", finalLocation);
+                                    to_editdetails.putExtra("profile_url", finalProfile_url);
+                                    to_editdetails.putExtra("gender", gender);
+                                    startActivity(to_editdetails);
+                                    //   finish();
+                                }
+                            });
 
-                        if (role.equals("Hirer")) {
+                            if (role.equals("Hirer")) {
 
-                            profile_image = user.getString("profile_img");
-                            name = user.getString("name");
-                            dob = (user.getString("dob")!= "null") ? user.getString("dob") : "";
-                            contactnumber = (user.getString("phone") != "null") ? user.getString("phone") : "";
-                            location = user.getString("location");
-                            profile_url = user.getString("profile_url");
-                            Log.e("role", "hirercheck");
-                            tabHost.setVisibility(View.GONE);
-                            tabHost1.setVisibility(View.GONE);
-                            tabHost2.setVisibility(View.GONE);
-                            tabHost3.setVisibility(View.GONE);
-                            tabHost4.setVisibility(View.VISIBLE);
-                            editReview_by_me.setVisibility(View.GONE);
-                            noPortfolio.setVisibility(View.GONE);
-                            fabMessage.setVisibility(View.GONE);
-                            fab.setVisibility(View.GONE);
-                            String reviewbyme = user.getString("review_by_me");
-                            TabHost.TabSpec review_by_me = tabHost4.newTabSpec(REVIEWBY_ME_SPEC);
-                            Intent review_by_me_Intent = new Intent(ProfileView.this, Edit_reviewpostedbyhirer.class);
-                            review_by_me_Intent.putExtra("review_by_me", reviewbyme);
-                            review_by_me_Intent.putExtra("user_id", uid);
-                            Log.e(TAG, "reviewCheck: " + reviewbyme);
-                            review_by_me.setIndicator(REVIEWBY_ME_SPEC);
-                            review_by_me.setContent(review_by_me_Intent);
-                            tabHost4.addTab(review_by_me);
-                            noPortfolio.setVisibility(View.GONE);
+                                profile_image = user.getString("profile_img");
+                                name = user.getString("name");
+                                dob = (user.getString("dob") != "null") ? user.getString("dob") : "";
+                                contactnumber = (user.getString("phone") != "null") ? user.getString("phone") : "";
+                                location = user.getString("location");
+                                profile_url = user.getString("profile_url");
+                                Log.e("role", "hirercheck");
+                                tabHost.setVisibility(View.GONE);
+                                tabHost1.setVisibility(View.GONE);
+                                tabHost2.setVisibility(View.GONE);
+                                tabHost3.setVisibility(View.GONE);
+                                tabHost4.setVisibility(View.VISIBLE);
+                                editReview_by_me.setVisibility(View.GONE);
+                                noPortfolio.setVisibility(View.GONE);
+                                fabMessage.setVisibility(View.GONE);
+                                fab.setVisibility(View.GONE);
+                                String reviewbyme = user.getString("review_by_me");
+                                TabHost.TabSpec review_by_me = tabHost4.newTabSpec(REVIEWBY_ME_SPEC);
+                                Intent review_by_me_Intent = new Intent(ProfileView.this, Edit_reviewpostedbyhirer.class);
+                                review_by_me_Intent.putExtra("review_by_me", reviewbyme);
+                                review_by_me_Intent.putExtra("user_id", uid);
+                                Log.e(TAG, "reviewCheck: " + reviewbyme);
+                                review_by_me.setIndicator(REVIEWBY_ME_SPEC);
+                                review_by_me.setContent(review_by_me_Intent);
+                                tabHost4.addTab(review_by_me);
+                                noPortfolio.setVisibility(View.GONE);
 
 
-                        } else {
-                            // tabHost4.setVisibility(View.GONE);
-                            //skills
-                            TabWidget widget = tabHost1.getTabWidget();
-                            String skills = user.getString("skills");
-                            TabHost.TabSpec skillSpec = tabHost1.newTabSpec(SKILL_SPEC);
-                            Intent skillIntent = new Intent(ProfileView.this, SkillTab.class);
-                            skillIntent.putExtra("skills", skills);
-                            skillIntent.putExtra("user_id", uid);
-                            skillIntent.putExtra("category", category);
-                            skillSpec.setIndicator(SKILL_SPEC);
-                            skillSpec.setContent(skillIntent);
-                            tabHost1.addTab(skillSpec);
+                            } else {
+                                // tabHost4.setVisibility(View.GONE);
+                                //skills
+                                TabWidget widget = tabHost1.getTabWidget();
+                                String skills = user.getString("skills");
+                                TabHost.TabSpec skillSpec = tabHost1.newTabSpec(SKILL_SPEC);
+                                Intent skillIntent = new Intent(ProfileView.this, SkillTab.class);
+                                skillIntent.putExtra("skills", skills);
+                                skillIntent.putExtra("user_id", uid);
+                                skillIntent.putExtra("category", category);
+                                skillSpec.setIndicator(SKILL_SPEC);
+                                skillSpec.setContent(skillIntent);
+                                tabHost1.addTab(skillSpec);
 //                            review_post.setVisibility(View.GONE);
 //                            post_review.setVisibility(View.GONE);
 //                            underline.setVisibility(View.GONE);
-                            //  rvReviews_hire.setVisibility(View.GONE);
+                                //  rvReviews_hire.setVisibility(View.GONE);
 
 
 //                            for(int i = 0; i < widget.getChildCount(); i++) {
@@ -1613,7 +1662,6 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
 //                            }
 
 
-
 //
 //                            for (int i = 0; i < widget.getChildCount(); i++){
 //
@@ -1623,253 +1671,632 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
 //
 //                            }
 
-                            // language
+                                // language
 
-                            String language = user.getString("language");
-                            TabHost.TabSpec languageSpec = tabHost1.newTabSpec(LANGUAGE_SPEC);
-                            Intent languageIntent = new Intent(ProfileView.this, LanguageTab.class);
-                            languageIntent.putExtra("language", language);
-                            languageIntent.putExtra("user_id", uid);
-                            languageSpec.setIndicator(LANGUAGE_SPEC);
-                            languageSpec.setContent(languageIntent);
-                            tabHost1.addTab(languageSpec);
-                            //tabHost1.getTabWidget().getChildAt(tabHost1.getCurrentTab()).getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                                String language = user.getString("language");
+                                TabHost.TabSpec languageSpec = tabHost1.newTabSpec(LANGUAGE_SPEC);
+                                Intent languageIntent = new Intent(ProfileView.this, LanguageTab.class);
+                                languageIntent.putExtra("language", language);
+                                languageIntent.putExtra("user_id", uid);
+                                languageSpec.setIndicator(LANGUAGE_SPEC);
+                                languageSpec.setContent(languageIntent);
+                                tabHost1.addTab(languageSpec);
+                                //tabHost1.getTabWidget().getChildAt(tabHost1.getCurrentTab()).getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
 
-                            //    social media
+                                //    social media
 
-                            String socialmedia = user.getString("socialmedia");
-                            TabHost.TabSpec socialmediaSpec = tabHost1.newTabSpec(SOCIALMEDIA_SPEC);
-                            Intent socialmediaIntent = new Intent(ProfileView.this, SocialMedia.class);
-                            socialmediaIntent.putExtra("socialmedia", socialmedia);
-                            socialmediaIntent.putExtra("user_id", uid);
-                            Log.e(TAG, "mediaCheck: " + socialmedia);
-                            socialmediaSpec.setIndicator(SOCIALMEDIA_SPEC);
-                            socialmediaSpec.setContent(socialmediaIntent);
-                            tabHost1.addTab(socialmediaSpec);
+                                String socialmedia = user.getString("socialmedia");
+                                TabHost.TabSpec socialmediaSpec = tabHost1.newTabSpec(SOCIALMEDIA_SPEC);
+                                Intent socialmediaIntent = new Intent(ProfileView.this, SocialMedia.class);
+                                socialmediaIntent.putExtra("socialmedia", socialmedia);
+                                socialmediaIntent.putExtra("user_id", uid);
+                                Log.e(TAG, "mediaCheck: " + socialmedia);
+                                socialmediaSpec.setIndicator(SOCIALMEDIA_SPEC);
+                                socialmediaSpec.setContent(socialmediaIntent);
+                                tabHost1.addTab(socialmediaSpec);
 //                            tabHost1.getTabWidget().getChildAt(tabHost1.getCurrentTab()).getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
 
 
-                            // portfolio image
-                            JSONArray portfolio_image = user.getJSONArray("portfolio_image");
-                            int image_count = portfolio_image.length();
-                            TabHost.TabSpec ImagesSpec = tabHost2.newTabSpec(IMAGES_SPEC);
-                            Intent imagesIntent = new Intent(ProfileView.this, PortfolioImage.class);
-                            imagesIntent.putExtra("user_id", uid);
-                            imagesIntent.putExtra("portfolio_image", String.valueOf(portfolio_image));
+                                // portfolio image
+                                JSONArray portfolio_image = user.getJSONArray("portfolio_image");
+                                int image_count = portfolio_image.length();
+                                TabHost.TabSpec ImagesSpec = tabHost2.newTabSpec(IMAGES_SPEC);
+                                Intent imagesIntent = new Intent(ProfileView.this, PortfolioImage.class);
+                                imagesIntent.putExtra("user_id", uid);
+                                imagesIntent.putExtra("portfolio_image", String.valueOf(portfolio_image));
 
-                            if (image_count > 0 || db_id.equals(uid)) {
-                                ImagesSpec.setIndicator("", getResources().getDrawable(R.drawable.phototab));
-                                ImagesSpec.setContent(imagesIntent);
-                                tabHost2.addTab(ImagesSpec);
+                                if (image_count > 0 || db_id.equals(uid)) {
+                                    ImagesSpec.setIndicator("", getResources().getDrawable(R.drawable.phototab));
+                                    ImagesSpec.setContent(imagesIntent);
+                                    tabHost2.addTab(ImagesSpec);
+                                }
+
+                                // portfolio video
+                                JSONArray portfolio_video = user.getJSONArray("portfolio_video");
+                                int video_count = portfolio_video.length();
+                                Log.e(TAG, "videoCheck1: " + portfolio_video);
+                                TabHost.TabSpec VideoSpec = tabHost2.newTabSpec(VIDEOS_SPEC);
+                                Intent VideoIntent = new Intent(ProfileView.this, PortfolioVideo.class);
+                                VideoIntent.putExtra("user_id", uid);
+                                VideoIntent.putExtra("portfolio_video", String.valueOf(portfolio_video));
+
+                                if (video_count > 0 || db_id.equals(uid)) {
+                                    VideoSpec.setContent(VideoIntent);
+                                    VideoSpec.setIndicator("", getResources().getDrawable(R.drawable.videotab));
+                                    tabHost2.addTab(VideoSpec);
+                                }
+
+                                // portfolio audio
+
+                                JSONArray portfolio_audio = user.getJSONArray("portfolio_audio");
+                                int audio_count = portfolio_audio.length();
+                                TabHost.TabSpec AudioSpec = tabHost2.newTabSpec(AUDIO_SPEC);
+                                Intent AudioIntent = new Intent(ProfileView.this, PortfolioAudio.class);
+                                AudioIntent.putExtra("user_id", uid);
+                                AudioIntent.putExtra("portfolio_audio", String.valueOf(portfolio_audio));
+
+                                if (audio_count > 0 || db_id.equals(uid)) {
+                                    AudioSpec.setContent(AudioIntent);
+                                    AudioSpec.setIndicator("", getResources().getDrawable(R.drawable.audiotab));
+                                    tabHost2.addTab(AudioSpec);
+                                }
+                                // portfolio file
+                                JSONArray portfolio_doc = user.getJSONArray("portfolio_doc");
+                                int document_count = portfolio_doc.length();
+                                Log.e(TAG, "portdoccount: " + document_count);
+                                TabHost.TabSpec FileSpec = tabHost2.newTabSpec(FILE_SPEC);
+                                Intent FileIntent = new Intent(ProfileView.this, PortfolioFile.class);
+                                FileIntent.putExtra("user_id", uid);
+                                FileIntent.putExtra("portfolio_doc", String.valueOf(portfolio_doc));
+                                Log.e(TAG, "docCheck1: " + portfolio_doc);
+
+                                if (document_count > 0 || db_id.equals(uid)) {
+                                    FileSpec.setContent(FileIntent);
+                                    FileSpec.setIndicator("", getResources().getDrawable(R.drawable.texttab));
+                                    tabHost2.addTab(FileSpec);
+                                }
+                                // portfolio link
+                                JSONArray portfolio_link = user.getJSONArray("portfolio_link");
+                                int link_count = portfolio_link.length();
+                                TabHost.TabSpec OtherSpec = tabHost2.newTabSpec(OTHER_SPEC);
+                                Intent OtherIntent = new Intent(ProfileView.this, OtherFile.class);
+                                OtherIntent.putExtra("user_id", uid);
+                                OtherIntent.putExtra("portfolio_link", String.valueOf(portfolio_link));
+                                Log.e(TAG, "linkCheck1: " + portfolio_link);
+
+
+                                if (link_count > 0 || db_id.equals(uid)) {
+                                    OtherSpec.setContent(OtherIntent);
+                                    OtherSpec.setIndicator("", getResources().getDrawable(R.drawable.linktab));
+                                    tabHost2.addTab(OtherSpec);
+                                }
+
+                                if (image_count == 0 && video_count == 0 && audio_count == 0 && document_count == 0 && link_count == 0 && !db_id.equals(uid)) {
+                                    noPortfolio.setVisibility(View.VISIBLE);
+                                    Log.e(TAG, "tabempty ");
+                                    ImagesSpec.setIndicator("", getResources().getDrawable(R.drawable.phototab));
+                                    ImagesSpec.setContent(imagesIntent);
+                                    tabHost2.addTab(ImagesSpec);
+                                } else {
+                                    noPortfolio.setVisibility(View.GONE);
+                                }
                             }
 
-                            // portfolio video
-                            JSONArray portfolio_video = user.getJSONArray("portfolio_video");
-                            int video_count = portfolio_video.length();
-                            Log.e(TAG, "videoCheck1: " + portfolio_video);
-                            TabHost.TabSpec VideoSpec = tabHost2.newTabSpec(VIDEOS_SPEC);
-                            Intent VideoIntent = new Intent(ProfileView.this, PortfolioVideo.class);
-                            VideoIntent.putExtra("user_id", uid);
-                            VideoIntent.putExtra("portfolio_video", String.valueOf(portfolio_video));
-
-                            if (video_count > 0 || db_id.equals(uid)) {
-                                VideoSpec.setContent(VideoIntent);
-                                VideoSpec.setIndicator("", getResources().getDrawable(R.drawable.videotab));
-                                tabHost2.addTab(VideoSpec);
+                            if (db_id.equals(uid)) {
+                                fab.setVisibility(View.VISIBLE);
                             }
 
-                            // portfolio audio
+                            String review = user.getString("review");
+                            TabHost.TabSpec reviewSpec = tabHost3.newTabSpec(REVIEW_SPEC);
+                            Intent reviewIntent = new Intent(ProfileView.this, PortfolioReview.class);
+                            reviewIntent.putExtra("review", review);
+                            reviewIntent.putExtra("user_id", uid);
+                            Log.e(TAG, "reviewCheck: " + review);
+                            reviewSpec.setIndicator(REVIEW_SPEC);
+                            reviewSpec.setContent(reviewIntent);
+                            tabHost3.addTab(reviewSpec);
+                            //  tabHost3.getTabWidget().getChildAt(tabHost1.getCurrentTab()).getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
 
-                            JSONArray portfolio_audio = user.getJSONArray("portfolio_audio");
-                            int audio_count = portfolio_audio.length();
-                            TabHost.TabSpec AudioSpec = tabHost2.newTabSpec(AUDIO_SPEC);
-                            Intent AudioIntent = new Intent(ProfileView.this, PortfolioAudio.class);
-                            AudioIntent.putExtra("user_id", uid);
-                            AudioIntent.putExtra("portfolio_audio", String.valueOf(portfolio_audio));
-
-                            if (audio_count > 0 || db_id.equals(uid)) {
-                                AudioSpec.setContent(AudioIntent);
-                                AudioSpec.setIndicator("", getResources().getDrawable(R.drawable.audiotab));
-                                tabHost2.addTab(AudioSpec);
-                            }
-                            // portfolio file
-                            JSONArray portfolio_doc = user.getJSONArray("portfolio_doc");
-                            int document_count = portfolio_doc.length();
-                            Log.e(TAG, "portdoccount: " + document_count);
-                            TabHost.TabSpec FileSpec = tabHost2.newTabSpec(FILE_SPEC);
-                            Intent FileIntent = new Intent(ProfileView.this, PortfolioFile.class);
-                            FileIntent.putExtra("user_id", uid);
-                            FileIntent.putExtra("portfolio_doc", String.valueOf(portfolio_doc));
-                            Log.e(TAG, "docCheck1: " + portfolio_doc);
-
-                            if (document_count > 0 || db_id.equals(uid)) {
-                                FileSpec.setContent(FileIntent);
-                                FileSpec.setIndicator("", getResources().getDrawable(R.drawable.texttab));
-                                tabHost2.addTab(FileSpec);
-                            }
-                            // portfolio link
-                            JSONArray portfolio_link = user.getJSONArray("portfolio_link");
-                            int link_count = portfolio_link.length();
-                            TabHost.TabSpec OtherSpec = tabHost2.newTabSpec(OTHER_SPEC);
-                            Intent OtherIntent = new Intent(ProfileView.this, OtherFile.class);
-                            OtherIntent.putExtra("user_id", uid);
-                            OtherIntent.putExtra("portfolio_link", String.valueOf(portfolio_link));
-                            Log.e(TAG, "linkCheck1: " + portfolio_link);
-
-
-                            if (link_count > 0 || db_id.equals(uid)) {
-                                OtherSpec.setContent(OtherIntent);
-                                OtherSpec.setIndicator("", getResources().getDrawable(R.drawable.linktab));
-                                tabHost2.addTab(OtherSpec);
-                            }
-
-                            if (image_count == 0 && video_count == 0 && audio_count == 0 && document_count == 0 && link_count == 0 && !db_id.equals(uid)) {
-                                noPortfolio.setVisibility(View.VISIBLE);
-                                Log.e(TAG, "tabempty ");
-                                ImagesSpec.setIndicator("", getResources().getDrawable(R.drawable.phototab));
-                                ImagesSpec.setContent(imagesIntent);
-                                tabHost2.addTab(ImagesSpec);
-                            } else {
-                                noPortfolio.setVisibility(View.GONE);
-                            }
-                        }
-
-                        if (db_id.equals(uid)) {
-                            fab.setVisibility(View.VISIBLE);
-                        }
-
-                        String review = user.getString("review");
-                        TabHost.TabSpec reviewSpec = tabHost3.newTabSpec(REVIEW_SPEC);
-                        Intent reviewIntent = new Intent(ProfileView.this, PortfolioReview.class);
-                        reviewIntent.putExtra("review", review);
-                        reviewIntent.putExtra("user_id", uid);
-                        Log.e(TAG, "reviewCheck: " + review);
-                        reviewSpec.setIndicator(REVIEW_SPEC);
-                        reviewSpec.setContent(reviewIntent);
-                        tabHost3.addTab(reviewSpec);
-                        //  tabHost3.getTabWidget().getChildAt(tabHost1.getCurrentTab()).getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
-
-                        JSONArray jsonArray = null;
-                        try {
-                            jsonArray = new JSONArray(review);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        int count = jsonArray.length();
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject jsonObject = null;
+                            JSONArray jsonArray = null;
                             try {
-                                jsonObject = jsonArray.getJSONObject(i);
+                                jsonArray = new JSONArray(review);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                            int count = jsonArray.length();
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject = null;
+                                try {
+                                    jsonObject = jsonArray.getJSONObject(i);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
 
-                            TextView tv = new TextView(getApplicationContext());
+                                TextView tv = new TextView(getApplicationContext());
 
-                            try {
-                                tv.setText(jsonObject.getString("review"));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                                try {
+                                    tv.setText(jsonObject.getString("review"));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
+                            Log.e("review_count", String.valueOf(count));
+
+
+                            review_count.setText("(" + count + " Reviews)");
+
+                            String description = user.getString("description");
+                            TabHost.TabSpec descriptionSpec = tabHost.newTabSpec(description_spec);
+                            Intent descrptionIntent = new Intent(ProfileView.this, Description.class);
+                            descrptionIntent.putExtra("description", description);
+                            descrptionIntent.putExtra("user_id", uid);
+                            descriptionSpec.setIndicator(description_spec);
+                            descriptionSpec.setContent(descrptionIntent);
+                            tabHost.addTab(descriptionSpec);
+
+                            String services = user.getString("services");
+                            TabHost.TabSpec servicesSpec = tabHost.newTabSpec(service_spec);
+                            Intent serviceIntent = new Intent(ProfileView.this, Services.class);
+                            serviceIntent.putExtra("services", services);
+                            serviceIntent.putExtra("user_id", uid);
+                            servicesSpec.setIndicator(service_spec);
+                            servicesSpec.setContent(serviceIntent);
+                            tabHost.addTab(servicesSpec);
+
+                            final String finalProfile_url1 = profile_url;
+
+                            final String finalName1 = name;
+
+                            fab.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent myintent = new Intent(Intent.ACTION_SEND);
+                                    myintent.setType("text/plain");
+                                    String shareBody = "http://www.bawabba.com/" + finalProfile_url1;
+                                    String shareSub = finalName1;
+                                    myintent.putExtra(Intent.EXTRA_SUBJECT, shareSub);
+                                    myintent.putExtra(Intent.EXTRA_TEXT, shareBody);
+                                    startActivity(Intent.createChooser(myintent, "Share Using"));
+                                }
+                            });
+
+                            txtName.setText(name);
+                            txtLocation.setText(location);
+                            txtName.requestFocusFromTouch();
+
+                            Glide.with(getApplicationContext())   // pass Context
+                                    .load(profile_image)    // pass the image url
+                                    .transform(new CircleTransform(getApplicationContext()))
+                                    .into(txtImage);
+                        } else {
+                            String errorMsg = jObj.getString("error_msg");
+                            Toast.makeText(getApplicationContext(),
+                                    errorMsg, Toast.LENGTH_LONG).show();
                         }
-                        Log.e("review_count", String.valueOf(count));
-
-
-                        review_count.setText("(" + count + " Reviews)");
-
-                        String description = user.getString("description");
-                        TabHost.TabSpec descriptionSpec = tabHost.newTabSpec(description_spec);
-                        Intent descrptionIntent = new Intent(ProfileView.this, Description.class);
-                        descrptionIntent.putExtra("description", description);
-                        descrptionIntent.putExtra("user_id", uid);
-                        descriptionSpec.setIndicator(description_spec);
-                        descriptionSpec.setContent(descrptionIntent);
-                        tabHost.addTab(descriptionSpec);
-
-                        String services = user.getString("services");
-                        TabHost.TabSpec servicesSpec = tabHost.newTabSpec(service_spec);
-                        Intent serviceIntent = new Intent(ProfileView.this, Services.class);
-                        serviceIntent.putExtra("services", services);
-                        serviceIntent.putExtra("user_id", uid);
-                        servicesSpec.setIndicator(service_spec);
-                        servicesSpec.setContent(serviceIntent);
-                        tabHost.addTab(servicesSpec);
-
-                        final String finalProfile_url1 = profile_url;
-
-                        final String finalName1 = name;
-
-                        fab.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent myintent = new Intent(Intent.ACTION_SEND);
-                                myintent.setType("text/plain");
-                                String shareBody = "http://www.bawabba.com/" + finalProfile_url1;
-                                String shareSub = finalName1;
-                                myintent.putExtra(Intent.EXTRA_SUBJECT, shareSub);
-                                myintent.putExtra(Intent.EXTRA_TEXT, shareBody);
-                                startActivity(Intent.createChooser(myintent, "Share Using"));
-                            }
-                        });
-
-                        txtName.setText(name);
-                        txtLocation.setText(location);
-                        txtName.requestFocusFromTouch();
-
-                        Glide.with(getApplicationContext())   // pass Context
-                                .load(profile_image)    // pass the image url
-                                .transform(new CircleTransform(getApplicationContext()))
-                                .into(txtImage);
-                    } else {
-                        String errorMsg = jObj.getString("error_msg");
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
+                    } catch (JSONException e) {
+                        // JSON error
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    // JSON error
-                    e.printStackTrace();
+
                 }
-
             }
-
-        }, new Response.ErrorListener() {
 
             @Override
-            public void onErrorResponse(VolleyError error) {
-
-//                Intent i3=new Intent(ProfileView.this,Internetconnection.class);
-//                i3.putExtra("current_class", "Loginactivity");
-//                Log.e(TAG, "Login Error: " + error.getMessage());
-//                Toast.makeText(getApplicationContext(),
-//                        "Please connect to internet", Toast.LENGTH_LONG).show();
-//                startActivity(i3);
-//                finish();
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
 
             }
-        })
-
-        {
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting parameters to profile url
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("user_id", uid);
-                params.put("db_id", (db_id != null) ? db_id : "no");
-                return params;
-            }
-
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map headers = new HashMap();
-                headers.put("Client-Service", "app-client");
-                headers.put("Auth-Key", "123321");
-                return headers;
-            }
-
-        };
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+        });
     }
+
+//    private void profidleuser(final String uid) {
+//        String tag_string_req = "req_profile";
+//        Log.e(TAG, "Profile Responsescheck: " + uid);
+//        HashMap<String, String> user = db.getUserDetails();
+//        final String db_id = (user.get("uid") == null) ? "null" : user.get("uid");
+//        Log.e("uidcheck", db_id);
+//        final Dialog dialog = ObjectFactory.getInstance().getUtils(ProfileView.this).showLoadingDialog(ProfileView.this);
+//        dialog.show();
+//
+//        StringRequest strReq = new StringRequest(Request.Method.POST,
+//                AppConfig.URL_PROFILE, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//                dialog.dismiss();
+//                try {
+//                    swipe.setRefreshing(false);
+//
+//                } catch (Exception e) {
+//                }
+//                Log.e(TAG, "Profile Responses: " + response.toString());
+//                Profileresponse profileresponse = new Gson().fromJson(response, Profileresponse.class);
+//                ObjectFactory.getInstance().getAppPreference(getApplicationContext()).setProfileResponse(response);
+//
+//                try {
+//                    JSONObject jObj = new JSONObject(response);
+//                    boolean error = jObj.getBoolean("error");
+//                    if (!error) {
+//                        JSONObject user = jObj.getJSONObject("UserData");
+//                        //  Log.e("profile image", String.valueOf(user));
+//                        String profile_image = user.getString("profile_img");
+//                        String name = user.getString("name");
+//                        String dob = (user.getString("dob") != "null") ? user.getString("dob") : "";
+//                        String contactnumber = (user.getString("phone") != "null") ? user.getString("phone") : "";
+//                        String location = user.getString("location");
+//                        String profile_url = user.getString("profile_url");
+//                        final String role = user.getString("role");
+//                        final String category = user.getString("category");
+//                        final String gender = user.getString("gender");
+//                        final String verify = user.getString("verify");
+//
+//                        if (verify.matches("0")) {
+//                            user_button.setVisibility(View.VISIBLE);
+//                        } else {
+//                            user_button.setVisibility(View.GONE);
+//                        }
+//                        Log.e("check ver", verify);
+//                        final String finalProfile_image1 = profile_image;
+//                        fabSetting.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                Intent to_prof_settings = new Intent(ProfileView.this, Profile_settings.class);
+//                                to_prof_settings.putExtra("verify", verify);
+//                                to_prof_settings.putExtra("profile_img", finalProfile_image1);
+//                                startActivity(to_prof_settings);
+////                                 finish();
+//                            }
+//                        });
+//                        Log.e("role", role);
+//                        final String finalProfile_image = profile_image;
+//                        final String finalName = name;
+//                        final String finalDob = dob;
+//                        final String finalContactnumber = contactnumber;
+//                        final String finalLocation = location;
+//                        final String finalProfile_url = profile_url;
+//
+//                        editReview.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                Intent to_edit_review = new Intent(ProfileView.this, Edit_Review_Postedbyme.class);
+//                                startActivity(to_edit_review);
+//                            }
+//                        });
+//
+//                        editdetails.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                Intent to_editdetails = new Intent(ProfileView.this, EditDetails.class);
+//                                to_editdetails.putExtra("user_id", uid);
+//                                to_editdetails.putExtra("profile_img", finalProfile_image);
+//                                to_editdetails.putExtra("name", finalName);
+//                                to_editdetails.putExtra("dob", finalDob);
+//                                to_editdetails.putExtra("phone", finalContactnumber);
+//                                to_editdetails.putExtra("location", finalLocation);
+//                                to_editdetails.putExtra("profile_url", finalProfile_url);
+//                                to_editdetails.putExtra("gender", gender);
+//                                startActivity(to_editdetails);
+//                                //   finish();
+//                            }
+//                        });
+//
+//                        if (role.equals("Hirer")) {
+//
+//                            profile_image = user.getString("profile_img");
+//                            name = user.getString("name");
+//                            dob = (user.getString("dob") != "null") ? user.getString("dob") : "";
+//                            contactnumber = (user.getString("phone") != "null") ? user.getString("phone") : "";
+//                            location = user.getString("location");
+//                            profile_url = user.getString("profile_url");
+//                            Log.e("role", "hirercheck");
+//                            tabHost.setVisibility(View.GONE);
+//                            tabHost1.setVisibility(View.GONE);
+//                            tabHost2.setVisibility(View.GONE);
+//                            tabHost3.setVisibility(View.GONE);
+//                            tabHost4.setVisibility(View.VISIBLE);
+//                            editReview_by_me.setVisibility(View.GONE);
+//                            noPortfolio.setVisibility(View.GONE);
+//                            fabMessage.setVisibility(View.GONE);
+//                            fab.setVisibility(View.GONE);
+//                            String reviewbyme = user.getString("review_by_me");
+//                            TabHost.TabSpec review_by_me = tabHost4.newTabSpec(REVIEWBY_ME_SPEC);
+//                            Intent review_by_me_Intent = new Intent(ProfileView.this, Edit_reviewpostedbyhirer.class);
+//                            review_by_me_Intent.putExtra("review_by_me", reviewbyme);
+//                            review_by_me_Intent.putExtra("user_id", uid);
+//                            Log.e(TAG, "reviewCheck: " + reviewbyme);
+//                            review_by_me.setIndicator(REVIEWBY_ME_SPEC);
+//                            review_by_me.setContent(review_by_me_Intent);
+//                            tabHost4.addTab(review_by_me);
+//                            noPortfolio.setVisibility(View.GONE);
+//
+//
+//                        } else {
+//                            // tabHost4.setVisibility(View.GONE);
+//                            //skills
+//                            TabWidget widget = tabHost1.getTabWidget();
+//                            String skills = user.getString("skills");
+//                            TabHost.TabSpec skillSpec = tabHost1.newTabSpec(SKILL_SPEC);
+//                            Intent skillIntent = new Intent(ProfileView.this, SkillTab.class);
+//                            skillIntent.putExtra("skills", skills);
+//                            skillIntent.putExtra("user_id", uid);
+//                            skillIntent.putExtra("category", category);
+//                            skillSpec.setIndicator(SKILL_SPEC);
+//                            skillSpec.setContent(skillIntent);
+//                            tabHost1.addTab(skillSpec);
+////                            review_post.setVisibility(View.GONE);
+////                            post_review.setVisibility(View.GONE);
+////                            underline.setVisibility(View.GONE);
+//                            //  rvReviews_hire.setVisibility(View.GONE);
+//
+//
+////                            for(int i = 0; i < widget.getChildCount(); i++) {
+////                                View v = widget.getChildAt(i);
+////
+////                                // Look for the title view to ensure this is an indicator and not a divider.
+////                                TextView tv = (TextView)v.findViewById(android.R.id.title);
+////                                if(tv == null) {
+////                                    continue;
+////                                }
+////                                v.setBackgroundResource(R.drawable.tab_selected_holo);
+////                            }
+//
+//
+////
+////                            for (int i = 0; i < widget.getChildCount(); i++){
+////
+////
+////
+////                                tabHost1.getTabWidget().getChildAt(tabHost1.getCurrentTab()).getBackground().setColorFilter(Color.BLUE, PorterDuff.Mode.MULTIPLY);
+////
+////                            }
+//
+//                            // language
+//
+//                            String language = user.getString("language");
+//                            TabHost.TabSpec languageSpec = tabHost1.newTabSpec(LANGUAGE_SPEC);
+//                            Intent languageIntent = new Intent(ProfileView.this, LanguageTab.class);
+//                            languageIntent.putExtra("language", language);
+//                            languageIntent.putExtra("user_id", uid);
+//                            languageSpec.setIndicator(LANGUAGE_SPEC);
+//                            languageSpec.setContent(languageIntent);
+//                            tabHost1.addTab(languageSpec);
+//                            //tabHost1.getTabWidget().getChildAt(tabHost1.getCurrentTab()).getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+//
+//                            //    social media
+//
+//                            String socialmedia = user.getString("socialmedia");
+//                            TabHost.TabSpec socialmediaSpec = tabHost1.newTabSpec(SOCIALMEDIA_SPEC);
+//                            Intent socialmediaIntent = new Intent(ProfileView.this, SocialMedia.class);
+//                            socialmediaIntent.putExtra("socialmedia", socialmedia);
+//                            socialmediaIntent.putExtra("user_id", uid);
+//                            Log.e(TAG, "mediaCheck: " + socialmedia);
+//                            socialmediaSpec.setIndicator(SOCIALMEDIA_SPEC);
+//                            socialmediaSpec.setContent(socialmediaIntent);
+//                            tabHost1.addTab(socialmediaSpec);
+////                            tabHost1.getTabWidget().getChildAt(tabHost1.getCurrentTab()).getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+//
+//
+//                            // portfolio image
+//                            JSONArray portfolio_image = user.getJSONArray("portfolio_image");
+//                            int image_count = portfolio_image.length();
+//                            TabHost.TabSpec ImagesSpec = tabHost2.newTabSpec(IMAGES_SPEC);
+//                            Intent imagesIntent = new Intent(ProfileView.this, PortfolioImage.class);
+//                            imagesIntent.putExtra("user_id", uid);
+//                            imagesIntent.putExtra("portfolio_image", String.valueOf(portfolio_image));
+//
+//                            if (image_count > 0 || db_id.equals(uid)) {
+//                                ImagesSpec.setIndicator("", getResources().getDrawable(R.drawable.phototab));
+//                                ImagesSpec.setContent(imagesIntent);
+//                                tabHost2.addTab(ImagesSpec);
+//                            }
+//
+//                            // portfolio video
+//                            JSONArray portfolio_video = user.getJSONArray("portfolio_video");
+//                            int video_count = portfolio_video.length();
+//                            Log.e(TAG, "videoCheck1: " + portfolio_video);
+//                            TabHost.TabSpec VideoSpec = tabHost2.newTabSpec(VIDEOS_SPEC);
+//                            Intent VideoIntent = new Intent(ProfileView.this, PortfolioVideo.class);
+//                            VideoIntent.putExtra("user_id", uid);
+//                            VideoIntent.putExtra("portfolio_video", String.valueOf(portfolio_video));
+//
+//                            if (video_count > 0 || db_id.equals(uid)) {
+//                                VideoSpec.setContent(VideoIntent);
+//                                VideoSpec.setIndicator("", getResources().getDrawable(R.drawable.videotab));
+//                                tabHost2.addTab(VideoSpec);
+//                            }
+//
+//                            // portfolio audio
+//
+//                            JSONArray portfolio_audio = user.getJSONArray("portfolio_audio");
+//                            int audio_count = portfolio_audio.length();
+//                            TabHost.TabSpec AudioSpec = tabHost2.newTabSpec(AUDIO_SPEC);
+//                            Intent AudioIntent = new Intent(ProfileView.this, PortfolioAudio.class);
+//                            AudioIntent.putExtra("user_id", uid);
+//                            AudioIntent.putExtra("portfolio_audio", String.valueOf(portfolio_audio));
+//
+//                            if (audio_count > 0 || db_id.equals(uid)) {
+//                                AudioSpec.setContent(AudioIntent);
+//                                AudioSpec.setIndicator("", getResources().getDrawable(R.drawable.audiotab));
+//                                tabHost2.addTab(AudioSpec);
+//                            }
+//                            // portfolio file
+//                            JSONArray portfolio_doc = user.getJSONArray("portfolio_doc");
+//                            int document_count = portfolio_doc.length();
+//                            Log.e(TAG, "portdoccount: " + document_count);
+//                            TabHost.TabSpec FileSpec = tabHost2.newTabSpec(FILE_SPEC);
+//                            Intent FileIntent = new Intent(ProfileView.this, PortfolioFile.class);
+//                            FileIntent.putExtra("user_id", uid);
+//                            FileIntent.putExtra("portfolio_doc", String.valueOf(portfolio_doc));
+//                            Log.e(TAG, "docCheck1: " + portfolio_doc);
+//
+//                            if (document_count > 0 || db_id.equals(uid)) {
+//                                FileSpec.setContent(FileIntent);
+//                                FileSpec.setIndicator("", getResources().getDrawable(R.drawable.texttab));
+//                                tabHost2.addTab(FileSpec);
+//                            }
+//                            // portfolio link
+//                            JSONArray portfolio_link = user.getJSONArray("portfolio_link");
+//                            int link_count = portfolio_link.length();
+//                            TabHost.TabSpec OtherSpec = tabHost2.newTabSpec(OTHER_SPEC);
+//                            Intent OtherIntent = new Intent(ProfileView.this, OtherFile.class);
+//                            OtherIntent.putExtra("user_id", uid);
+//                            OtherIntent.putExtra("portfolio_link", String.valueOf(portfolio_link));
+//                            Log.e(TAG, "linkCheck1: " + portfolio_link);
+//
+//
+//                            if (link_count > 0 || db_id.equals(uid)) {
+//                                OtherSpec.setContent(OtherIntent);
+//                                OtherSpec.setIndicator("", getResources().getDrawable(R.drawable.linktab));
+//                                tabHost2.addTab(OtherSpec);
+//                            }
+//
+//                            if (image_count == 0 && video_count == 0 && audio_count == 0 && document_count == 0 && link_count == 0 && !db_id.equals(uid)) {
+//                                noPortfolio.setVisibility(View.VISIBLE);
+//                                Log.e(TAG, "tabempty ");
+//                                ImagesSpec.setIndicator("", getResources().getDrawable(R.drawable.phototab));
+//                                ImagesSpec.setContent(imagesIntent);
+//                                tabHost2.addTab(ImagesSpec);
+//                            } else {
+//                                noPortfolio.setVisibility(View.GONE);
+//                            }
+//                        }
+//
+//                        if (db_id.equals(uid)) {
+//                            fab.setVisibility(View.VISIBLE);
+//                        }
+//
+//                        String review = user.getString("review");
+//                        TabHost.TabSpec reviewSpec = tabHost3.newTabSpec(REVIEW_SPEC);
+//                        Intent reviewIntent = new Intent(ProfileView.this, PortfolioReview.class);
+//                        reviewIntent.putExtra("review", review);
+//                        reviewIntent.putExtra("user_id", uid);
+//                        Log.e(TAG, "reviewCheck: " + review);
+//                        reviewSpec.setIndicator(REVIEW_SPEC);
+//                        reviewSpec.setContent(reviewIntent);
+//                        tabHost3.addTab(reviewSpec);
+//                        //  tabHost3.getTabWidget().getChildAt(tabHost1.getCurrentTab()).getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
+//
+//                        JSONArray jsonArray = null;
+//                        try {
+//                            jsonArray = new JSONArray(review);
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                        int count = jsonArray.length();
+//                        for (int i = 0; i < jsonArray.length(); i++) {
+//                            JSONObject jsonObject = null;
+//                            try {
+//                                jsonObject = jsonArray.getJSONObject(i);
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                            TextView tv = new TextView(getApplicationContext());
+//
+//                            try {
+//                                tv.setText(jsonObject.getString("review"));
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                        Log.e("review_count", String.valueOf(count));
+//
+//
+//                        review_count.setText("(" + count + " Reviews)");
+//
+//                        String description = user.getString("description");
+//                        TabHost.TabSpec descriptionSpec = tabHost.newTabSpec(description_spec);
+//                        Intent descrptionIntent = new Intent(ProfileView.this, Description.class);
+//                        descrptionIntent.putExtra("description", description);
+//                        descrptionIntent.putExtra("user_id", uid);
+//                        descriptionSpec.setIndicator(description_spec);
+//                        descriptionSpec.setContent(descrptionIntent);
+//                        tabHost.addTab(descriptionSpec);
+//
+//                        String services = user.getString("services");
+//                        TabHost.TabSpec servicesSpec = tabHost.newTabSpec(service_spec);
+//                        Intent serviceIntent = new Intent(ProfileView.this, Services.class);
+//                        serviceIntent.putExtra("services", services);
+//                        serviceIntent.putExtra("user_id", uid);
+//                        servicesSpec.setIndicator(service_spec);
+//                        servicesSpec.setContent(serviceIntent);
+//                        tabHost.addTab(servicesSpec);
+//
+//                        final String finalProfile_url1 = profile_url;
+//
+//                        final String finalName1 = name;
+//
+//                        fab.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                Intent myintent = new Intent(Intent.ACTION_SEND);
+//                                myintent.setType("text/plain");
+//                                String shareBody = "http://www.bawabba.com/" + finalProfile_url1;
+//                                String shareSub = finalName1;
+//                                myintent.putExtra(Intent.EXTRA_SUBJECT, shareSub);
+//                                myintent.putExtra(Intent.EXTRA_TEXT, shareBody);
+//                                startActivity(Intent.createChooser(myintent, "Share Using"));
+//                            }
+//                        });
+//
+//                        txtName.setText(name);
+//                        txtLocation.setText(location);
+//                        txtName.requestFocusFromTouch();
+//
+//                        Glide.with(getApplicationContext())   // pass Context
+//                                .load(profile_image)    // pass the image url
+//                                .transform(new CircleTransform(getApplicationContext()))
+//                                .into(txtImage);
+//                    } else {
+//                        String errorMsg = jObj.getString("error_msg");
+//                        Toast.makeText(getApplicationContext(),
+//                                errorMsg, Toast.LENGTH_LONG).show();
+//                    }
+//                } catch (JSONException e) {
+//                    // JSON error
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//
+//        }, new Response.ErrorListener() {
+//
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
+////                Intent i3=new Intent(ProfileView.this,Internetconnection.class);
+////                i3.putExtra("current_class", "Loginactivity");
+////                Log.e(TAG, "Login Error: " + error.getMessage());
+////                Toast.makeText(getApplicationContext(),
+////                        "Please connect to internet", Toast.LENGTH_LONG).show();
+////                startActivity(i3);
+////                finish();
+//
+//            }
+//        })
+//
+//        {
+//            @Override
+//            protected Map<String, String> getParams() {
+//                // Posting parameters to profile url
+//                Map<String, String> params = new HashMap<String, String>();
+//                params.put("user_id", uid);
+//                params.put("db_id", (db_id != null) ? db_id : "no");
+//                return params;
+//            }
+//
+//
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map headers = new HashMap();
+//                headers.put("Client-Service", "app-client");
+//                headers.put("Auth-Key", "123321");
+//                return headers;
+//            }
+//
+//        };
+//        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+//    }
 
     protected void onResume() {
         super.onResume();
@@ -1878,12 +2305,11 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
     }
 
     @Override
-    protected void onRestart()
-    {
+    protected void onRestart() {
         super.onRestart();
         Fragment prev = getFragmentManager().findFragmentByTag("dialog");
 
-        if(prev == null){
+        if (prev == null) {
             recreate();
         }
 
@@ -1893,6 +2319,7 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
         super.onPause();
         mlam.dispatchPause(isFinishing());
     }
+
     private void logoutUser() {
         db.deleteUsers();
         session.setLogin(false);
@@ -1900,17 +2327,18 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
         startActivity(intent);
         finish();
     }
+
     @Override
     public void onBackPressed() {
         HashMap<String, String> user = db.getUserDetails();
         final String db_id = (user.get("uid") == null) ? "null" : user.get("uid");
 
-        if(session.isLoggedIn()&&db_id.equals(userRegID))  {
+        if (session.isLoggedIn() && db_id.equals(userRegID)) {
             Intent intent = new Intent(ProfileView.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finishAffinity();
-        }else{
+        } else {
             super.onBackPressed();
         }
 
@@ -1975,7 +2403,7 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
 
     @Override
     public void sendRequestCode(String rating, float rate, String review, String imageRating) {
-        setReviewApi(rating,rate,review,imageRating);
+        setReviewApi(rating, rate, review, imageRating);
 
     }
 
@@ -2022,9 +2450,9 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
                 save.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String report_text =report_message.getText().toString();
+                        String report_text = report_message.getText().toString();
 
-                        if(report_text!=null && report_text.length()<50) {
+                        if (report_text != null && report_text.length() < 50) {
                             report_message.setBackgroundResource(R.drawable.red_alert_round);
                             Toast.makeText(ProfileView.this, "Minimum 50 characters required for message.", Toast.LENGTH_SHORT).show();
                             return;
@@ -2050,9 +2478,9 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
         });
         btn_blockuser = (Button) modalbottomsheet.findViewById(R.id.btn_blockuser);
         btn_blockuser.setText("");
-        if (QBChatService.getInstance().getPrivacyListsManager()==null){
+        if (QBChatService.getInstance().getPrivacyListsManager() == null) {
             btn_blockuser.setVisibility(View.GONE);
-        }else {
+        } else {
 
             db = new SQLiteHandler(getApplicationContext());
             HashMap<String, String> user = db.getUserDetails();
@@ -2069,9 +2497,9 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
             QBUsers.getUsersByFullName(name, pagedRequestBuilder).performAsync(new QBEntityCallback<ArrayList<QBUser>>() {
                 @Override
                 public void onSuccess(ArrayList<QBUser> qbUsers, Bundle bundle) {
-                    for (int i=0;i<qbUsers.size();i++){
-                        if (TextUtils.equals(qbUsers.get(i).getFullName(),name)){
-                            strOtherUserId=String.valueOf(qbUsers.get(0).getId());
+                    for (int i = 0; i < qbUsers.size(); i++) {
+                        if (TextUtils.equals(qbUsers.get(i).getFullName(), name)) {
+                            strOtherUserId = String.valueOf(qbUsers.get(0).getId());
                         }
                     }
                 }
@@ -2084,7 +2512,7 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
             btn_blockuser.setVisibility(View.VISIBLE);
             QBPrivacyList list = null;
             try {
-                privacyListsManager=QBChatService.getInstance().getPrivacyListsManager();
+                privacyListsManager = QBChatService.getInstance().getPrivacyListsManager();
 
                 list = privacyListsManager.getPrivacyList("public");
             } catch (SmackException.NotConnectedException e) {
@@ -2097,17 +2525,17 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
 
             List<QBPrivacyListItem> items = list.getItems();
             for (QBPrivacyListItem item : items) {
-                String id ="";
+                String id = "";
 
                 if (item.getType() == QBPrivacyListItem.Type.USER_ID &&
                         item.getValueForType().contains(id)) {
-                    if (item.isAllow()){
-                        isOtherUserBlocked=false;
+                    if (item.isAllow()) {
+                        isOtherUserBlocked = false;
                         btn_blockuser.setText("Block User");
-                    }else{
+                    } else {
 
                         btn_blockuser.setText("UnBlock User");
-                        isOtherUserBlocked=true;
+                        isOtherUserBlocked = true;
                     }
 
                 }
@@ -2130,88 +2558,133 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
         });
         dialog.show();
     }
-    public void report_abuse(final String report_text) {
 
-        db = new SQLiteHandler(getApplicationContext());
-        HashMap<String, String> user = db.getUserDetails();
-        final String user_id = user.get("uid");
-        final String token = user.get("token");
+    public void report_abuse(final String report_text) {
         Intent get_id = getIntent();
         final String profile_id = get_id.getStringExtra("reg_id");
+        Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getApplicationContext()).getApiService().reportAbuse("app-client",
+                "123321", ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getLoginToken(), ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId(),
+                ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId(), profile_id,report_text);
 
-        String tag_string_req = "req_register";
+        responseBodyCall.enqueue(new Callback<ResponseBody>() {
 
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                URL_REPORT_ABUSE, new Response.Listener<String>() {
             @Override
-            public void onResponse(String response) {
-                dialog.dismiss();
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                if (response.body() != null) {
 
-                try {
-                    JSONObject jObj = new JSONObject(response);
-                    boolean error = jObj.getBoolean("error");
-                    if (!error) {
-                        Intent to_profile = new Intent(ProfileView.this, ProfileView.class);
-                        startActivity(to_profile);
-                        finish();
-                        Toast.makeText(getApplicationContext(),
-                                "report submit successfully", Toast.LENGTH_LONG).show();
+                    try {
+                        String responseString = new String(response.body().bytes());
+                        JSONObject jObj = new JSONObject(responseString);
+                        boolean error = jObj.getBoolean("error");
+                        if (!error) {
+                            Intent to_profile = new Intent(ProfileView.this, ProfileView.class);
+                            startActivity(to_profile);
+                            finish();
+                            Toast.makeText(getApplicationContext(),
+                                    "report submit successfully", Toast.LENGTH_LONG).show();
 
-                    } else {
-                        String errorMsg = jObj.getString("error_msg");
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
+                        } else {
+                            String errorMsg = jObj.getString("error_msg");
+                            Toast.makeText(getApplicationContext(),
+                                    errorMsg, Toast.LENGTH_LONG).show();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+
                 }
             }
 
-        }, new Response.ErrorListener() {
-
             @Override
-            public void onErrorResponse(VolleyError error) {
-                dialog.dismiss();
-                Log.e(TAG, "Registration Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
-                //hideDialog();
-            }
-        }) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("user_id", user_id);
-                params.put("profile_id", profile_id);
-                params.put("message", report_text);
-                return params;
             }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map headers = new HashMap();
-                headers.put("Client-Service", "app-client");
-                headers.put("Auth-Key", "123321");
-                headers.put("Token", token);
-                headers.put("User-Id", user_id);
-                return headers;
-            }
-        };
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+        });
     }
+
+//    public void report_abuse(final String report_text) {
+//
+//        db = new SQLiteHandler(getApplicationContext());
+//        HashMap<String, String> user = db.getUserDetails();
+//        final String user_id = user.get("uid");
+//        final String token = user.get("token");
+//        Intent get_id = getIntent();
+//        final String profile_id = get_id.getStringExtra("reg_id");
+//
+//        String tag_string_req = "req_register";
+//
+//        StringRequest strReq = new StringRequest(Request.Method.POST,
+//                URL_REPORT_ABUSE, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//                dialog.dismiss();
+//
+//                try {
+//                    JSONObject jObj = new JSONObject(response);
+//                    boolean error = jObj.getBoolean("error");
+//                    if (!error) {
+//                        Intent to_profile = new Intent(ProfileView.this, ProfileView.class);
+//                        startActivity(to_profile);
+//                        finish();
+//                        Toast.makeText(getApplicationContext(),
+//                                "report submit successfully", Toast.LENGTH_LONG).show();
+//
+//                    } else {
+//                        String errorMsg = jObj.getString("error_msg");
+//                        Toast.makeText(getApplicationContext(),
+//                                errorMsg, Toast.LENGTH_LONG).show();
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//        }, new Response.ErrorListener() {
+//
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                dialog.dismiss();
+//                Log.e(TAG, "Registration Error: " + error.getMessage());
+//                Toast.makeText(getApplicationContext(),
+//                        error.getMessage(), Toast.LENGTH_LONG).show();
+//                //hideDialog();
+//            }
+//        }) {
+//
+//            @Override
+//            protected Map<String, String> getParams() {
+//                Map<String, String> params = new HashMap<String, String>();
+//                params.put("user_id", user_id);
+//                params.put("profile_id", profile_id);
+//                params.put("message", report_text);
+//                return params;
+//            }
+//
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map headers = new HashMap();
+//                headers.put("Client-Service", "app-client");
+//                headers.put("Auth-Key", "123321");
+//                headers.put("Token", token);
+//                headers.put("User-Id", user_id);
+//                return headers;
+//            }
+//        };
+//        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+//    }
+
     public void addToBlockList(String userID) {
-        qbPrivacyList=new QBPrivacyList();
+        qbPrivacyList = new QBPrivacyList();
         qbPrivacyList.setName("public");
         QBPrivacyListItem item1 = new QBPrivacyListItem();
-        if (isOtherUserBlocked){
+        if (isOtherUserBlocked) {
             item1.setType(QBPrivacyListItem.Type.USER_ID);
 
             item1.setAllow(true);
             //item1.setMutualBlock(false);
-            tinyDB.putString("blockedid","");
-        }else{
-            tinyDB.putString("blockedid",userID);
+            tinyDB.putString("blockedid", "");
+        } else {
+            tinyDB.putString("blockedid", userID);
 
             item1.setAllow(false);
 
@@ -2226,7 +2699,7 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
         qbPrivacyList.setItems(items);
 
         try {
-            privacyListsManager=QBChatService.getInstance().getPrivacyListsManager();
+            privacyListsManager = QBChatService.getInstance().getPrivacyListsManager();
 
             privacyListsManager.setPrivacyList(qbPrivacyList);
 
@@ -2254,14 +2727,15 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
             Log.e(TAG, "SmackException.NoResponseException while setting privacy list :- " + e.getMessage());
         }
 
-        if (!isOtherUserBlocked){
-            Toast.makeText(ProfileView.this,"User is Blocked now",Toast.LENGTH_LONG).show();
+        if (!isOtherUserBlocked) {
+            Toast.makeText(ProfileView.this, "User is Blocked now", Toast.LENGTH_LONG).show();
 
-        }else{
-            Toast.makeText(ProfileView.this,"User is UnBlocked now",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(ProfileView.this, "User is UnBlocked now", Toast.LENGTH_LONG).show();
         }
         dialog.dismiss();
     }
+
     private void unread_notification() {
         Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getApplicationContext()).getApiService().notification("app-client",
                 "123321",
@@ -2272,8 +2746,7 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
         responseBodyCall.enqueue(new Callback<ResponseBody>() {
 
             @Override
-            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response)
-            {
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
                 if (response.body() != null) {
                     try {
                         String responseString = new String(response.body().bytes());
@@ -2281,8 +2754,8 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
                             JSONObject jsonObject = null;
                             try {
                                 jsonObject = new JSONObject(responseString);
-                                String count=jsonObject.getString("count");
-                                if(!count.equals("0")){
+                                String count = jsonObject.getString("count");
+                                if (!count.equals("0")) {
                                     textBadgeItem.setText(count);
                                     textBadgeItem.show(false);
                                 }
@@ -2300,8 +2773,7 @@ public class ProfileView extends TabActivity implements  IConsts, ManagingDialog
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                    dialog.dismiss();
-//                    Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+
             }
         });
     }

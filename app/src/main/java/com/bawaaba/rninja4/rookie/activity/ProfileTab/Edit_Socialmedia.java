@@ -8,15 +8,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.bawaaba.rninja4.rookie.App.AppController;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.activity.ProfileView;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
+import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
 import com.bawaaba.rninja4.rookie.utils.BaseActivity;
 
 import org.json.JSONException;
@@ -25,7 +20,10 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.bawaaba.rninja4.rookie.App.AppConfig.URL_ADD_SOCIAL_MEDIA;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+
 
 public class Edit_Socialmedia extends BaseActivity implements View.OnClickListener {
 
@@ -239,63 +237,14 @@ public class Edit_Socialmedia extends BaseActivity implements View.OnClickListen
 
         Intent i1 = getIntent();
             String user_id = i1.getStringExtra("user_id");
-            edit_socialmedia(user_id, mono, twit, vimeo, website, youtube, linkedin, instagram, googleplus, github, behance, stack, bitbucket, souncloud, dribble, pinterest, facebook, otherlink);
+           edit_socialmedia(user_id, mono, twit, vimeo, website, youtube, linkedin, instagram, googleplus, github, behance, stack, bitbucket, souncloud, dribble, pinterest, facebook, otherlink);
 
 
     }
 
     private void edit_socialmedia(final String user_id, final String mono, final String twit, final String vimeo, final String website, final String youtube, final String linkedin, final String instagram, final String googleplus, final String github, final String behance, final String stack, final String bitbucket, final String souncloud, final String dribble, final String pinterest, final String facebook, final String otherlink) {
 
-        db = new SQLiteHandler(getApplicationContext());
-
-        HashMap<String, String> user = db.getUserDetails();
-        final String token = user.get("token");
-
-        String tag_string_req = "req_register";
-
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                URL_ADD_SOCIAL_MEDIA, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-
-                try {
-                    JSONObject jObj = new JSONObject(response);
-                    boolean error = jObj.getBoolean("error");
-                    if (!error) {
-                        Log.e("EDIT JSON: ", "updated");
-                        Toast.makeText(getApplicationContext(),
-                                "Your social media details have been updated successfully", Toast.LENGTH_LONG).show();
-
-                        Intent to_profile = new Intent(Edit_Socialmedia.this, ProfileView.class);
-                        startActivity(to_profile);
-                        finish();
-
-                    } else {
-                        String errorMsg = jObj.getString("error_msg");
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                Log.e(TAG, "Registration Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage() + "new", Toast.LENGTH_LONG).show();
-                //hideDialog();
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<String, String>();
 
                 params.put("user_id", user_id);
 
@@ -333,19 +282,154 @@ public class Edit_Socialmedia extends BaseActivity implements View.OnClickListen
 
                 params.put("otherurl", (otherlink.isEmpty())?"no":otherlink);
 
-                return params;
-            }
+
+
+
+        Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getApplicationContext()).getApiService().addSocialMedia("app-client",
+                "123321", ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getLoginToken(), ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId(),
+                params);
+
+        responseBodyCall.enqueue(new Callback<ResponseBody>() {
+
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map headers = new HashMap();
-                headers.put("Client-Service", "app-client");
-                headers.put("Auth-Key", "123321");
-                headers.put("Token", token);
-                headers.put("User-Id", user_id);
-                return headers;
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                if (response.body() != null) {
+                    try {
+                        String responseString = new String(response.body().bytes());
+                        JSONObject jObj = new JSONObject(responseString);
+                        boolean error = jObj.getBoolean("error");
+                        if (!error) {
+                            Log.e("EDIT JSON: ", "updated");
+                            Toast.makeText(getApplicationContext(),
+                                    "Your social media details have been updated successfully", Toast.LENGTH_LONG).show();
+
+                            Intent to_profile = new Intent(Edit_Socialmedia.this, ProfileView.class);
+                            startActivity(to_profile);
+                            finish();
+
+                        } else {
+                            String errorMsg = jObj.getString("error_msg");
+                            Toast.makeText(getApplicationContext(),
+                                    errorMsg, Toast.LENGTH_LONG).show();
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
             }
-        };
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
+
+
+//    private void edit_socialmedia(final String user_id, final String mono, final String twit, final String vimeo, final String website, final String youtube, final String linkedin, final String instagram, final String googleplus, final String github, final String behance, final String stack, final String bitbucket, final String souncloud, final String dribble, final String pinterest, final String facebook, final String otherlink) {
+//
+//        db = new SQLiteHandler(getApplicationContext());
+//
+//        HashMap<String, String> user = db.getUserDetails();
+//        final String token = user.get("token");
+//
+//        String tag_string_req = "req_register";
+//
+//        StringRequest strReq = new StringRequest(Request.Method.POST,
+//                URL_ADD_SOCIAL_MEDIA, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//
+//
+//                try {
+//                    JSONObject jObj = new JSONObject(response);
+//                    boolean error = jObj.getBoolean("error");
+//                    if (!error) {
+//                        Log.e("EDIT JSON: ", "updated");
+//                        Toast.makeText(getApplicationContext(),
+//                                "Your social media details have been updated successfully", Toast.LENGTH_LONG).show();
+//
+//                        Intent to_profile = new Intent(Edit_Socialmedia.this, ProfileView.class);
+//                        startActivity(to_profile);
+//                        finish();
+//
+//                    } else {
+//                        String errorMsg = jObj.getString("error_msg");
+//                        Toast.makeText(getApplicationContext(),
+//                                errorMsg, Toast.LENGTH_LONG).show();
+//                    }
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
+//                Log.e(TAG, "Registration Error: " + error.getMessage());
+//                Toast.makeText(getApplicationContext(),
+//                        error.getMessage() + "new", Toast.LENGTH_LONG).show();
+//                //hideDialog();
+//            }
+//        }) {
+//
+//            @Override
+//            protected Map<String, String> getParams() {
+//                Map<String, String> params = new HashMap<String, String>();
+//
+//                params.put("user_id", user_id);
+//
+//                params.put("500px", (mono.isEmpty())?"no":mono);
+//
+//                params.put("behance", (behance.isEmpty())?"no":behance);
+//
+//                params.put("facebook", (facebook.isEmpty())?"no":facebook);
+//
+//                params.put("dribbble", (dribble.isEmpty())?"no":dribble);
+//
+//                params.put("github", (github.isEmpty())?"no":github);
+//
+//                params.put("bitbucket", (bitbucket.isEmpty())?"no":bitbucket);
+//
+//                params.put("googleplus", (googleplus.isEmpty())?"no":googleplus);
+//
+//                params.put("instagram", (instagram.isEmpty())?"no":instagram);
+//
+//                params.put("linkedin", (linkedin.isEmpty())?"no":linkedin);
+//
+//                params.put("pinterest", (pinterest.isEmpty())?"no":pinterest);
+//
+//                params.put("soundcloud", (souncloud.isEmpty())?"no":souncloud);
+//
+//                params.put("stackoverflow", (stack.isEmpty())?"no":stack);
+//
+//                params.put("twitter", (twit.isEmpty())?"no":twit);
+//
+//                params.put("vimeo", (vimeo.isEmpty())?"no":vimeo);
+//
+//                params.put("youtube", (youtube.isEmpty())?"no":youtube);
+//
+//                params.put("website", (website.isEmpty())?"no":website);
+//
+//                params.put("otherurl", (otherlink.isEmpty())?"no":otherlink);
+//
+//                return params;
+//            }
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map headers = new HashMap();
+//                headers.put("Client-Service", "app-client");
+//                headers.put("Auth-Key", "123321");
+//                headers.put("Token", token);
+//                headers.put("User-Id", user_id);
+//                return headers;
+//            }
+//        };
+//        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+//    }
 }
 

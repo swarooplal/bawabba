@@ -155,7 +155,7 @@ public class AudioAddActivity  extends BaseActivity implements View.OnClickListe
                                 Toast.makeText(AudioAddActivity.this, "Successfully added.", Toast.LENGTH_SHORT).show();
                                 onBackPressed();
                             } else {
-                                Toast.makeText(AudioAddActivity.this, "Some error occurred", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AudioAddActivity.this, "1Some error occurred", Toast.LENGTH_SHORT).show();
                             }
                         }
                     } catch (IOException e) {

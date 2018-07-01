@@ -1,6 +1,5 @@
 package com.bawaaba.rninja4.rookie;
 
-import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,26 +13,26 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.bawaaba.rninja4.rookie.App.AppConfig;
-import com.bawaaba.rninja4.rookie.App.AppController;
 import com.bawaaba.rninja4.rookie.activity.SearchResult;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
+import com.bawaaba.rninja4.rookie.model.searchResult.SearchResultResponse;
+import com.google.gson.Gson;
 
 import org.apache.http.NameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 import static com.bawaaba.rninja4.rookie.utils.Constants.BASE_URL;
 
@@ -57,29 +56,27 @@ public class SkillView extends ListActivity {
     }
 
     private void searchUser(final String keyword, final String skills, final String location) {
-
         if (keyword.isEmpty() && skills.isEmpty() && location.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Please enter some values", Toast.LENGTH_LONG).show();
-        } else {
-            final Dialog dialog = ObjectFactory.getInstance().getUtils(SkillView.this).showLoadingDialog(SkillView.this);
-            dialog.show();
-            String tag_string_req = "req_search";
-            StringRequest strReq = new StringRequest(Request.Method.POST,
-                    AppConfig.URL_SEARCH, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    dialog.dismiss();
-                    Log.e(TAG, "Search Responses: " + response.toString());
+        }
+        Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getApplicationContext()).getApiService().serachUser("app-client",
+                "123321", keyword, skills, location);
 
+        responseBodyCall.enqueue(new Callback<ResponseBody>() {
+
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                if (response.body() != null) {
                     try {
-                        JSONObject jObj = new JSONObject(response);
+                        String responseString = new String(response.body().bytes());
+                        JSONObject jObj = new JSONObject(responseString);
                         boolean error = jObj.getBoolean("error");
                         if (!error) {
-                            ObjectFactory.getInstance().getAppPreference(getApplicationContext()).setSearchResult(response);
-
+                            SearchResultResponse resultResponse = new Gson().fromJson(responseString, SearchResultResponse.class);
+                            ObjectFactory.getInstance().getAppPreference(getApplicationContext()).setSearchResult(responseString);
                             JSONArray user = jObj.getJSONArray("user");
 
-                            Intent to_searchresult = new Intent(SkillView.this, SearchResult.class);
+                            Intent to_searchresult = new Intent(getApplicationContext(), SearchResult.class);
                             to_searchresult.putExtra("search_result", user.toString());
                             startActivity(to_searchresult);
 
@@ -89,36 +86,88 @@ public class SkillView extends ListActivity {
                                     errorMsg, Toast.LENGTH_LONG).show();
                         }
                     } catch (JSONException e) {
-
                         e.printStackTrace();
                         Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-//
-                }
-            }, new Response.ErrorListener() {
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    dialog.dismiss();
-                    Toast.makeText(getApplicationContext(), "No profiles are available!", Toast.LENGTH_LONG).show();
 
                 }
-            }) {
-                @Override
-                protected Map<String, String> getParams() {
-                    // Posting parameters to search url
+            }
 
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("keyword", keyword);
-                    params.put("skills", skills);
-                    params.put("location", location);
-                    return params;
-                }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-            };
-            AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
-        }
+            }
+        });
+
+
     }
+
+//    private void searchUser(final String keyword, final String skills, final String location) {
+//
+//        if (keyword.isEmpty() && skills.isEmpty() && location.isEmpty()) {
+//            Toast.makeText(getApplicationContext(), "Please enter some values", Toast.LENGTH_LONG).show();
+//        } else {
+//            final Dialog dialog = ObjectFactory.getInstance().getUtils(SkillView.this).showLoadingDialog(SkillView.this);
+//            dialog.show();
+//            String tag_string_req = "req_search";
+//            StringRequest strReq = new StringRequest(Request.Method.POST,
+//                    AppConfig.URL_SEARCH, new Response.Listener<String>() {
+//                @Override
+//                public void onResponse(String response) {
+//                    dialog.dismiss();
+//                    Log.e(TAG, "Search Responses: " + response.toString());
+//
+//                    try {
+//                        JSONObject jObj = new JSONObject(response);
+//                        boolean error = jObj.getBoolean("error");
+//                        if (!error) {
+//                            ObjectFactory.getInstance().getAppPreference(getApplicationContext()).setSearchResult(response);
+//
+//                            JSONArray user = jObj.getJSONArray("user");
+//
+//                            Intent to_searchresult = new Intent(SkillView.this, SearchResult.class);
+//                            to_searchresult.putExtra("search_result", user.toString());
+//                            startActivity(to_searchresult);
+//
+//                        } else {
+//                            String errorMsg = jObj.getString("error_msg");
+//                            Toast.makeText(getApplicationContext(),
+//                                    errorMsg, Toast.LENGTH_LONG).show();
+//                        }
+//                    } catch (JSONException e) {
+//
+//                        e.printStackTrace();
+//                        Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+//                    }
+////
+//                }
+//            }, new Response.ErrorListener() {
+//
+//                @Override
+//                public void onErrorResponse(VolleyError error) {
+//                    dialog.dismiss();
+//                    Toast.makeText(getApplicationContext(), "No profiles are available!", Toast.LENGTH_LONG).show();
+//
+//                }
+//            }) {
+//                @Override
+//                protected Map<String, String> getParams() {
+//                    // Posting parameters to search url
+//
+//                    Map<String, String> params = new HashMap<String, String>();
+//                    params.put("keyword", keyword);
+//                    params.put("skills", skills);
+//                    params.put("location", location);
+//                    return params;
+//                }
+//
+//            };
+//            AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+//        }
+//    }
+
 
     private class LoadSkill extends AsyncTask<String, String, String> {
 
@@ -146,7 +195,7 @@ public class SkillView extends ListActivity {
 
             String SUBCATEGORY_URL = null;
             try {
-                SUBCATEGORY_URL =BASE_URL+"api/user/getskills?sub_cat=" + URLEncoder.encode(subcat_name, "UTF-8");
+                SUBCATEGORY_URL = BASE_URL + "api/user/getskills?sub_cat=" + URLEncoder.encode(subcat_name, "UTF-8");
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }

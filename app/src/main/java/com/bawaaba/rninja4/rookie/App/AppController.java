@@ -21,7 +21,6 @@ import com.quickblox.sample.core.utils.ActivityLifecycle;
 
 public class AppController extends CoreApp {
     public static final String TAG = AppController.class.getSimpleName();
-
     private RequestQueue mRequestQueue;
     private static final String QB_CONFIG_DEFAULT_FILE_NAME = "qb_config.json";
     private QbConfigs qbConfigs;
@@ -30,7 +29,6 @@ public class AppController extends CoreApp {
     public static final String AUTH_KEY = "uBCnkCW-DhTpG2L";
     public static final String AUTH_SECRET = "qeHzBb7PwxrLzgX";
     public static final String ACCOUNT_KEY = "tEzfi5kzn3CAMPSVc41J";
-
     @Override
     public void onCreate() {
         super.onCreate();

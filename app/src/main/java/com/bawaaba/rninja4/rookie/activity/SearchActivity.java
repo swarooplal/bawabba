@@ -20,15 +20,9 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.ashokvarma.bottomnavigation.TextBadgeItem;
-import com.bawaaba.rninja4.rookie.App.AppConfig;
-import com.bawaaba.rninja4.rookie.App.AppController;
 import com.bawaaba.rninja4.rookie.MainActivity;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
@@ -56,7 +50,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -241,7 +234,12 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 // String skills = InputSkill.getText().toString().trim();
                 String skills = simpleMultiAutoCompleteTextView.getText().toString().trim();
                 String location = InputLocation.getText().toString().trim();
-                searchUser(keyword, skills, location);
+                if (keyword.isEmpty() && skills.isEmpty() && location.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Please provide any search condition", Toast.LENGTH_LONG).show();
+                } else {
+                    searchUser(keyword, skills, location);
+                }
+
 
             }
         });
@@ -332,28 +330,26 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    private void searchUser(final String keyword, final String skills, final String location) {
+    private void searchUser(final String keyword, final String skills, final String location){
 
-        if (keyword.isEmpty() && skills.isEmpty() && location.isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Please provide any search condition", Toast.LENGTH_LONG).show();
-        } else {
-            String tag_string_req = "req_search";
-            StringRequest strReq = new StringRequest(Request.Method.POST,
-                    AppConfig.URL_SEARCH, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.e(TAG, "Search Responses: " + response.toString());
+        Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getApplicationContext()).getApiService().serachUser("app-client",
+                "123321",keyword,skills,location);
 
+        responseBodyCall.enqueue(new Callback<ResponseBody>() {
+
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                if (response.body() != null) {
                     try {
-
-                        JSONObject jObj = new JSONObject(response);
+                        String responseString = new String(response.body().bytes());
+                        JSONObject jObj = new JSONObject(responseString);
                         boolean error = jObj.getBoolean("error");
                         if (!error) {
-                            SearchResultResponse resultResponse = new Gson().fromJson(response, SearchResultResponse.class);
-                            ObjectFactory.getInstance().getAppPreference(getApplicationContext()).setSearchResult(response);
+                            SearchResultResponse resultResponse = new Gson().fromJson(responseString, SearchResultResponse.class);
+                            ObjectFactory.getInstance().getAppPreference(getApplicationContext()).setSearchResult(responseString);
                             JSONArray user = jObj.getJSONArray("user");
 
-                            Intent to_searchresult = new Intent(SearchActivity.this, SearchResult.class);
+                            Intent to_searchresult = new Intent(getApplicationContext(), SearchResult.class);
                             to_searchresult.putExtra("search_result", user.toString());
                             startActivity(to_searchresult);
 
@@ -363,33 +359,82 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                                     errorMsg, Toast.LENGTH_LONG).show();
                         }
                     } catch (JSONException e) {
-
                         e.printStackTrace();
                         Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-//
-                }
-            }, new Response.ErrorListener() {
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getApplicationContext(), "No profiles are available!", Toast.LENGTH_LONG).show();
 
                 }
-            }) {
-                @Override
-                protected Map<String, String> getParams() {
-                    // Posting parameters to search url
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("keyword", keyword);
-                    params.put("skills", skills);
-                    params.put("location", location);
-                    return params;
-                }
-            };
-            AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
-        }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
+
     }
+
+//    private void searchbUser(final String keyword, final String skills, final String location) {
+//
+//        if (keyword.isEmpty() && skills.isEmpty() && location.isEmpty()) {
+//            Toast.makeText(getApplicationContext(), "Please provide any search condition", Toast.LENGTH_LONG).show();
+//        } else {
+//            String tag_string_req = "req_search";
+//            StringRequest strReq = new StringRequest(Request.Method.POST,
+//                    AppConfig.URL_SEARCH, new Response.Listener<String>() {
+//                @Override
+//                public void onResponse(String response) {
+//                    Log.e(TAG, "Search Responses: " + response.toString());
+//
+//                    try {
+//
+//                        JSONObject jObj = new JSONObject(response);
+//                        boolean error = jObj.getBoolean("error");
+//                        if (!error) {
+//                            SearchResultResponse resultResponse = new Gson().fromJson(response, SearchResultResponse.class);
+//                            ObjectFactory.getInstance().getAppPreference(getApplicationContext()).setSearchResult(response);
+//                            JSONArray user = jObj.getJSONArray("user");
+//
+//                            Intent to_searchresult = new Intent(SearchActivity.this, SearchResult.class);
+//                            to_searchresult.putExtra("search_result", user.toString());
+//                            startActivity(to_searchresult);
+//
+//                        } else {
+//                            String errorMsg = jObj.getString("error_msg");
+//                            Toast.makeText(getApplicationContext(),
+//                                    errorMsg, Toast.LENGTH_LONG).show();
+//                        }
+//                    } catch (JSONException e) {
+//
+//                        e.printStackTrace();
+//                        Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+//                    }
+////
+//                }
+//            }, new Response.ErrorListener() {
+//
+//                @Override
+//                public void onErrorResponse(VolleyError error) {
+//                    Toast.makeText(getApplicationContext(), "No profiles are available!", Toast.LENGTH_LONG).show();
+//
+//                }
+//            }) {
+//                @Override
+//                protected Map<String, String> getParams() {
+//                    // Posting parameters to search url
+//                    Map<String, String> params = new HashMap<String, String>();
+//                    params.put("keyword", keyword);
+//                    params.put("skills", skills);
+//                    params.put("location", location);
+//                    return params;
+//                }
+//            };
+//            AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+//        }
+//    }
 
     @Override
     public void onBackPressed() {

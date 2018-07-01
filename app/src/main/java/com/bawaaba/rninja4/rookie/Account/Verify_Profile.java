@@ -27,12 +27,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.bawaaba.rninja4.rookie.App.AppController;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
 import com.bawaaba.rninja4.rookie.helper.SessionManager;
@@ -47,14 +41,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-
-import static com.bawaaba.rninja4.rookie.App.AppConfig.URL_VERIFY_PROFILE;
 
 public class Verify_Profile extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = Verify_Profile.class.getSimpleName();
@@ -377,79 +368,124 @@ public class Verify_Profile extends AppCompatActivity implements View.OnClickLis
          }
      }
  */
-    private void verifyProfile(final String id_document, final String keycode_img) {
 
-        db = new SQLiteHandler(getApplicationContext());
 
-        HashMap<String, String> user = db.getUserDetails();
-        final String user_id = user.get("uid");
-        final String token = user.get("token");
+    private void verifyProfile(final String id_document, final String keycode_img)  {
 
-        String tag_string_req = "req_verify_profile";
+        Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getApplicationContext()).getApiService().verifyProfileDeatils("app-client",
+                "123321", ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getLoginToken(), ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId(),
+                ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId(), id_document,keycode_img);
 
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                URL_VERIFY_PROFILE, new Response.Listener<String>() {
+        responseBodyCall.enqueue(new Callback<ResponseBody>() {
 
             @Override
-            public void onResponse(String response) {
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                if (response.body() != null) {
+                    try {
+                        String responseString = new String(response.body().bytes());
+                        JSONObject jObj = new JSONObject(responseString);
+                        boolean error = jObj.getBoolean("error");
+                        if (!error) {
 
-
-                try {
-                    Log.e(TAG, response);
-                    JSONObject jObj = new JSONObject(response);
-                    boolean error = jObj.getBoolean("error");
-                    if (!error) {
-
-                        Toast.makeText(getApplicationContext(),
-                                "your profile is verified", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(),
+                                    "your profile is verified", Toast.LENGTH_LONG).show();
 
 //                                Intent to_profile = new Intent(EditDetails.this, ProfileView.class);
 //                                startActivity(to_profile);
 //                                finish();
-                    } else {
-                        String errorMsg = jObj.getString("error_msg");
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
+                        } else {
+                            String errorMsg = jObj.getString("error_msg");
+                            Toast.makeText(getApplicationContext(),
+                                    errorMsg, Toast.LENGTH_LONG).show();
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
-        }, new Response.ErrorListener() {
 
             @Override
-            public void onErrorResponse(VolleyError error) {
-
-                Log.e(TAG, "Registration Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage() + "new", Toast.LENGTH_LONG).show();
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
 
             }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-
-                params.put("user_id", user_id);
-                params.put("id_document", id_document);
-                params.put("keycode_img", keycode_img);
-                return params;
-            }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map headers = new HashMap();
-                headers.put("Client-Service", "app-client");
-                headers.put("Auth-Key", "123321");
-                headers.put("Token", token);
-                headers.put("User-Id", user_id);
-                return headers;
-            }
-        };
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+        });
     }
+//    private void verifyProfile(final String id_document, final String keycode_img) {
+//
+//        db = new SQLiteHandler(getApplicationContext());
+//
+//        HashMap<String, String> user = db.getUserDetails();
+//        final String user_id = user.get("uid");
+//        final String token = user.get("token");
+//
+//        String tag_string_req = "req_verify_profile";
+//
+//        StringRequest strReq = new StringRequest(Request.Method.POST,
+//                URL_VERIFY_PROFILE, new Response.Listener<String>() {
+//
+//            @Override
+//            public void onResponse(String response) {
+//
+//
+//                try {
+//                    Log.e(TAG, response);
+//                    JSONObject jObj = new JSONObject(response);
+//                    boolean error = jObj.getBoolean("error");
+//                    if (!error) {
+//
+//                        Toast.makeText(getApplicationContext(),
+//                                "your profile is verified", Toast.LENGTH_LONG).show();
+//
+////                                Intent to_profile = new Intent(EditDetails.this, ProfileView.class);
+////                                startActivity(to_profile);
+////                                finish();
+//                    } else {
+//                        String errorMsg = jObj.getString("error_msg");
+//                        Toast.makeText(getApplicationContext(),
+//                                errorMsg, Toast.LENGTH_LONG).show();
+//                    }
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
+//                Log.e(TAG, "Registration Error: " + error.getMessage());
+//                Toast.makeText(getApplicationContext(),
+//                        error.getMessage() + "new", Toast.LENGTH_LONG).show();
+//
+//            }
+//        }) {
+//
+//            @Override
+//            protected Map<String, String> getParams() {
+//                Map<String, String> params = new HashMap<String, String>();
+//
+//                params.put("user_id", user_id);
+//                params.put("id_document", id_document);
+//                params.put("keycode_img", keycode_img);
+//                return params;
+//            }
+//
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map headers = new HashMap();
+//                headers.put("Client-Service", "app-client");
+//                headers.put("Auth-Key", "123321");
+//                headers.put("Token", token);
+//                headers.put("User-Id", user_id);
+//                return headers;
+//            }
+//        };
+//        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+//    }
+
 
     @Override
     public void onClick(View view) {

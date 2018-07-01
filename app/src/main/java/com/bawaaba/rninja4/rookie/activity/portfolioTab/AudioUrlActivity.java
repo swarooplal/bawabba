@@ -22,8 +22,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -95,16 +93,6 @@ public class AudioUrlActivity extends AppCompatActivity implements View.OnClickL
                 post.put("title[" + i + "]", urletAddTittle.get(i).getText().toString().trim());
                 System.out.println("VideoAddActivity.addUrlsApi " + urletAddTittle.get(i).getText().toString().trim());
             }
-            RequestBody userId =
-                    RequestBody.create(
-                            MediaType.parse("multipart/form-data"), String.valueOf(ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId()));
-            RequestBody uploadType =
-                    RequestBody.create(
-                            MediaType.parse("multipart/form-data"), "url");
-
-            RequestBody table_name =
-                    RequestBody.create(
-                            MediaType.parse("multipart/form-data"), "portfolio_vid");
             final Dialog dialog = ObjectFactory.getInstance().getUtils(AudioUrlActivity.this).showLoadingDialog(AudioUrlActivity.this);
             dialog.show();
             Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(AudioUrlActivity.this).getApiService().uploadAudioUrls(
@@ -132,7 +120,7 @@ public class AudioUrlActivity extends AppCompatActivity implements View.OnClickL
                                     Toast.makeText(AudioUrlActivity.this, "Successfully added.", Toast.LENGTH_SHORT).show();
                                     onBackPressed();
                                 } else {
-                                    Toast.makeText(AudioUrlActivity.this, "Some error occurred", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AudioUrlActivity.this, jsonObject.getString("error_msg"), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         } catch (IOException e) {

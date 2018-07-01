@@ -44,6 +44,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.bawaaba.rninja4.rookie.activity.SearchResult;
+import com.bawaaba.rninja4.rookie.model.searchResult.SearchResultResponse;
 import com.bumptech.glide.Glide;
 import com.bawaaba.rninja4.rookie.App.AppController;
 import com.bawaaba.rninja4.rookie.JSONParser;
@@ -63,6 +65,8 @@ import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.gson.Gson;
 import com.yalantis.ucrop.UCrop;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -75,8 +79,10 @@ import java.util.Map;
 import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 
-import static com.bawaaba.rninja4.rookie.App.AppConfig.URL_EDIT_DETAILS;
 
 //import com.google.android.gms.location.places.Place;
 //import com.google.android.gms.location.places.ui.PlaceAutocomplete;
@@ -295,7 +301,7 @@ public class EditDetails extends BaseActivity {
                 if (!fullname.isEmpty() && !dob.isEmpty() && !phone.isEmpty()&& !profile_url.isEmpty() && !place.isEmpty() && !gender.isEmpty()) {
                     Intent from_profile = getIntent();
                     String user_id = from_profile.getStringExtra("user_id");
-                    editdetailsUser(user_id, fullname, dob, phone, profile_url, place, image, gender);
+                    editdetailsUser(user_id,image,fullname, dob, phone, profile_url, place, gender);
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Please enter your details!", Toast.LENGTH_SHORT)
@@ -555,85 +561,133 @@ public class EditDetails extends BaseActivity {
         return encodedImage;
     }
 
-    private void editdetailsUser(final String user_id, final String fullname, final String dob, final String phone, final String profile_url, final String place, final String image, final String gender) {
-
+    private void editdetailsUser(final String user_id, final String image, final String fullname, final String dob, final String phone, final String profile_url, final String place, final String gender) {
         final Dialog dialog = ObjectFactory.getInstance().getUtils(EditDetails.this).showLoadingDialog(EditDetails.this);
         dialog.show();
 
-        db = new SQLiteHandler(getApplicationContext());
+        Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getApplicationContext()).getApiService().editUserDeatils("app-client",
+                "123321", ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getLoginToken(), ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId(),
+                user_id,image,fullname,dob,phone,profile_url,place,gender);
 
-        HashMap<String, String> user = db.getUserDetails();
-        final String token = user.get("token");//token value after the user logedin
-
-        String tag_string_req = "req_register";
-
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                URL_EDIT_DETAILS, new Response.Listener<String>() {
+        responseBodyCall.enqueue(new Callback<ResponseBody>() {
 
             @Override
-            public void onResponse(String response) {
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                if (response.body() != null) {
+                    dialog.dismiss();
+                    try {
+                        String responseString = new String(response.body().bytes());
+                        JSONObject jObj = new JSONObject(responseString);
+                        boolean error = jObj.getBoolean("error");
+                        if (!error) {
+                            Toast.makeText(getApplicationContext(),
+                                    "Your details have been updated successfully", Toast.LENGTH_SHORT).show();
 
+                            Intent to_profile = new Intent(EditDetails.this, ProfileView.class);
+                            startActivity(to_profile);
+                            finish();
+                        }else {
+                            String errorMsg = jObj.getString("error_msg");
+                            Toast.makeText(getApplicationContext(),
+                                    errorMsg, Toast.LENGTH_LONG).show();
+                            dialog.dismiss();
+                        }
 
-                try {
-                    Log.e(TAG, response);
-                    JSONObject jObj = new JSONObject(response);
-                    boolean error = jObj.getBoolean("error");
-                    if (!error) {
-                        Toast.makeText(getApplicationContext(),
-                                "Your details have been updated successfully", Toast.LENGTH_SHORT).show();
-
-                        Intent to_profile = new Intent(EditDetails.this, ProfileView.class);
-                        startActivity(to_profile);
-                        finish();
-                    }else {
-                        String errorMsg = jObj.getString("error_msg");
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
-                        dialog.dismiss();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
-        }, new Response.ErrorListener() {
 
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-                Log.e(TAG, "Registration Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
-                //hideDialog();
             }
-        }) {
+        });
 
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("user_id", user_id);
-                params.put("profile_img", image);
-                params.put("fullname", fullname);
-                params.put("dob", dob);
-                params.put("phone", phone);
-                params.put("profile_url", profile_url);
-                params.put("location", place);
-                params.put("gender", gender);
-                return params;
-            }
 
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map headers = new HashMap();
-                headers.put("Client-Service", "app-client");
-                headers.put("Auth-Key", "123321");
-                headers.put("Token", token);
-                headers.put("User-Id", user_id);
-                return headers;
-            }
-        };
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
+
+//    private void editdetailmsUser(final String user_id, final String fullname, final String dob, final String phone, final String profile_url, final String place, final String image, final String gender) {
+//
+//        final Dialog dialog = ObjectFactory.getInstance().getUtils(EditDetails.this).showLoadingDialog(EditDetails.this);
+//        dialog.show();
+//
+//        db = new SQLiteHandler(getApplicationContext());
+//
+//        HashMap<String, String> user = db.getUserDetails();
+//        final String token = user.get("token");//token value after the user logedin
+//
+//        String tag_string_req = "req_register";
+//
+//        StringRequest strReq = new StringRequest(Request.Method.POST,
+//                URL_EDIT_DETAILS, new Response.Listener<String>() {
+//
+//            @Override
+//            public void onResponse(String response) {
+//
+//
+//                try {
+//                    Log.e(TAG, response);
+//                    JSONObject jObj = new JSONObject(response);
+//                    boolean error = jObj.getBoolean("error");
+//                    if (!error) {
+//                        Toast.makeText(getApplicationContext(),
+//                                "Your details have been updated successfully", Toast.LENGTH_SHORT).show();
+//
+//                        Intent to_profile = new Intent(EditDetails.this, ProfileView.class);
+//                        startActivity(to_profile);
+//                        finish();
+//                    }else {
+//                        String errorMsg = jObj.getString("error_msg");
+//                        Toast.makeText(getApplicationContext(),
+//                                errorMsg, Toast.LENGTH_LONG).show();
+//                        dialog.dismiss();
+//                    }
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
+//                Log.e(TAG, "Registration Error: " + error.getMessage());
+//                Toast.makeText(getApplicationContext(),
+//                        error.getMessage(), Toast.LENGTH_LONG).show();
+//                //hideDialog();
+//            }
+//        }) {
+//
+//            @Override
+//            protected Map<String, String> getParams() {
+//                Map<String, String> params = new HashMap<String, String>();
+//                params.put("user_id", user_id);
+//                params.put("profile_img", image);
+//                params.put("fullname", fullname);
+//                params.put("dob", dob);
+//                params.put("phone", phone);
+//                params.put("profile_url", profile_url);
+//                params.put("location", place);
+//                params.put("gender", gender);
+//                return params;
+//            }
+//
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map headers = new HashMap();
+//                headers.put("Client-Service", "app-client");
+//                headers.put("Auth-Key", "123321");
+//                headers.put("Token", token);
+//                headers.put("User-Id", user_id);
+//                return headers;
+//            }
+//        };
+//        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+//    }
 
     /*my edits*/
 
