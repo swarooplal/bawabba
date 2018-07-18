@@ -59,7 +59,9 @@ public class ActivitySearchSetSkills extends AppCompatActivity {
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+
                 if (isMultiSelect){
+
                     //if multiple selection is enabled then select item on single click else perform normal click on item.
                     multiSelect(position);
                 }

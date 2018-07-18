@@ -14,13 +14,13 @@ public class Data {
 
         int[] images={
 
-                R.drawable.accounting_bawaba, R.drawable.program_bawabba, R.drawable.architecture_bawaba,
-                R.drawable.arts_bawaba, R.drawable.beauty_bawaba, R.drawable.child_bawaba,
-                R.drawable.cleaning_bawaba, R.drawable.consultant_bawaba, R.drawable.design_bawaba,
-                R.drawable.digital_bawaba, R.drawable.events_bawaba, R.drawable.food_bawaba,
-                R.drawable.health_bawaba, R.drawable.education_bawaba, R.drawable.marketing_bawaba,
-                R.drawable.music_bawaba, R.drawable.sports_bawaba, R.drawable.travel_bawaba,
-                R.drawable.photo_bawaba, R.drawable.writer_bawaba,
+                R.drawable.ic_accounting_and_legal, R.drawable.ic_programming, R.drawable.ic_architect_and_engineering,
+                R.drawable.ic_art_and_craft, R.drawable.ic_beauty_and_skincare, R.drawable.ic_child_and_pet,
+                R.drawable.ic_cleaning_maintainance_moving, R.drawable.ic_consultants, R.drawable.ic_fashion_designers,
+                R.drawable.ic_digital_designers, R.drawable.ic_event_entertainment, R.drawable.ic_food_beverage,
+                R.drawable.ic_health_wellbeing, R.drawable.ic_hobby_academics, R.drawable.ic_marketing,
+                R.drawable.ic_music_, R.drawable.ic_sports_coaching, R.drawable.ic_travel_and_tourism,
+                R.drawable.ic_photographers_and_videographers, R.drawable.ic_writers_and_translators,
 
 
         };

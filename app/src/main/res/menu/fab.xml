@@ -3,12 +3,12 @@
     <item
         android:id="@+id/one"
         android:title="Sign up with LinkedIn"
-        android:icon="@drawable/linkedin_new"
+        android:icon="@drawable/ic_linkedin"
         android:orderInCategory="1"/>
     <item
         android:id="@+id/two"
         android:title="Sign up with FaceBook"
-        android:icon="@drawable/facebook"
+        android:icon="@drawable/ic_facebook"
         android:orderInCategory="2"/>
 
 </menu>

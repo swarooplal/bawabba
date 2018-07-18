@@ -14,24 +14,19 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.bawaaba.rninja4.rookie.App.AppController;
 import com.bawaaba.rninja4.rookie.JSONParser;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.activity.ProfileView;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
+import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
 import com.bawaaba.rninja4.rookie.utils.BaseActivity;
 
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 
-import static com.bawaaba.rninja4.rookie.App.AppConfig.URL_EDIT_DESCRIPTION;
 
 public class EditDescription extends BaseActivity implements View.OnClickListener  {
 
@@ -144,74 +139,117 @@ public class EditDescription extends BaseActivity implements View.OnClickListene
         }
     }
 
-    private void editdescUser(final String user_id, final String descrption) {
-        db = new SQLiteHandler(getApplicationContext());
+    private void editdescUser(final String user_id, final String descrption){
 
-        HashMap<String, String> user = db.getUserDetails();
-        final String token = user.get("token");//token value after the user logedin
+        Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getApplicationContext()).getApiService().editDescription("app-client",
+                "123321",ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getLoginToken(), ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId(),user_id,descrption);
 
-        String tag_string_req = "req_register";
+        responseBodyCall.enqueue(new Callback<ResponseBody>() {
 
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                URL_EDIT_DESCRIPTION, new Response.Listener<String>() {
             @Override
-            public void onResponse(String response) {
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                if (response.body() != null) {
+                    try {
+                        String responseString = new String(response.body().bytes());
+                        JSONObject jObj = new JSONObject(responseString);
+                        boolean error = jObj.getBoolean("error");
+                        if (!error) {
+                            Log.e("EDIT JSON: ", "updated");
+                            Toast.makeText(getApplicationContext(),
+                                    "Your description has been updated successfully", Toast.LENGTH_LONG).show();
 
+                            Intent to_profile = new Intent(EditDescription.this, ProfileView.class);
+                            startActivity(to_profile);
+                            finish();
+                        }else{
+                            String errorMsg = jObj.getString("error_msg");
+                            Toast.makeText(getApplicationContext(),
+                                    errorMsg, Toast.LENGTH_LONG).show();
+                        }
 
-                try {
-                    JSONObject jObj = new JSONObject(response);
-                    boolean error = jObj.getBoolean("error");
-                    if (!error) {
-                        Log.e("EDIT JSON: ", "updated");
-                        Toast.makeText(getApplicationContext(),
-                                "Your description has been updated successfully", Toast.LENGTH_LONG).show();
-
-                        Intent to_profile = new Intent(EditDescription.this, ProfileView.class);
-                        startActivity(to_profile);
-                        finish();
-                    }else{
-                        String errorMsg = jObj.getString("error_msg");
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
-        },new Response.ErrorListener() {
 
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-                Log.e(TAG, "Registration Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage()+"new", Toast.LENGTH_LONG).show();
-                //hideDialog();
             }
-        }){
+        });
 
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
 
-                params.put("user_id", user_id);
-                params.put("description", descrption);
-                return params;
-            }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map headers = new HashMap();
-                headers.put("Client-Service", "app-client");
-                headers.put("Auth-Key","123321");
-                headers.put("Token",token);
-                headers.put("User-Id",user_id);
-                return headers;
-            }
-        };
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
-    }
+                    }
+//    private void editdescUser(final String user_id, final String descrption) {
+//        db = new SQLiteHandler(getApplicationContext());
+//
+//        HashMap<String, String> user = db.getUserDetails();
+//        final String token = user.get("token");//token value after the user logedin
+//
+//        String tag_string_req = "req_register";
+//
+//        StringRequest strReq = new StringRequest(Request.Method.POST,
+//                URL_EDIT_DESCRIPTION, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//
+//
+//                try {
+//                    JSONObject jObj = new JSONObject(response);
+//                    boolean error = jObj.getBoolean("error");
+//                    if (!error) {
+//                        Log.e("EDIT JSON: ", "updated");
+//                        Toast.makeText(getApplicationContext(),
+//                                "Your description has been updated successfully", Toast.LENGTH_LONG).show();
+//
+//                        Intent to_profile = new Intent(EditDescription.this, ProfileView.class);
+//                        startActivity(to_profile);
+//                        finish();
+//                    }else{
+//                        String errorMsg = jObj.getString("error_msg");
+//                        Toast.makeText(getApplicationContext(),
+//                                errorMsg, Toast.LENGTH_LONG).show();
+//                    }
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        },new Response.ErrorListener() {
+//
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
+//                Log.e(TAG, "Registration Error: " + error.getMessage());
+//                Toast.makeText(getApplicationContext(),
+//                        error.getMessage()+"new", Toast.LENGTH_LONG).show();
+//                //hideDialog();
+//            }
+//        }){
+//
+//            @Override
+//            protected Map<String, String> getParams() {
+//                Map<String, String> params = new HashMap<String, String>();
+//
+//                params.put("user_id", user_id);
+//                params.put("description", descrption);
+//                return params;
+//            }
+//
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map headers = new HashMap();
+//                headers.put("Client-Service", "app-client");
+//                headers.put("Auth-Key","123321");
+//                headers.put("Token",token);
+//                headers.put("User-Id",user_id);
+//                return headers;
+//            }
+//        };
+//        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+//   }
 }
 
 

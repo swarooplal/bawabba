@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.util.Log;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -189,7 +188,7 @@ public class ChatActivity extends BaseChatActivity  {
                         if (responseString != null) {
                             JSONObject jsonObject = null;
                             try {
-                                Log.d("read.....", "hhhioii");
+
                                 jsonObject = new JSONObject(responseString);
                                 inbox_incount = jsonObject.getString("count");
                                 int count_not= Integer.parseInt(inbox_incount);

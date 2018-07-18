@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFF"
+    tools:context="com.bawaaba.rninja4.rookie.activity.SearchActivity">
+
+    <LinearLayout
+        android:id="@+id/llTop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_bar"
+        android:background="@color/white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@drawable/background_repeat"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="left|center"
+                        android:layout_gravity="left"
+                        android:textColor="#fff"
+                        android:textStyle="bold"
+                        android:text="Search"
+                        android:textSize="18sp" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tvClear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:textColor="#fff"
+                        android:gravity="center_vertical|right"
+                        android:paddingRight="15dp"
+                        android:text="Clear"
+                        app:textAllCaps="false"
+                        android:textAllCaps="true"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+        <EditText
+            android:id="@+id/textsearch"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/searchoption_box"
+            android:hint=" Search with a Keyword"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="4dp"
+            android:textColor="#FF666666"
+            android:textColorHint="#FF666666"
+            android:textSize="15dp" />
+
+        <MultiAutoCompleteTextView
+            android:id="@+id/textskill"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/searchoption_box"
+            android:hint=" Select the Skseills "
+            android:focusableInTouchMode="false"
+            android:paddingLeft="4dp"
+            android:textColor="#FF666666"
+            android:textColorHint="#FF666666"
+            android:textSize="15dp" />
+
+        <!--<EditText-->
+        <!--android:id="@+id/locations"-->
+        <!--android:layout_width="320dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:background="@drawable/rectangular_edit2"-->
+        <!--android:hint=" Location"-->
+        <!--android:focusable="false"-->
+        <!--android:paddingLeft="4dp"-->
+        <!--android:inputType="textEmailAddress"-->
+        <!--android:textColor="#CFCFCF"-->
+        <!--android:textColorHint="#CFCFCF"-->
+        <!--android:textSize="15dp" />-->
+
+        <LinearLayout
+            android:layout_width="320dp"
+            android:id="@+id/place_linear"
+            android:layout_height="50dp"
+            android:layout_below="@+id/dob"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/locations"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/location_box"
+                android:focusableInTouchMode="false"
+                android:gravity="left|center"
+                android:hint="Location"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="#FF666666"
+                android:textColorHint="#FF666666"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/proof_button"
+                android:layout_width="45dp"
+                android:layout_height="50dp"
+                android:background="@drawable/place_box"
+                android:padding="5dp"
+                android:scaleType="fitEnd"
+                android:src="@drawable/placeholder"
+                android:tint="@color/white" />
+
+            <requestFocus />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/butsearch"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/new_button"
+            android:textAllCaps="false"
+            android:text="Search"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            />
+
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

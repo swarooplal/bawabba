@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:background="#f1f1f1"
+    tools:context="com.bawaaba.rninja4.rookie.MainActivity">
+    <FrameLayout
+        android:id="@+id/child_fragment"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <LinearLayout
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:scaleType = "fitXY"
+        android:background="@drawable/background_repeat">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/tvSearchHere"
+            android:layout_width="340dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:drawablePadding="10dp"
+            android:textSize="12sp"
+            android:textColor="#7C7C7C"
+            android:clickable="true"
+            android:focusableInTouchMode="true"
+            android:imeActionLabel="Search"
+            android:imeOptions="actionSearch"
+            android:gravity="left|center"
+            android:inputType="text"
+            android:background="@drawable/search_box"
+            android:drawableTint="#7C7C7C"
+            android:drawableLeft="@drawable/search_main"
+            android:paddingLeft="15dp"
+            android:textColorHint="#CACACA"
+            android:hint="Search" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_bar"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="10dp"
+        app:layout_anchor="@+id/toolBar" />
+</android.support.design.widget.CoordinatorLayout>
+
+

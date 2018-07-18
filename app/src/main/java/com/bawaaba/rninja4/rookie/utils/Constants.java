@@ -6,7 +6,7 @@ package com.bawaaba.rninja4.rookie.utils;
 
 public class Constants {
 
-        public static final String BASE_URL = "http://test378.bawabba.com/";   //LiveURL
+        public static final String BASE_URL = "https://test378.bawabba.com/";   //LiveURL
         //http://demo.rookieninja.com/assets/languages.json
         public static class ProfileFragment {
         public static final String ADD_PHOTO = "Add Photo!";

@@ -133,10 +133,7 @@ public class LinkedinActivity extends AppCompatActivity implements View.OnClickL
                     sb.append("\n\n");
                     sb.append("Email: "+emailAddress);
                     sb.append("\n\n");
-
                     txtDetails.setText(sb);
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

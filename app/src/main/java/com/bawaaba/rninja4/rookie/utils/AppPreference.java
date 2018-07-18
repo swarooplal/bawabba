@@ -33,7 +33,6 @@ public class AppPreference implements IConsts{
     private int imagesCurrentPosition = 0;
     private List<PortfolioVideoData> videosData = new ArrayList<>();
     private List<Edit_Audio_Data> audioData = new ArrayList<>();
-
     private String profileImg = "";
     private String profileResponse = "";
     private String searchResult = "";
@@ -42,9 +41,6 @@ public class AppPreference implements IConsts{
     private String description = "";
     private String reviewImage = "";
     private String inboxResponse = "";
-
-
-
     public AppPreference(Context context) {
         super();
         if (context != null) {

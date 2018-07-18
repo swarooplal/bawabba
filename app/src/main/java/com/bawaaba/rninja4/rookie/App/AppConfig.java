@@ -7,9 +7,6 @@ package com.bawaaba.rninja4.rookie.App;
 public class AppConfig {
    // public static String URL_LOGIN = "http://192.168.1.142:8888/android_login_api/login.php";
    public static String URL_LOGIN = "http://test378.bawabba.com/api/user/login";
-
-   // Server user register url
-//    public static String URL_REGISTER = "http://192.168.1.142:8888/android_login_api/register.php";
    public static String URL_REGISTER = "http://test378.bawabba.com/api/user/register";
    public static String URL_PROFILE = "http://test378.bawabba.com/api/user/profile";
    public static String URL_SEARCH = "http://test378.bawabba.com/api/user/search/";

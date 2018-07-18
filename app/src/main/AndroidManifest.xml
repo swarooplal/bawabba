@@ -39,7 +39,7 @@
     </intent-filter>
 
     <application
-        android:name="com.bawaaba.rninja4.rookie.App.AppController"
+        android:name=".App.AppController"
         android:allowBackup="true"
         android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|mcc|mnc"
         android:hardwareAccelerated="true"
@@ -63,64 +63,59 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.bawaaba.rninja4.rookie.activity.LoginActivity"
+            android:name=".activity.LoginActivity"
             android:configChanges="orientation"
             android:label="@string/app_name"
             android:largeHeap="true"
             android:launchMode="singleTop"
-            android:logo="@drawable/back"
-            android:parentActivityName="com.bawaaba.rninja4.rookie.MainActivity"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.bawaaba.rninja4.rookie.activity.RegisterActivity"
+            android:name=".activity.RegisterActivity"
             android:configChanges="orientation"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:parentActivityName="com.bawaaba.rninja4.rookie.activity.LoginActivity"
+            android:parentActivityName=".activity.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
             android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
             android:theme="@style/FinestWebViewTheme.Light" />
-
         <activity
-            android:name="com.bawaaba.rninja4.rookie.MainActivity"
+            android:name=".MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.bawaaba.rninja4.rookie.MainActivity" />
-
         </activity>
         <activity
-            android:name="com.bawaaba.rninja4.rookie.activity.Subcategory"
+            android:name=".activity.Subcategory"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.bawaaba.rninja4.rookie.activity.ProfileView"
+            android:name=".activity.ProfileView"
             android:configChanges="orientation"
-            android:parentActivityName="com.bawaaba.rninja4.rookie.MainActivity"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.bawaaba.rninja4.rookie.activity.SearchActivity"
+            android:name=".activity.SearchActivity"
             android:configChanges="orientation"
-            android:parentActivityName="com.bawaaba.rninja4.rookie.MainActivity"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.bawaaba.rninja4.rookie.SkillView" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.Internetconnection" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.SearchResult" />
+        <activity android:name=".SkillView" />
+        <activity android:name=".activity.SearchResult" />
         <!-- <activity -->
         <!-- android:name=".CreateExperience" -->
         <!-- android:parentActivityName=".activity.RegisterActivity" /> -->
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.FacebookActivity" />
+        <activity android:name=".activity.FacebookActivity" />
         <activity
-            android:name="com.bawaaba.rninja4.rookie.activity.ForgetPassword"
-            android:parentActivityName="com.bawaaba.rninja4.rookie.activity.LoginActivity" />
+            android:name=".activity.ForgetPassword"
+            android:parentActivityName=".activity.LoginActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -141,7 +136,7 @@
         </intent-filter>
 
         <activity
-            android:name="com.bawaaba.rninja4.rookie.activity.LinkedinActivity"
+            android:name=".activity.LinkedinActivity"
             android:label="@string/app_name" />
 
         <intent-filter>
@@ -151,17 +146,15 @@
             <category android:name="android.intent.category.BROWSABLE" />
         </intent-filter>
 
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.ProfileTab.SkillTab" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.ProfileTab.LanguageTab" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.ProfileTab.SocialMedia" />
+        <activity android:name=".activity.ProfileTab.SkillTab" />
+        <activity android:name=".activity.ProfileTab.LanguageTab" />
+        <activity android:name=".activity.ProfileTab.SocialMedia" />
         <!-- <activity android:name=".activity.PaymentGateway" /> -->
-        <activity
-            android:name="com.bawaaba.rninja4.rookie.activity.portfolioTab.PortfolioImage"
-             />
+        <activity android:name=".activity.portfolioTab.PortfolioImage" />
         <!-- <activity android:name=".activity.portfolioTab.PortfolioVideo2" /> -->
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.portfolioTab.PortfolioAudio" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.portfolioTab.PortfolioFile" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.portfolioTab.OtherFile">
+        <activity android:name=".activity.portfolioTab.PortfolioAudio" />
+        <activity android:name=".activity.portfolioTab.PortfolioFile" />
+        <activity android:name=".activity.portfolioTab.OtherFile">
             <intent-filter tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -169,107 +162,107 @@
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.PDFdisplay" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.portfolioTab.LinkBrowser" />
-        <activity android:name="com.bawaaba.rninja4.rookie.BioTab.Aboutme" />
-        <activity android:name="com.bawaaba.rninja4.rookie.BioTab.Description" />
-        <activity android:name="com.bawaaba.rninja4.rookie.BioTab.Services" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.portfolioTab.PortfolioVideo" />
+        <activity android:name=".activity.PDFdisplay" />
+        <activity android:name=".activity.portfolioTab.LinkBrowser" />
+        <activity android:name=".BioTab.Aboutme" />
+        <activity android:name=".BioTab.Description" />
+        <activity android:name=".BioTab.Services" />
+        <activity android:name=".activity.portfolioTab.PortfolioVideo" />
         <activity
-            android:name="com.bawaaba.rninja4.rookie.BioTab.EditDetails"
-            android:parentActivityName="com.bawaaba.rninja4.rookie.activity.ProfileView" />
-        <activity android:name="com.bawaaba.rninja4.rookie.BioTab.EditAbout" />
+            android:name=".BioTab.EditDetails"
+            android:parentActivityName=".activity.ProfileView" />
+        <activity android:name=".BioTab.EditAbout" />
         <activity
-            android:name="com.bawaaba.rninja4.rookie.BioTab.EditDescription"
-            android:parentActivityName="com.bawaaba.rninja4.rookie.activity.ProfileView" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.portfolioTab.PortfolioReview" />
+            android:name=".BioTab.EditDescription"
+            android:parentActivityName=".activity.ProfileView" />
+        <activity android:name=".activity.portfolioTab.PortfolioReview" />
         <activity
-            android:name="com.bawaaba.rninja4.rookie.activity.ProfileTab.Profile_settings"
-            android:parentActivityName="com.bawaaba.rninja4.rookie.activity.ProfileView" />
+            android:name=".activity.ProfileTab.Profile_settings"
+            android:parentActivityName=".activity.ProfileView" />
         <activity
-            android:name="com.bawaaba.rninja4.rookie.Account.Account_settings"
-            android:parentActivityName="com.bawaaba.rninja4.rookie.activity.ProfileView" />
+            android:name=".Account.Account_settings"
+            android:parentActivityName=".activity.ProfileView" />
         <activity
-            android:name="com.bawaaba.rninja4.rookie.Account.Verify_Profile"
-            android:parentActivityName="com.bawaaba.rninja4.rookie.activity.ProfileView" />
+            android:name=".Account.Verify_Profile"
+            android:parentActivityName=".activity.ProfileView" />
         <activity
-            android:name="com.bawaaba.rninja4.rookie.activity.Registration_Category"
-            android:parentActivityName="com.bawaaba.rninja4.rookie.activity.RegisterActivity" />
+            android:name=".activity.Registration_Category"
+            android:parentActivityName=".activity.RegisterActivity" />
         <activity
-            android:name="com.bawaaba.rninja4.rookie.activity.Register_Skills"
-            android:parentActivityName="com.bawaaba.rninja4.rookie.activity.Registration_Category" />
-        <activity android:name="com.bawaaba.rninja4.rookie.Account.Change_email" />
-        <activity android:name="com.bawaaba.rninja4.rookie.Account.Change_password" />
-        <activity android:name="com.bawaaba.rninja4.rookie.BioTab.EditServices" />
+            android:name=".activity.Register_Skills"
+            android:parentActivityName=".activity.Registration_Category" />
+        <activity android:name=".Account.Change_email" />
+        <activity android:name=".Account.Change_password" />
+        <activity android:name=".BioTab.EditServices" />
         <activity
-            android:name="com.bawaaba.rninja4.rookie.BioTab.AddServices"
-            android:parentActivityName="com.bawaaba.rninja4.rookie.activity.ProfileView" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.ProfileTab.Edit_Languages" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.portfolioTab.Edit_otherurl" />
+            android:name=".BioTab.AddServices"
+            android:parentActivityName=".activity.ProfileView" />
+        <activity android:name=".activity.ProfileTab.Edit_Languages" />
+        <activity android:name=".activity.portfolioTab.Edit_otherurl" />
         <activity
-            android:name="com.bawaaba.rninja4.rookie.Account.Deactivate_Profile"
-            android:parentActivityName="com.bawaaba.rninja4.rookie.activity.ProfileView" />
-        <activity android:name="com.bawaaba.rninja4.rookie.Account.Deactivate_reason" />
+            android:name=".Account.Deactivate_Profile"
+            android:parentActivityName=".activity.ProfileView" />
+        <activity android:name=".Account.Deactivate_reason" />
         <!-- <activity android:name=".activity.portfolioTab.Edit_Audio" /> -->
         <!-- <activity android:name=".activity.portfolioTab.Add_Audio" /> -->
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.portfolioTab.From_Gallery" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.portfolioTab.From_Url" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.portfolioTab.Portfolio_Video_Webview" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.ContactActivity" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.portfolioTab.Portfolio_Audio_Web" />
+        <activity android:name=".activity.portfolioTab.From_Gallery" />
+        <activity android:name=".activity.portfolioTab.From_Url" />
+        <activity android:name=".activity.portfolioTab.Portfolio_Video_Webview" />
+        <activity android:name=".activity.ContactActivity" />
+        <activity android:name=".activity.portfolioTab.Portfolio_Audio_Web" />
         <activity
-            android:name="com.bawaaba.rninja4.rookie.activity.ChatFunction.ChatActivity"
+            android:name=".activity.ChatFunction.ChatActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.bawaaba.rninja4.rookie.activity.ChatFunction.ChatNewActivity"
+            android:name=".activity.ChatFunction.ChatNewActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.ChatFunction.InboxDetailsActivity" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.ProfileTab.SkillEditActivity" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.portfolioTab.ImageSlidingActivity" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.portfolioTab.ImageEditActivity" />
+        <activity android:name=".activity.ChatFunction.InboxDetailsActivity" />
+        <activity android:name=".activity.ProfileTab.SkillEditActivity" />
+        <activity android:name=".activity.portfolioTab.ImageSlidingActivity" />
+        <activity android:name=".activity.portfolioTab.ImageEditActivity" />
         <activity
-            android:name="com.bawaaba.rninja4.rookie.activity.SplashScreenActivity"
+            android:name=".activity.SplashScreenActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER"/>
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
             android:theme="@style/FinestWebViewTheme.Light"
             tools:ignore="DuplicateActivity" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.portfolioTab.VideoAddActivity" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.portfolioTab.PortfolioVideoEditActivity" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.portfolioTab.AudioEditActivity" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.portfolioTab.AudioAddActivity" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.portfolioTab.AudioUrlActivity" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.ProfileTab.DocEditActivity" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.portfolioTab.DocAddActivity" />
-        <activity android:name="com.bawaaba.rninja4.rookie.BioTab.MainActivity" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.ProfileTab.AddOtherUrlActivity" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.ProfileTab.EditUrlActivity" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.ProfileTab.Edit_Review_Postedbyme" />
+        <activity android:name=".activity.portfolioTab.VideoAddActivity" />
+        <activity android:name=".activity.portfolioTab.PortfolioVideoEditActivity" />
+        <activity android:name=".activity.portfolioTab.AudioEditActivity" />
+        <activity android:name=".activity.portfolioTab.AudioAddActivity" />
+        <activity android:name=".activity.portfolioTab.AudioUrlActivity" />
+        <activity android:name=".activity.ProfileTab.DocEditActivity" />
+        <activity android:name=".activity.portfolioTab.DocAddActivity" />
+        <activity android:name=".BioTab.MainActivity" />
+        <activity android:name=".activity.ProfileTab.AddOtherUrlActivity" />
+        <activity android:name=".activity.ProfileTab.EditUrlActivity" />
+        <activity android:name=".activity.ProfileTab.Edit_Review_Postedbyme" />
         <!-- <activity android:name=".activity.adapters.EditReviewRecyclerviewAdapter" /> -->
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.Faqwebpage" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.ProfileTab.Edit_Socialmedia" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.ProfileTab.Hirer_review" />
-        <activity android:name="com.bawaaba.rninja4.rookie.Account.GeneralSettingsActivity" />
-        <activity android:name="com.bawaaba.rninja4.rookie.Account.SwitchToWorkActivity" />
-        <activity android:name="com.bawaaba.rninja4.rookie.Account.SubcategoryListActivity" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.ChatFunction.FirstTabActivity" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.ReviewImageFullScreen" />
-        <activity android:name="com.bawaaba.rninja4.rookie.Account.Verfy_Profile1" />
-        <activity android:name="com.bawaaba.rninja4.rookie.Account.Verify_profil2" />
-        <activity android:name="com.bawaaba.rninja4.rookie.Account.Verify_profile3" />
-        <activity android:name="com.bawaaba.rninja4.rookie.ui.activity.DialogsActivity" />
-        <activity android:name="com.bawaaba.rninja4.rookie.ui.activity.SelectUsersActivity" />
-        <activity android:name="com.bawaaba.rninja4.rookie.ui.activity.ChatActivity" />
-        <activity android:name="com.bawaaba.rninja4.rookie.ui.activity.AttachmentImageActivity" />
+        <activity android:name=".activity.Faqwebpage" />
+        <activity android:name=".activity.ProfileTab.Edit_Socialmedia" />
+        <activity android:name=".activity.ProfileTab.Hirer_review" />
+        <activity android:name=".Account.GeneralSettingsActivity" />
+        <activity android:name=".Account.SwitchToWorkActivity" />
+        <activity android:name=".Account.SubcategoryListActivity" />
+        <activity android:name=".activity.ChatFunction.FirstTabActivity" />
+        <activity android:name=".activity.ReviewImageFullScreen" />
+        <activity android:name=".Account.Verfy_Profile1" />
+        <activity android:name=".Account.Verify_profil2" />
+        <activity android:name=".Account.Verify_profile3" />
+        <activity android:name=".ui.activity.DialogsActivity" />
+        <activity android:name=".ui.activity.SelectUsersActivity" />
+        <activity android:name=".ui.activity.ChatActivity" />
+        <activity android:name=".ui.activity.AttachmentImageActivity" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:theme="@style/CropTheme" />
@@ -287,19 +280,19 @@
         </receiver>
 
         <service
-            android:name="com.bawaaba.rninja4.rookie.gcm.GcmPushListenerService"
+            android:name=".gcm.GcmPushListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
-         <service
-         android:name="com.quickblox.messages.services.gcm.QBGcmPushListenerService"
-         android:exported="false">
-         <intent-filter>
-         <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-         </intent-filter>
-         </service>
+        <service
+            android:name="com.quickblox.messages.services.gcm.QBGcmPushListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
         <service
             android:name="com.quickblox.messages.services.gcm.QBGcmPushInstanceIDService"
             android:exported="false">
@@ -308,19 +301,18 @@
             </intent-filter>
         </service>
 
-
-        <!--<service-->
-            <!--android:name="com.quickblox.messages.services.fcm.QBFcmPushListenerService">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="com.google.firebase.MESSAGING_EVENT" />-->
-            <!--</intent-filter>-->
-        <!--</service>-->
-        <!--<service-->
-            <!--android:name="com.quickblox.messages.services.fcm.QBFcmPushInstanceIDService">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>-->
-            <!--</intent-filter>-->
-        <!--</service>-->
+        <!-- <service -->
+        <!-- android:name="com.quickblox.messages.services.fcm.QBFcmPushListenerService"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.google.firebase.MESSAGING_EVENT" /> -->
+        <!-- </intent-filter> -->
+        <!-- </service> -->
+        <!-- <service -->
+        <!-- android:name="com.quickblox.messages.services.fcm.QBFcmPushInstanceIDService"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/> -->
+        <!-- </intent-filter> -->
+        <!-- </service> -->
         <meta-data
             android:name="com.quickblox.messages.TYPE"
             android:value="GCM" />
@@ -347,25 +339,28 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name="com.bawaaba.rninja4.rookie.ui.activity.ChatInfoActivity" />
-        <activity android:name="com.bawaaba.rninja4.rookie.ui.activity.SplashActivity_quick" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.ProfileTab.Edit_reviewpostedbyhirer" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.TermsOfService" />
-        <activity android:name="com.bawaaba.rninja4.rookie.Account.BlockList" />
-        <activity android:name="com.bawaaba.rninja4.rookie.activity.ActivitySearchSetSkills"></activity>
+        <activity android:name=".ui.activity.ChatInfoActivity" />
+        <activity android:name=".ui.activity.SplashActivity_quick" />
+        <activity android:name=".activity.ProfileTab.Edit_reviewpostedbyhirer" />
+        <activity android:name=".activity.TermsOfService" />
+        <activity android:name=".Account.BlockList" />
+        <activity android:name=".activity.ActivitySearchSetSkills" />
 
         <!-- Firebase Notifications -->
-        <service android:name="com.bawaaba.rninja4.rookie.firbase.MyFirebaseMessagingService">
+        <service android:name=".firbase.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-        <service android:name="com.bawaaba.rninja4.rookie.firbase.MyFirebaseInstanceIDService">
+        <service android:name=".firbase.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
+        <activity android:name=".database.DashBoardActivity" />
+        <activity android:name=".dashboard.DashboardActivity"
+             android:windowSoftInputMode="stateHidden"></activity>
     </application>
 
 </manifest>

@@ -279,7 +279,8 @@ public class Subcategory extends TabActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("bootificatio", "resume");
+
+
         unread_notification();
     }
 
@@ -353,8 +354,6 @@ public class Subcategory extends TabActivity {
             String Auth_key = "123321";
             String token = "";
             String user_id = "";
-            Log.e("checkkskilledit", String.valueOf(category_id));
-
             String Subcategory_URL = BASE_URL + "api/user/categoryskills/?category=" + category_id;
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -386,12 +385,7 @@ public class Subcategory extends TabActivity {
                     @Override
                     public void run() {
                         Log.e(TAG, "cat id." + category_id);
-                        Intent to_internet = new Intent(Subcategory.this, Internetconnection.class);
-                        to_internet.putExtra("category_id", category_id);
-                        to_internet.putExtra("current_class", "Subcategory");
-                        Toast.makeText(getApplicationContext(), "No Internet Connection!!", Toast.LENGTH_LONG).show();
-                        startActivity(to_internet);
-                        finish();
+
                     }
                 });
             }

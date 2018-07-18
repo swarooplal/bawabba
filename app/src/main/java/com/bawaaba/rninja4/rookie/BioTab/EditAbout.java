@@ -11,27 +11,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.bawaaba.rninja4.rookie.App.AppController;
 import com.bawaaba.rninja4.rookie.JSONParser;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.activity.ProfileView;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
+import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
 
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static com.bawaaba.rninja4.rookie.App.AppConfig.URL_EDIT_ABOUT_DETAILS;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class EditAbout extends AppCompatActivity {
 
@@ -71,7 +66,7 @@ public class EditAbout extends AppCompatActivity {
 
                     Intent from_profile = getIntent();
                     String user_id = from_profile.getStringExtra("user_id");
-                    editaboutUser(user_id, about_me);
+                    editaboutbUser(user_id, about_me);
 
                 } else {
                     Toast.makeText(getApplicationContext(),
@@ -87,71 +82,105 @@ public class EditAbout extends AppCompatActivity {
 
             }
 
-    private void editaboutUser(final String user_id, final String about_me) {
+//    private void editaboutbUser(final String user_id, final String about_me) {
+//
+//        db = new SQLiteHandler(getApplicationContext());
+//
+//        HashMap<String, String> user = db.getUserDetails();
+//        final String token = user.get("token");//token value after the user logedin
+//
+//        Log.e("token value: ", token);
+//        Log.e("user_id: ", user_id);
+//
+//        String tag_string_req = "req_register";
+//
+//         StringRequest strReq = new StringRequest(Request.Method.POST,
+//                URL_EDIT_ABOUT_DETAILS, new Response.Listener<String>() {
+//
+//
+//            @Override
+//            public void onResponse(String response) {
+//
+//                try {
+//                    Log.e("EDIT JSON: ", response);
+//                    Toast.makeText(getApplicationContext(),
+//                            "updated", Toast.LENGTH_LONG).show();
+//
+//                    Intent to_profile = new Intent(EditAbout.this,ProfileView.class);
+//                    startActivity(to_profile);
+//                    finish();
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        },new Response.ErrorListener() {
+//
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
+//                Log.e(TAG, "Registration Error: " + error.getMessage());
+//                Toast.makeText(getApplicationContext(),
+//                        error.getMessage()+"new", Toast.LENGTH_LONG).show();
+//                //hideDialog();
+//            }
+//        }){
+//
+//            @Override
+//            protected Map<String, String> getParams() {
+//                Map<String, String> params = new HashMap<String, String>();
+//
+//                params.put("user_id", user_id);
+//                params.put("aboutme", about_me);
+//                return params;
+//            }
+//
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map headers = new HashMap();
+//                headers.put("Client-Service", "app-client");
+//                headers.put("Auth-Key","123321");
+//                headers.put("User-Id",user_id);
+//                headers.put("Token",token);
+//                return headers;
+//            }
+//        };
+//        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+//
+//
+//
+//    }
+    private void editaboutbUser(final String user_id, final String about_me){
 
-        db = new SQLiteHandler(getApplicationContext());
+        Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getApplicationContext()).getApiService().editAbout("app-client",
+                "123321",ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getLoginToken(), ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId(),user_id,about_me);
 
-        HashMap<String, String> user = db.getUserDetails();
-        final String token = user.get("token");//token value after the user logedin
-
-        Log.e("token value: ", token);
-        Log.e("user_id: ", user_id);
-
-        String tag_string_req = "req_register";
-
-         StringRequest strReq = new StringRequest(Request.Method.POST,
-                URL_EDIT_ABOUT_DETAILS, new Response.Listener<String>() {
-
+        responseBodyCall.enqueue(new Callback<ResponseBody>() {
 
             @Override
-            public void onResponse(String response) {
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                if (response.body() != null) {
+                    try {
 
-                try {
-                    Log.e("EDIT JSON: ", response);
-                    Toast.makeText(getApplicationContext(),
-                            "updated", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),
+                                "updated", Toast.LENGTH_LONG).show();
 
-                    Intent to_profile = new Intent(EditAbout.this,ProfileView.class);
-                    startActivity(to_profile);
-                    finish();
+                        Intent to_profile = new Intent(EditAbout.this,ProfileView.class);
+                        startActivity(to_profile);
+                        finish();
 
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 }
             }
-        },new Response.ErrorListener() {
 
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-                Log.e(TAG, "Registration Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage()+"new", Toast.LENGTH_LONG).show();
-                //hideDialog();
             }
-        }){
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-
-                params.put("user_id", user_id);
-                params.put("aboutme", about_me);
-                return params;
-            }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map headers = new HashMap();
-                headers.put("Client-Service", "app-client");
-                headers.put("Auth-Key","123321");
-                headers.put("User-Id",user_id);
-                headers.put("Token",token);
-                return headers;
-            }
-        };
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
-
+        });
 
 
     }
@@ -167,7 +196,7 @@ public class EditAbout extends AppCompatActivity {
                     String Auth_key = "123321";
                     String token = "";
                     Log.e("USERID1", user_id);
-                    final String ABOUT_URL = "http://demo.rookieninja.com/api/user/biography?user_id=" + user_id;
+                    final String ABOUT_URL = " =" + user_id;
                     List<NameValuePair> params = new ArrayList<NameValuePair>();
 
                     JSONObject about = jsonParser.makeHttpRequest(ABOUT_URL, "GET",

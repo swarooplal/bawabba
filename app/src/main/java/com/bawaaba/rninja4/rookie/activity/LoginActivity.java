@@ -29,8 +29,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bawaaba.rninja4.rookie.MainActivity;
 import com.bawaaba.rninja4.rookie.R;
+import com.bawaaba.rninja4.rookie.dashboard.DashboardActivity;
 import com.bawaaba.rninja4.rookie.firbase.Config;
 import com.bawaaba.rninja4.rookie.firbase.NotificationUtils;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
@@ -462,7 +462,8 @@ public class LoginActivity extends CoreBaseActivity implements IConsts {
                         String responseString = new String(response.body().bytes());
                         JSONObject jObj = new JSONObject(responseString);
                         boolean error = jObj.getBoolean("error");
-                        if (!error) {
+                        if (!error)
+                        {
                             session.setLogin(true);
                             JSONObject user = jObj.getJSONObject("user");
                             String name = user.getString("name");
@@ -480,9 +481,7 @@ public class LoginActivity extends CoreBaseActivity implements IConsts {
                             ObjectFactory.getInstance().getAppPreference(getApplicationContext()).setEmail(email);
                             ObjectFactory.getInstance().getAppPreference(getApplicationContext()).saveProfileImg(profile_img);
                             ObjectFactory.getInstance().getAppPreference(getApplicationContext()).saveShortProfileImg(shortUrl);
-
                             qbSignin();
-
                             boolean result = db.addUser(name, email, uid, token, verify_code, password);
                             if (result) {
                                 Intent intent = new Intent(LoginActivity.this, ProfileView.class);
@@ -511,90 +510,6 @@ public class LoginActivity extends CoreBaseActivity implements IConsts {
         });
     }
 
-//    private void checkLogin(final String email, final String password) {
-//        Log.e(TAG, "email and password " + email + " " + password);
-//        String tag_string_req = "req_login";
-//        pDialog.setMessage("Logging in ...");
-//        showDialog();
-//
-//        StringRequest strReq = new StringRequest(Method.POST, AppConfig.URL_LOGIN, new Response.Listener<String>() {
-//
-//            @Override
-//            public void onResponse(String response) {
-//                Log.e(TAG, "Login Response: " + response.toString());
-//                hideDialog();
-//
-//                try {
-//                    JSONObject jObj = new JSONObject(response);
-//                    boolean error = jObj.getBoolean("error");
-//                    if (!error) {
-//                        session.setLogin(true);
-//                        JSONObject user = jObj.getJSONObject("user");
-//                        String name = user.getString("name");
-//                        String uid = user.getString("uid");
-//                        String email = user.getString("email");
-//                        String token = user.getString("token");
-//                        String verify_code = user.getString("verify_code");
-//                        String profile_img = user.getString("profile_img");
-//                        int index = profile_img.lastIndexOf("/");
-//                        String shortUrl = profile_img.substring(index + 1, profile_img.length());
-//                        ObjectFactory.getInstance().getAppPreference(getApplicationContext()).saveLogin(true);
-//                        ObjectFactory.getInstance().getAppPreference(getApplicationContext()).saveLoginToken(token);
-//                        ObjectFactory.getInstance().getAppPreference(getApplicationContext()).saveUserId(uid);
-//                        ObjectFactory.getInstance().getAppPreference(getApplicationContext()).saveUserName(name);
-//                        ObjectFactory.getInstance().getAppPreference(getApplicationContext()).setEmail(email);
-//                        ObjectFactory.getInstance().getAppPreference(getApplicationContext()).saveProfileImg(profile_img);
-//                        ObjectFactory.getInstance().getAppPreference(getApplicationContext()).saveShortProfileImg(shortUrl);
-//
-//                     qbSignin();
-//
-//                        boolean result = db.addUser(name, email, uid, token, verify_code, password);
-//                        if (result) {
-//                            Intent intent = new Intent(LoginActivity.this, ProfileView.class);
-//                            startActivity(intent);
-//                            finish();
-//                        }
-//
-//                    } else {
-//                        String errorMsg = jObj.getString("error_msg");
-//                        Toast.makeText(getApplicationContext(), errorMsg, Toast.LENGTH_LONG).show();
-//                    }
-//                } catch (JSONException e) {
-//                    // JSON error
-//                    e.printStackTrace();
-//                    Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-//                }
-//
-//            }
-//        }, new Response.ErrorListener() {
-//
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//
-//            }
-//        }) {
-//            @Override
-//            protected Map<String, String> getParams() {
-//                // Posting parameters to login url
-//                Map<String, String> params = new HashMap<String, String>();
-//                params.put("email", email);
-//                params.put("password", password);
-//               params.put("fcm_token",reg_id);
-//                params.put("phone","android");
-//                return params;
-//            }
-//
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                Map headers = new HashMap();
-//                headers.put("Client-Service", "app-client");
-//                headers.put("Auth-Key", "123321");
-//                return headers;
-//            }
-//        };
-//        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
-//    }
-
 
     private void showDialog() {
         if (!pDialog.isShowing())
@@ -610,7 +525,9 @@ public class LoginActivity extends CoreBaseActivity implements IConsts {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        //swaroop commented
+        // perviously redirected log in actvity
+        Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
         startActivity(intent);
         finish();
 

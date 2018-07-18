@@ -109,7 +109,7 @@
                     android:id="@+id/behance"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:background="@drawable/behance" />
+                    android:background="@drawable/ic_behance" />
 
                 <EditText
                     android:id="@+id/edit_behance"
@@ -136,7 +136,7 @@
                     android:id="@+id/facebook"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:background="@drawable/facebook" />
+                    android:background="@drawable/ic_facebook" />
 
                 <EditText
                     android:id="@+id/edit_facebook"
@@ -163,7 +163,7 @@
                     android:id="@+id/dribble"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:background="@drawable/dribbble" />
+                    android:background="@drawable/ic_dribbble" />
 
                 <EditText
                     android:id="@+id/edit_dribble"
@@ -190,7 +190,7 @@
                     android:id="@+id/github"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:background="@drawable/github" />
+                    android:background="@drawable/ic_github_logo" />
 
                 <EditText
                     android:id="@+id/edit_github"
@@ -217,7 +217,7 @@
                     android:id="@+id/bitbucket"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:background="@drawable/bitbucket" />
+                    android:background="@drawable/ic_bitbucket_logo" />
 
                 <EditText
                     android:id="@+id/edit_bitbucket"
@@ -244,7 +244,7 @@
                     android:id="@+id/google_plus"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:background="@drawable/googleplus" />
+                    android:background="@drawable/ic_google_plus" />
 
                 <EditText
                     android:id="@+id/edit_google_plus"
@@ -271,7 +271,7 @@
                     android:id="@+id/instagram"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:background="@drawable/instagram_new" />
+                    android:background="@drawable/ic_instagram" />
 
                 <EditText
                     android:id="@+id/edit_instagram"
@@ -298,7 +298,7 @@
                     android:id="@+id/linkedin"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:background="@drawable/linkedin_new" />
+                    android:background="@drawable/ic_linkedin" />
 
                 <EditText
                     android:id="@+id/edit_linkedin"
@@ -325,7 +325,7 @@
                     android:id="@+id/pinterest"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:background="@drawable/pinterest" />
+                    android:background="@drawable/ic_pinterest" />
 
                 <EditText
                     android:id="@+id/edit_pineterest"
@@ -352,7 +352,7 @@
                     android:id="@+id/soundcloud"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:background="@drawable/soundcloud" />
+                    android:background="@drawable/ic_soundcloud" />
 
                 <EditText
                     android:id="@+id/edit_sounclod"
@@ -379,7 +379,7 @@
                     android:id="@+id/stack"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:background="@drawable/stack" />
+                    android:background="@drawable/ic_overflowing" />
 
                 <EditText
                     android:id="@+id/edit_stack"
@@ -406,7 +406,7 @@
                     android:id="@+id/twit"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:background="@drawable/twitter" />
+                    android:background="@drawable/ic_twitter" />
 
                 <EditText
                     android:id="@+id/edit_twit"
@@ -433,7 +433,7 @@
                     android:id="@+id/vimeo"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:background="@drawable/vimeo" />
+                    android:background="@drawable/ic_vimeo" />
 
                 <EditText
                     android:id="@+id/edit_vimeo"
@@ -516,7 +516,7 @@
                     android:id="@+id/website"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:background="@drawable/website" />
+                    android:background="@drawable/ic_world_wide_web" />
 
                 <EditText
                     android:id="@+id/edit_website"

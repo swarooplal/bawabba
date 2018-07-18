@@ -168,91 +168,91 @@ public class SocialMedia extends AppCompatActivity {
                 SocialMediaListing listing = new SocialMediaListing();
                 listing.setName("behance");
                 listing.setUrl(behance);
-                listing.setSocialImage(R.drawable.behance);
+                listing.setSocialImage(R.drawable.ic_behance);
                 social.add(listing);
             }
             if (!facebook.matches("null")) {
                 SocialMediaListing listing = new SocialMediaListing();
                 listing.setName("facebook");
                 listing.setUrl(facebook);
-                listing.setSocialImage(R.drawable.facebook);
+                listing.setSocialImage(R.drawable.ic_facebook);
                 social.add(listing);
             }
             if (!dribbble.matches("null")) {
                 SocialMediaListing listing = new SocialMediaListing();
                 listing.setName("dribbble");
                 listing.setUrl(dribbble);
-                listing.setSocialImage(R.drawable.dribbble);
+                listing.setSocialImage(R.drawable.ic_dribbble);
                 social.add(listing);
             }
             if (!github.matches("null")) {
                 SocialMediaListing listing = new SocialMediaListing();
                 listing.setName("github");
                 listing.setUrl(github);
-                listing.setSocialImage(R.drawable.github);
+                listing.setSocialImage(R.drawable.ic_github_logo);
                 social.add(listing);
             }
             if (!bitbucket.matches("null")) {
                 SocialMediaListing listing = new SocialMediaListing();
                 listing.setName("bitbucket");
                 listing.setUrl(bitbucket);
-                listing.setSocialImage(R.drawable.bitbucket);
+                listing.setSocialImage(R.drawable.ic_bitbucket_logo);
                 social.add(listing);
             }
             if (!googleplus.matches("null")) {
                 SocialMediaListing listing = new SocialMediaListing();
                 listing.setName("googleplus");
                 listing.setUrl(googleplus);
-                listing.setSocialImage(R.drawable.googleplus);
+                listing.setSocialImage(R.drawable.ic_google_plus);
                 social.add(listing);
             }
             if (!instagram.matches("null")) {
                 SocialMediaListing listing = new SocialMediaListing();
                 listing.setName("instagram");
                 listing.setUrl(instagram);
-                listing.setSocialImage(R.drawable.instagram_new);
+                listing.setSocialImage(R.drawable.ic_instagram);
                 social.add(listing);
             }
             if (!linkedin.matches("null")) {
                 SocialMediaListing listing = new SocialMediaListing();
                 listing.setName("linkedin");
                 listing.setUrl(linkedin);
-                listing.setSocialImage(R.drawable.linkedin_new);
+                listing.setSocialImage(R.drawable.ic_linkedin);
                 social.add(listing);
             }
             if (!pinterest.matches("null")) {
                 SocialMediaListing listing = new SocialMediaListing();
                 listing.setName("pinterest");
                 listing.setUrl(pinterest);
-                listing.setSocialImage(R.drawable.pinterest);
+                listing.setSocialImage(R.drawable.ic_pinterest);
                 social.add(listing);
             }
             if (!soundcloud.matches("null")) {
                 SocialMediaListing listing = new SocialMediaListing();
                 listing.setName("soundcloud");
                 listing.setUrl(soundcloud);
-                listing.setSocialImage(R.drawable.soundcloud);
+                listing.setSocialImage(R.drawable.ic_soundcloud);
                 social.add(listing);
             }
             if (!stack.matches("null")) {
                 SocialMediaListing listing = new SocialMediaListing();
                 listing.setName("stack");
                 listing.setUrl(stack);
-                listing.setSocialImage(R.drawable.stack);
+                listing.setSocialImage(R.drawable.ic_overflowing);
                 social.add(listing);
             }
             if (!twitter.matches("null")) {
                 SocialMediaListing listing = new SocialMediaListing();
                 listing.setName("twitter");
                 listing.setUrl(twitter);
-                listing.setSocialImage(R.drawable.twitter);
+                listing.setSocialImage(R.drawable.ic_twitter);
                 social.add(listing);
             }
             if (!vimeo.matches("null")) {
                 SocialMediaListing listing = new SocialMediaListing();
                 listing.setName("vimeo");
                 listing.setUrl(vimeo);
-                listing.setSocialImage(R.drawable.vimeo);
+                listing.setSocialImage(R.drawable.ic_vimeo);
                 social.add(listing);
             }
             if (!youtube.matches("null")) {
@@ -275,7 +275,7 @@ public class SocialMedia extends AppCompatActivity {
                 SocialMediaListing listing = new SocialMediaListing();
                 listing.setName("website");
                 listing.setUrl(website);
-                listing.setSocialImage(R.drawable.website);
+                listing.setSocialImage(R.drawable.ic_world_wide_web);
                 social.add(listing);
             }
 

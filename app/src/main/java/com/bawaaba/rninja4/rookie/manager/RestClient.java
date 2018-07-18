@@ -53,7 +53,6 @@ public class RestClient {
                 .build();
 
 
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -90,7 +89,7 @@ public class RestClient {
                 @Field("dob") String dateofbirth,
                 @Field("phone") String phone,
                 @Field("role") String role,
-                @Field("profile_img")String profile_image
+                @Field("profile_img") String profile_image
         );
 
         @FormUrlEncoded
@@ -103,6 +102,7 @@ public class RestClient {
                 @Field("user_id") String user_id,
                 @Field("fcm_token") String fcm_token
         );
+
         @FormUrlEncoded
         @POST("api/user/register")
         Call<ResponseBody> signUp_hire(
@@ -115,8 +115,8 @@ public class RestClient {
                 @Field("dob") String dob,
                 @Field("gender") String gender,
                 @Field("password") String password,
-                @Field("role")String userRole,
-                @Field("profile_img")String profile_image
+                @Field("role") String userRole,
+                @Field("profile_img") String profile_image
         );
 
         @FormUrlEncoded
@@ -130,7 +130,7 @@ public class RestClient {
                 @Field("receiver_name") String recerver_name,
                 @Field("receiver_email") String receiver_email,
                 @Field("read") String read,
-                @Field("count")String count
+                @Field("count") String count
         );
 
         /*email:arjun555@gmail.com
@@ -154,6 +154,7 @@ password:123456*/
                 @Field("skills") String skills,
                 @Field("category") String category
         );
+
         // http://demo.rookieninja.com/api/user/update_language/
         @FormUrlEncoded
         @POST("api/user/update_language")
@@ -195,7 +196,7 @@ password:123456*/
                 @Header("User-Id") String userId,
                 @Header("Token") String Token,
                 @Field("user_id") String user_id,
-                @FieldMap Map<String,String> hashFields);
+                @FieldMap Map<String, String> hashFields);
 
         @Multipart
         @POST("api/user/portfolioimg")
@@ -285,7 +286,6 @@ password:123456*/
                 @FieldMap Map<String, String> hashFields);
 
 
-
         @FormUrlEncoded
         @POST("api/user/edit_portfolio")
         Call<ResponseBody> deletePortfolio(
@@ -372,7 +372,6 @@ password:123456*/
                 @Field("password") String password,
                 @Field("oldpassword") String oldpassword,
                 @Field("email") String email);
-
 
 
         @FormUrlEncoded
@@ -467,6 +466,7 @@ password:123456*/
                 @Field("message") String message
 
         );
+
         @FormUrlEncoded
         @POST("api/user/notification")
         Call<ResponseBody> notification(
@@ -502,6 +502,95 @@ password:123456*/
                 @Field("phone") String phone
         );
 
+        @FormUrlEncoded
+        @POST("api/user/search/")
+        Call<ResponseBody> serachUser(
+                @Header("Client-Service") String client_service,
+                @Header("Auth-Key") String authkey,
+                @Field("keyword") String keyword,
+                @Field("skills") String skills,
+                @Field("location") String fcm_token
+        );
+
+        @FormUrlEncoded
+        @POST("api/user/update_profile/")
+        Call<ResponseBody> editUserDeatils(
+                @Header("Client-Service") String client_service,
+                @Header("Auth-Key") String authkey,
+                @Header("Token") String Token,
+                @Header("User-Id") String User_id,
+                @Field("user_id") String user_id,
+                @Field("profile_img") String profile_img,
+                @Field("fullname") String fullname,
+                @Field("dob") String dob,
+                @Field("phone") String phone,
+                @Field("profile_url") String profile_url,
+                @Field("location") String location,
+                @Field("gender") String gender
+
+        );
+        @FormUrlEncoded
+        @POST("api/user/update_aboutme")
+        Call<ResponseBody> editAbout(
+                @Header("Client-Service") String client_service,
+                @Header("Auth-Key") String authkey,
+                @Header("Token") String Token,
+                @Header("User-Id") String User_id,
+                @Field("user_id") String user_id,
+                @Field("aboutme") String aboutme
+        );
+
+        @FormUrlEncoded
+        @POST("api/user/update_description")
+        Call<ResponseBody> editDescription(
+                @Header("Client-Service") String client_service,
+                @Header("Auth-Key") String authkey,
+                @Header("Token") String Token,
+                @Header("User-Id") String User_id,
+                @Field("user_id") String user_id,
+                @Field("description") String description
+        );
+
+        @FormUrlEncoded
+        @POST("api/user/verify_profile/")
+        Call<ResponseBody> verifyProfileDeatils(
+                @Header("Client-Service") String client_service,
+                @Header("Auth-Key") String authkey,
+                @Header("Token") String Token,
+                @Header("User-Id") String User_id,
+                @Field("user_id") String user_id,
+                @Field("id_document") String id_document,
+                @Field("keycode_img") String keycode_img
+        );
+
+        @FormUrlEncoded
+        @POST("api/user/update_socialmedia/")
+        Call<ResponseBody> addSocialMedia(
+                @Header("Client-Service") String client_service,
+                @Header("Auth-Key") String authkey,
+                @Header("Token") String Token,
+                @Header("User-Id") String User_id,
+                @FieldMap Map<String, String> hashFields
+        );
+        @FormUrlEncoded
+        @POST("api/user/report/")
+        Call<ResponseBody> reportAbuse(
+                @Header("Client-Service") String client_service,
+                @Header("Auth-Key") String authkey,
+                @Header("Token") String Token,
+                @Header("User-Id") String User_id,
+                @Field("user_id") String user_id,
+                @Field("profile_id") String profile_id,
+                @Field("message") String message
+        );
+
+        @FormUrlEncoded
+        @POST("api/user/profile")
+        Call<ResponseBody> profileDetails(
+                @Header("Client-Service") String client_service,
+                @Header("Auth-Key") String authkey,
+                @FieldMap Map<String, String> hashFields
+        );
     }
 
 }

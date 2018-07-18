@@ -9,6 +9,10 @@
     android:layout_height="100dp"
     app:elevation="2dp"
     app:ignore="NamespaceTypo">
+    <FrameLayout
+        android:id="@+id/child_fragment"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
 
     <LinearLayout
         android:id="@+id/grid_linear"

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/tab_home"
+        icon="@drawable/ic_home_le"
+        title="Home" />
+    <tab
+        id="@+id/tab_search"
+        icon="@drawable/ic_search_home"
+        title="Search" />
+    <tab
+        id="@+id/tab_inbox"
+        icon="@drawable/ic_chat"
+        title="Inbox" />
+
+    <tab
+        id="@+id/tab_account"
+        icon="@drawable/ic_profile_home"
+        title="Profile" />
+</tabs>

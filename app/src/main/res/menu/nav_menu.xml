@@ -5,123 +5,123 @@
         <item
             android:id="@+id/nav_menu1"
             android:title="Accounting and Legal"
-            android:icon="@drawable/accounting_bawaba"/>
+            android:icon="@drawable/ic_accounting_and_legal"/>
     </group>
     <group android:id="@+id/grp2"  >
         <item
             android:id="@+id/nav_menu2"
             android:title="Programming"
-            android:icon="@drawable/program_bawabba"/>
+            android:icon="@drawable/ic_programming"/>
     </group>
     <group android:id="@+id/grp3" >
         <item
             android:id="@+id/nav_menu3"
             android:title="Architecture and Engineering"
-            android:icon="@drawable/architecture_bawaba"/>
+            android:icon="@drawable/ic_architect_and_engineering"/>
     </group>
     <group android:id="@+id/grp4" >
         <item
             android:id="@+id/nav_menu4"
             android:title="Arts and Crafts"
-            android:icon="@drawable/arts_bawaba"/>
+            android:icon="@drawable/ic_art_and_craft"/>
     </group>
     <group android:id="@+id/grp5">
         <item
             android:id="@+id/nav_menu5"
             android:title="Beauty and Skincare"
-            android:icon="@drawable/beauty_bawaba"/>
+            android:icon="@drawable/ic_beauty_and_skincare"/>
     </group>
     <group android:id="@+id/grp6"  >
         <item
             android:id="@+id/nav_menu6"
             android:title="Child and pet Care"
-            android:icon="@drawable/child_bawaba"/>
+            android:icon="@drawable/ic_child_and_pet"/>
     </group>
     <group android:id="@+id/grp7" >
         <item
             android:id="@+id/nav_menu7"
             android:title="Cleaning,Maintenance and Moving"
-            android:icon="@drawable/cleaning_bawaba"/>
+            android:icon="@drawable/ic_cleaning_maintainance_moving"/>
     </group>
     <group android:id="@+id/grp8"  >
         <item
             android:id="@+id/nav_menu8"
             android:title="Consultants"
-            android:icon="@drawable/consultant_bawaba"/>
+            android:icon="@drawable/ic_consultants"/>
     </group>
     <group android:id="@+id/grp9"  >
 
         <item
             android:id="@+id/nav_menu9"
             android:title="Designers"
-            android:icon="@drawable/design_bawaba"/>
+            android:icon="@drawable/ic_fashion_designers"/>
     </group>
     <group android:id="@+id/grp10"  >
         <item
             android:id="@+id/nav_menu10"
             android:title="Digital Designers"
-            android:icon="@drawable/digital_bawaba"/>
+            android:icon="@drawable/ic_digital_designers"/>
     </group>
     <group android:id="@+id/grp11"  >
         <item
             android:id="@+id/nav_menu11"
             android:title="Entertainment and Events"
-            android:icon="@drawable/events_bawaba"/>
+            android:icon="@drawable/ic_event_entertainment"/>
     </group>
     <group android:id="@+id/grp12"  >
         <item
             android:id="@+id/nav_menu12"
             android:title="Food and Beverage"
-            android:icon="@drawable/food_bawaba"/>
+            android:icon="@drawable/ic_food_beverage"/>
     </group>
     <group android:id="@+id/grp13"  >
         <item
             android:id="@+id/nav_menu13"
             android:title="Health and Well Being"
-            android:icon="@drawable/health_bawaba"/>
+            android:icon="@drawable/ic_health_wellbeing"/>
     </group>
     <group android:id="@+id/grp14"  >
         <item
             android:id="@+id/nav_menu14"
             android:title="Hobby and Academic Classes"
-            android:icon="@drawable/education_bawaba"/>
+            android:icon="@drawable/ic_hobby_academics"/>
     </group>
     <group android:id="@+id/grp15"  >
 
         <item
             android:id="@+id/nav_menu15"
             android:title="Marketing"
-            android:icon="@drawable/marketing_bawaba"/>
+            android:icon="@drawable/ic_marketing"/>
     </group>
     <group android:id="@+id/grp16"  >
 
         <item
             android:id="@+id/nav_menu16"
             android:title="Music and Audio"
-            android:icon="@drawable/music_bawaba"/>
+            android:icon="@drawable/ic_music_"/>
     </group>
     <group android:id="@+id/grp17"  >
         <item
             android:id="@+id/nav_menu17"
             android:title="Sports Coaching"
-            android:icon="@drawable/sports_bawaba"/>
+            android:icon="@drawable/ic_sports_coaching"/>
     </group>
     <group android:id="@+id/grp18"  >
         <item
             android:id="@+id/nav_menu18"
             android:title="Travel and Tourism"
-            android:icon="@drawable/travel_bawaba"/>
+            android:icon="@drawable/ic_travel_and_tourism"/>
     </group>
     <group android:id="@+id/grp19"  >
         <item
             android:id="@+id/nav_menu19"
             android:title="Video and Photography"
-            android:icon="@drawable/photo_bawaba"/>
+            android:icon="@drawable/ic_photographers_and_videographers"/>
     </group>
     <group android:id="@+id/grp20"  >
         <item
             android:id="@+id/nav_menu20"
             android:title="Writers and Translators"
-            android:icon="@drawable/writer_bawaba"/>
+            android:icon="@drawable/ic_writers_and_translators"/>
     </group>
 </menu>
