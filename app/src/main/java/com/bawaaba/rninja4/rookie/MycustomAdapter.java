@@ -1,6 +1,7 @@
 package com.bawaaba.rninja4.rookie;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bawaaba.rninja4.rookie.activity.Subcategory;
 import com.bawaaba.rninja4.rookie.activity.portfolioTab.ItemClickListener_grid;
 
 import java.util.ArrayList;
@@ -46,13 +48,15 @@ public class MycustomAdapter  extends RecyclerView.Adapter<MycustomAdapter.MyVie
         myViewholder.imageview.setImageResource(data.get(position).imageID);
 
 
-//        myViewholder.setItemClickListener_grid(new ItemClickListener_grid() {
-//            @Override
-//            public void onItemClick(int pos) {
-//
-//
-//            }
-//        });
+        myViewholder.setItemClickListener_grid(new ItemClickListener_grid() {
+            @Override
+            public void onItemClick(int pos) {
+                Intent to_subcategory = new Intent(context, Subcategory.class);
+                to_subcategory.putExtra("id", position);
+                context.startActivity(to_subcategory);
+
+            }
+        });
 
     }
 
@@ -73,14 +77,14 @@ public class MycustomAdapter  extends RecyclerView.Adapter<MycustomAdapter.MyVie
             textview = (TextView) itemView.findViewById(R.id.row_text);
             imageview = (ImageView) itemView.findViewById(R.id.img_row);
             grid_linearlayout=(LinearLayout)itemView.findViewById(R.id.grid_linear);
-          //  itemView.setOnClickListener(this);
+            itemView.setOnClickListener(this);
 
         }
 
-//        public void setItemClickListener_grid(ItemClickListener_grid itemClickListener){
-//
-//            this.itemClickListener=itemClickListener;
-//        }
+        public void setItemClickListener_grid(ItemClickListener_grid itemClickListener){
+
+            this.itemClickListener=itemClickListener;
+        }
 
 
         @Override
