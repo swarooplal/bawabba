@@ -41,7 +41,7 @@ import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.ashokvarma.bottomnavigation.TextBadgeItem;
+import com.bawaaba.rninja4.rookie.BaseBottomMenuHelper;
 import com.bawaaba.rninja4.rookie.BioTab.Description;
 import com.bawaaba.rninja4.rookie.BioTab.EditDetails;
 import com.bawaaba.rninja4.rookie.BioTab.Services;
@@ -208,7 +208,7 @@ public class ProfileView extends TabActivity implements IConsts, ManagingDialogs
     private QBSystemMessagesManager systemMessagesManager;
     private QBIncomingMessagesManager incomingMessagesManager;
     private DialogsManager dialogsManager;
-    private TextBadgeItem textBadgeItem;
+   
     private QBChatDialog qbChatDialog;
     private boolean isBlocked;
 
@@ -222,15 +222,17 @@ public class ProfileView extends TabActivity implements IConsts, ManagingDialogs
     boolean isOtherUserBlocked = false;
     String strOtherUserId = "";
     public String reg_id;
+    
+    private BaseBottomMenuHelper bottomMenuHelper;
 
-    public void isMessageArrived() {
+    /*public void isMessageArrived() {
         try {
             boolean isMessageArrived = ObjectFactory.getInstance().getAppPreference(getApplicationContext()).isNewMessageArrived();
             if (isMessageArrived) {
                 int total = ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUnreadMessage();
                 if (total > 0) {
-                    textBadgeItem.setText("" + total);
-                    textBadgeItem.show(false);
+                    bottomMenuHelper.getTextBadgeItem().setText("" + total);
+                    bottomMenuHelper.getTextBadgeItem().show(false);
                 } else {
                     hideText();
                 }
@@ -242,9 +244,9 @@ public class ProfileView extends TabActivity implements IConsts, ManagingDialogs
     }
 
     private void hideText() {
-        textBadgeItem.setText("");
-        textBadgeItem.hide();
-    }
+        bottomMenuHelper.getTextBadgeItem().setText("");
+        bottomMenuHelper.getTextBadgeItem().hide();
+    }*/
 
     QBPrivacyListsManager privacyListsManager;
     TinyDB tinyDB;
@@ -308,23 +310,24 @@ public class ProfileView extends TabActivity implements IConsts, ManagingDialogs
         final Intent get_id = getIntent();
         final String search_user_id = get_id.getStringExtra("reg_id"); // intent from search
         profileId = search_user_id;
-        BottomNavigationBar bottomNavigationView = (BottomNavigationBar)
-                findViewById(R.id.bottom_bar);
+        bottomMenuHelper=new BaseBottomMenuHelper(this);
+        /*BottomNavigationBar bottomNavigationView = (BottomNavigationBar)
+                findViewById(R.id.bottom_bar);*/
         if (!session.isLoggedIn()) {
-            bottomNavigationView.setFirstSelectedPosition(1);
+            bottomMenuHelper.setFirstSelectedPosition(1);
         } else if (search_user_id == null || db_id.equals(search_user_id)) {
-            bottomNavigationView.setFirstSelectedPosition(3);
+            bottomMenuHelper.setFirstSelectedPosition(3);
         } else {
-            bottomNavigationView.setFirstSelectedPosition(1);
+            bottomMenuHelper.setFirstSelectedPosition(1);
         }
-        textBadgeItem = Utils.getTextBadge();
+        
         unread_notification();
-        ObjectFactory.getInstance().getAppPreference(getApplicationContext()).saveCurrentActivity("ProfileView");
-        isMessageArrived();
-        bottomNavigationView
+//        ObjectFactory.getInstance().getAppPreference(getApplicationContext()).saveCurrentActivity("ProfileView");
+        bottomMenuHelper.isMessageArrived();
+        /*bottomNavigationView
                 .addItem(new BottomNavigationItem(R.drawable.ic_home1, "Home").setActiveColorResource(R.color.bottomnavigation))
                 .addItem(new BottomNavigationItem(R.drawable.ic_search1, "Search").setActiveColorResource(R.color.bottomnavigation))
-                .addItem(new BottomNavigationItem(R.drawable.ic_inbox1, "Inbox").setBadgeItem(textBadgeItem).setActiveColorResource(R.color.bottomnavigation))
+                .addItem(new BottomNavigationItem(R.drawable.ic_inbox1, "Inbox").setBadgeItem(bottomMenuHelper.getTextBadgeItem()).setActiveColorResource(R.color.bottomnavigation))
                 .addItem(new BottomNavigationItem(R.drawable.ic_profile, "Profile").setActiveColorResource(R.color.bottomnavigation))
                 // .setFirstSelectedPosition(3)
                 .initialise();
@@ -378,7 +381,7 @@ public class ProfileView extends TabActivity implements IConsts, ManagingDialogs
             public void onTabReselected(int position) {
 
             }
-        });
+        });*/
 
         if (!session.isLoggedIn()) {
             if (get_id.getStringExtra("reg_id") != null) {
@@ -1111,12 +1114,19 @@ public class ProfileView extends TabActivity implements IConsts, ManagingDialogs
         super.onDestroy();
         EventBus.getDefault().unregister(this);
         unregisterQbChatListeners();
+        bottomMenuHelper.unbind();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (!bottomMenuHelper.onActivityResult(requestCode, resultCode, data))
+            super.onActivityResult(requestCode, resultCode, data);
     }
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MessageEvent event) {
-        isMessageArrived();
+        bottomMenuHelper.isMessageArrived();
     }
 
     private void registerQbChatListeners() {
@@ -2333,14 +2343,14 @@ public class ProfileView extends TabActivity implements IConsts, ManagingDialogs
         HashMap<String, String> user = db.getUserDetails();
         final String db_id = (user.get("uid") == null) ? "null" : user.get("uid");
 
-        if (session.isLoggedIn() && db_id.equals(userRegID)) {
+       /* if (session.isLoggedIn() && db_id.equals(userRegID)) {
             Intent intent = new Intent(ProfileView.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finishAffinity();
-        } else {
+        } else {*/
             super.onBackPressed();
-        }
+//        }
 
     }
 
@@ -2756,8 +2766,8 @@ public class ProfileView extends TabActivity implements IConsts, ManagingDialogs
                                 jsonObject = new JSONObject(responseString);
                                 String count = jsonObject.getString("count");
                                 if (!count.equals("0")) {
-                                    textBadgeItem.setText(count);
-                                    textBadgeItem.show(false);
+                                    bottomMenuHelper.getTextBadgeItem().setText(count);
+                                    bottomMenuHelper.getTextBadgeItem().show(false);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

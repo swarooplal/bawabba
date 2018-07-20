@@ -58,7 +58,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 
-public class MainActivity extends AppCompatActivity implements IConsts {
+public class MainActivity extends BaseBottomHelperActivity implements IConsts {
 
     RecyclerView recyclerView;
     MycustomAdapter adapter;
@@ -68,7 +68,8 @@ public class MainActivity extends AppCompatActivity implements IConsts {
     private SQLiteHandler db;
     private SessionManager session;
     private AppCompatEditText tvSearchHere;
-    private TextBadgeItem textBadgeItem;
+    //    private TextBadgeItem textBadgeItem;
+    BaseBottomMenuHelper bottomMenuHelper;
 
     ShapeDrawable.ShaderFactory shaderFactory = new ShapeDrawable.ShaderFactory() {
         @Override
@@ -154,8 +155,8 @@ public class MainActivity extends AppCompatActivity implements IConsts {
         GridLayoutManager mgridLayoutManager = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(mgridLayoutManager);
         EventBus.getDefault().register(this);
-
-        BottomNavigationBar bottomNavigationView = findViewById(R.id.bottom_bar);
+        bottomMenuHelper = new BaseBottomMenuHelper(this);
+        /*BottomNavigationBar bottomNavigationView = findViewById(R.id.bottom_bar);
         bottomNavigationView.setFirstSelectedPosition(0);
         ObjectFactory.getInstance().getAppPreference(getApplicationContext()).saveCurrentActivity("MainActivity");
         textBadgeItem = Utils.getTextBadge();
@@ -223,7 +224,13 @@ public class MainActivity extends AppCompatActivity implements IConsts {
 
             }
         });
+*/
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (!bottomMenuHelper.onActivityResult(requestCode, resultCode, data))
+            super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -248,22 +255,23 @@ public class MainActivity extends AppCompatActivity implements IConsts {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        bottomMenuHelper.unbind();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MessageEvent event) {
-        isMessageArrived();
+        bottomMenuHelper.isMessageArrived();
     }
 
-    public void isMessageArrived() {
+    /*public void isMessageArrived() {
         try {
             boolean isMessageArrived = ObjectFactory.getInstance().getAppPreference(getApplicationContext()).isNewMessageArrived();
             if (isMessageArrived) {
                 //showUnreadMessages();
                 int total = ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUnreadMessage();
                 if (total > 0) {
-                    textBadgeItem.setText("" + total);
-                    textBadgeItem.show(false);
+                    bottomMenuHelper.getTextBadgeItem().setText("" + total);
+                    bottomMenuHelper.getTextBadgeItem().show(false);
                 } else {
                     hideText();
                 }
@@ -275,9 +283,9 @@ public class MainActivity extends AppCompatActivity implements IConsts {
     }
 
     private void hideText() {
-        textBadgeItem.setText("");
-        textBadgeItem.hide();
-    }
+        bottomMenuHelper.getTextBadgeItem().setText("");
+        bottomMenuHelper.getTextBadgeItem().hide();
+    }*/
 
     @Override
     public void onBackPressed() {
@@ -286,11 +294,10 @@ public class MainActivity extends AppCompatActivity implements IConsts {
     }
 
 
-
-    private void searchUser(final String keyword, final String skills, final String location){
+    private void searchUser(final String keyword, final String skills, final String location) {
 
         Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getApplicationContext()).getApiService().serachUser("app-client",
-                "123321",keyword,skills,location);
+                "123321", keyword, skills, location);
 
         responseBodyCall.enqueue(new Callback<ResponseBody>() {
 
@@ -356,8 +363,8 @@ public class MainActivity extends AppCompatActivity implements IConsts {
                                 jsonObject = new JSONObject(responseString);
                                 String count = jsonObject.getString("count");
                                 if (!count.equals("0")) {
-                                    textBadgeItem.setText(count);
-                                    textBadgeItem.show(false);
+                                    bottomMenuHelper.getTextBadgeItem().setText(count);
+                                    bottomMenuHelper.getTextBadgeItem().show(false);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

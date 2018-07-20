@@ -29,6 +29,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bawaaba.rninja4.rookie.MainActivity;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.dashboard.DashboardActivity;
 import com.bawaaba.rninja4.rookie.firbase.Config;
@@ -169,9 +170,11 @@ public class LoginActivity extends CoreBaseActivity implements IConsts {
         session = new SessionManager(getApplicationContext());
 
         if (session.isLoggedIn()) {
-            // User is already logged in. Take him to profile activity
-            Intent intent = new Intent(LoginActivity.this, ProfileView.class);
-            startActivity(intent);
+            if(getIntent()==null || !getIntent().getBooleanExtra(EXTRA_ONLY_NEED_RESULT,false)) {
+                // User is already logged in. Take him to profile activity
+                Intent intent = new Intent(LoginActivity.this, ProfileView.class);
+                startActivity(intent);
+            }
             finish();
         }
 
@@ -484,8 +487,10 @@ public class LoginActivity extends CoreBaseActivity implements IConsts {
                             qbSignin();
                             boolean result = db.addUser(name, email, uid, token, verify_code, password);
                             if (result) {
-                                Intent intent = new Intent(LoginActivity.this, ProfileView.class);
-                                startActivity(intent);
+                                if(getIntent()==null || !getIntent().getBooleanExtra(EXTRA_ONLY_NEED_RESULT,false)) {
+                                    Intent intent = new Intent(LoginActivity.this, ProfileView.class);
+                                    startActivity(intent);
+                                }
                                 finish();
                             }
 
@@ -524,14 +529,23 @@ public class LoginActivity extends CoreBaseActivity implements IConsts {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        //swaroop commented
-        // perviously redirected log in actvity
-        Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
-        startActivity(intent);
-        finish();
+       if(getIntent()!=null && getIntent().getBooleanExtra(EXTRA_ONLY_NEED_RESULT,false)) {
+           super.onBackPressed();
+       } else {
+           //swaroop commented
+           // perviously redirected log in actvity
+//           Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+           Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+           startActivity(intent);
+           finish();
+       }
+
+
 
     }
+
+
+    public static final String EXTRA_ONLY_NEED_RESULT="extra_need_result";
 
 }
 

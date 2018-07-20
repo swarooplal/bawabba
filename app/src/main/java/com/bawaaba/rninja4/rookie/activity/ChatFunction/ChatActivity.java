@@ -7,7 +7,8 @@ import android.support.design.widget.TabLayout;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.ashokvarma.bottomnavigation.TextBadgeItem;
+//import com.ashokvarma.bottomnavigation.bottomMenuHelper.getTextBadgeItem();
+import com.bawaaba.rninja4.rookie.BaseBottomMenuHelper;
 import com.bawaaba.rninja4.rookie.MainActivity;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.activity.ChatFunction.views.CustomViewPager;
@@ -39,8 +40,9 @@ public class ChatActivity extends BaseChatActivity  {
     private SQLiteHandler db;
     private SessionManager session;
     private String inbox_count;
-    private TextBadgeItem textBadgeItem;
+//    private bottomMenuHelper.getTextBadgeItem() bottomMenuHelper.getTextBadgeItem();
     String inbox_incount="";
+    private BaseBottomMenuHelper bottomMenuHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,19 +50,20 @@ public class ChatActivity extends BaseChatActivity  {
         getSupportActionBar().hide();
         db = new SQLiteHandler(getApplicationContext());
         session = new SessionManager(getApplicationContext());
-        textBadgeItem = Utils.getTextBadge();
+//        bottomMenuHelper.getTextBadgeItem() = Utils.getTextBadge();
         HashMap<String, String> user = db.getUserDetails();
         final String db_id = user.get("uid");
         unread_notification();
         ObjectFactory.getInstance().getAppPreference(getApplicationContext()).saveNewMessageArrived(false);
         ObjectFactory.getInstance().getAppPreference(getApplicationContext()).saveCurrentActivity("ChatActivity");
-        BottomNavigationBar bottomNavigationView = (BottomNavigationBar)
+        bottomMenuHelper=new BaseBottomMenuHelper(this);
+        /*BottomNavigationBar bottomNavigationView = (BottomNavigationBar)
                 findViewById(R.id.bottom_bar);
 
         bottomNavigationView
                 .addItem(new BottomNavigationItem(R.drawable.ic_home1, "Home").setActiveColorResource(R.color.bottomnavigation))
                 .addItem(new BottomNavigationItem(R.drawable.ic_search1, "Search").setActiveColorResource(R.color.bottomnavigation))
-                .addItem(new BottomNavigationItem(R.drawable.ic_inbox1, "Inbox").setBadgeItem(textBadgeItem).setActiveColorResource(R.color.bottomnavigation))
+                .addItem(new BottomNavigationItem(R.drawable.ic_inbox1, "Inbox").setBadgeItem(bottomMenuHelper.getTextBadgeItem()).setActiveColorResource(R.color.bottomnavigation))
                 .addItem(new BottomNavigationItem(R.drawable.ic_profile, "Profile").setActiveColorResource(R.color.bottomnavigation))
                 .setFirstSelectedPosition(2)
                 .initialise();
@@ -104,7 +107,7 @@ public class ChatActivity extends BaseChatActivity  {
             public void onTabReselected(int position) {
 
             }
-        });
+        });*/
 /*
         allDialogsMessagesListener = new AllDialogsMessageListener();
         systemMessagesListener = new SystemMessagesListener();
@@ -113,6 +116,8 @@ public class ChatActivity extends BaseChatActivity  {
 */
         initialize();
     }
+
+
     private int getUnreadMsgCount(QBChatDialog chatDialog){
         Integer unreadMessageCount = chatDialog.getUnreadMessageCount();
         if (unreadMessageCount == null) {
@@ -123,7 +128,8 @@ public class ChatActivity extends BaseChatActivity  {
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        if (!bottomMenuHelper.onActivityResult(requestCode, resultCode, data))
+            super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void initialize() {
@@ -142,13 +148,13 @@ public class ChatActivity extends BaseChatActivity  {
         viewPager.setPagingEnabled(false);
     }
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         super.onBackPressed();
         Intent intent = new Intent(ChatActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
-    }
+    }*/
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -157,6 +163,7 @@ public class ChatActivity extends BaseChatActivity  {
             //unregisterQbChatListeners();
         } catch (Exception e) {
         }
+        bottomMenuHelper.unbind();
     }
     @Override
     public void onResume() {
@@ -193,13 +200,13 @@ public class ChatActivity extends BaseChatActivity  {
                                 inbox_incount = jsonObject.getString("count");
                                 int count_not= Integer.parseInt(inbox_incount);
                                 if (count_not!=0) {
-                                    textBadgeItem.setText(count_not+"");
-                                    textBadgeItem.show(true);
+                                    bottomMenuHelper.getTextBadgeItem().setText(count_not+"");
+                                    bottomMenuHelper.getTextBadgeItem().show(true);
                                 }
                                 else
                                 {
-                                    textBadgeItem.setText("0");
-                                    textBadgeItem.setBackgroundColor(Color.TRANSPARENT);
+                                    bottomMenuHelper.getTextBadgeItem().setText("0");
+                                    bottomMenuHelper.getTextBadgeItem().setBackgroundColor(Color.TRANSPARENT);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

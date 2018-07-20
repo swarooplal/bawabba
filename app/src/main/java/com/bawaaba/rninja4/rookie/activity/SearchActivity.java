@@ -22,7 +22,7 @@ import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.ashokvarma.bottomnavigation.TextBadgeItem;
+import com.bawaaba.rninja4.rookie.BaseBottomMenuHelper;
 import com.bawaaba.rninja4.rookie.MainActivity;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
@@ -73,21 +73,21 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     private ImageView image;
     private AutoCompleteTextView style;
     private MultiAutoCompleteTextView simpleMultiAutoCompleteTextView;
-    private TextBadgeItem textBadgeItem;
     private SQLiteHandler db;
     private SessionManager session;
     private LinearLayout linearlayout;
+    private BaseBottomMenuHelper bottomMenuHelper;
 
 
-    public void isMessageArrived() {
+    /*public void isMessageArrived() {
         try {
             boolean isMessageArrived = ObjectFactory.getInstance().getAppPreference(getApplicationContext()).isNewMessageArrived();
             if (isMessageArrived) {
                 //showUnreadMessages();
                 int total = ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUnreadMessage();
                 if (total > 0) {
-                    textBadgeItem.setText("" + total);
-                    textBadgeItem.show(false);
+                    bottomMenuHelper.getTextBadgeItem().setText("" + total);
+                    bottomMenuHelper.getTextBadgeItem().show(false);
                 } else {
                     hideText();
                 }
@@ -99,9 +99,9 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void hideText(){
-        textBadgeItem.setText("");
-        textBadgeItem.hide();
-    }
+        bottomMenuHelper.getTextBadgeItem().setText("");
+        bottomMenuHelper.getTextBadgeItem().hide();
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,21 +116,20 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         HashMap<String, String> user = db.getUserDetails();
         final String db_id = user.get("uid");
         unread_notification();
-
+        bottomMenuHelper=new BaseBottomMenuHelper(this);
        // getSupportActionBar().setCustomView(R.layout.actiontitle_layout4);
         ActionBar actionBar = getSupportActionBar();
       //  actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.gradient));
 
-        BottomNavigationBar bottomNavigationView = (BottomNavigationBar)
+       /* BottomNavigationBar bottomNavigationView = (BottomNavigationBar)
                 findViewById(R.id.bottom_bar);
 
-        textBadgeItem = Utils.getTextBadge();
         ObjectFactory.getInstance().getAppPreference(getApplicationContext()).saveCurrentActivity("SearchActivity");
         isMessageArrived();
         bottomNavigationView
                 .addItem(new BottomNavigationItem(R.drawable.ic_home1, "Home").setActiveColorResource(R.color.bottomnavigation))
                 .addItem(new BottomNavigationItem(R.drawable.ic_search1, "Search").setActiveColorResource(R.color.bottomnavigation))
-                .addItem(new BottomNavigationItem(R.drawable.ic_inbox1, "Inbox").setBadgeItem(textBadgeItem).setActiveColorResource(R.color.bottomnavigation))
+                .addItem(new BottomNavigationItem(R.drawable.ic_inbox1, "Inbox").setBadgeItem(bottomMenuHelper.getTextBadgeItem()).setActiveColorResource(R.color.bottomnavigation))
                 .addItem(new BottomNavigationItem(R.drawable.ic_profile, "Profile").setActiveColorResource(R.color.bottomnavigation))
                 .setFirstSelectedPosition(1)
                 .initialise();
@@ -188,7 +187,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onTabReselected(int position) {
             }
-        });
+        });*/
 
 //
 //        final ImageButton home = (ImageButton) findViewById(R.id.home);
@@ -255,12 +254,18 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.e("Search","=Des");
         EventBus.getDefault().unregister(this);
+        bottomMenuHelper.unbind();
     }
+
+
+
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MessageEvent event) {
-        isMessageArrived();
+        bottomMenuHelper.isMessageArrived();
     }
 
 
@@ -296,36 +301,37 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                // retrive the data by using getPlace() method.
-                Place place = PlaceAutocomplete.getPlace(this, data);
-                Log.e("Tag", "Place: " + place.getAddress() + place.getPhoneNumber());
-                InputLocation.setText(place.getAddress());
+        Log.e("search","re="+requestCode);
+        if (!bottomMenuHelper.onActivityResult(requestCode, resultCode, data)) {
+            if (requestCode == 1) {
+                if (resultCode == RESULT_OK) {
+                    // retrive the data by using getPlace() method.
+                    Place place = PlaceAutocomplete.getPlace(this, data);
+                    Log.e("Tag", "Place: " + place.getAddress() + place.getPhoneNumber());
+                    InputLocation.setText(place.getAddress());
 
-            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
-                Status status = PlaceAutocomplete.getStatus(this, data);
+                } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+                    Status status = PlaceAutocomplete.getStatus(this, data);
 
-            } else if (resultCode == RESULT_CANCELED) {
-                // The user canceled the operation.
+                } else if (resultCode == RESULT_CANCELED) {
+                    // The user canceled the operation.
+                }
+            } else if (requestCode == 2) {
+                if (data == null) {
+                    simpleMultiAutoCompleteTextView.setText("");
+
+                    return;
+                }
+                Bundle MBuddle = data.getExtras();
+                String MMessage = MBuddle.getString("result");
+                if (MMessage != null) {
+                    simpleMultiAutoCompleteTextView.setText(MMessage);
+                } else {
+                    simpleMultiAutoCompleteTextView.setText("");
+
+                }
+
             }
-        }else if (requestCode==2){
-            if (data==null){
-                simpleMultiAutoCompleteTextView.setText("");
-
-                return;
-            }
-            Bundle MBuddle = data.getExtras();
-            String MMessage = MBuddle .getString("result");
-            if (MMessage!=null){
-                simpleMultiAutoCompleteTextView.setText(MMessage);
-            }else{
-                simpleMultiAutoCompleteTextView.setText("");
-
-            }
-
-
-
         }
     }
 
@@ -467,6 +473,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     protected void onResume() {
         super.onResume();
         unread_notification();
+//        bottomMenuHelper.setFirstSelectedPosition();
     }
 
     private void unread_notification() {
@@ -490,8 +497,8 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                                 jsonObject = new JSONObject(responseString);
                                 String count=jsonObject.getString("count");
                                 if(!count.equals("0")){
-                                    textBadgeItem.setText(count);
-                                    textBadgeItem.show(false);
+                                    bottomMenuHelper.getTextBadgeItem().setText(count);
+                                    bottomMenuHelper.getTextBadgeItem().show(false);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
