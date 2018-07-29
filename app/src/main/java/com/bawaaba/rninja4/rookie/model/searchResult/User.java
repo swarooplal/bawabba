@@ -2,6 +2,8 @@ package com.bawaaba.rninja4.rookie.model.searchResult;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -109,7 +111,7 @@ public class User {
     }
 
     public List<String> getSkills() {
-        return skills;
+        return skills==null?new ArrayList<String>():skills;
     }
 
     public void setSkills(List<String> skills) {

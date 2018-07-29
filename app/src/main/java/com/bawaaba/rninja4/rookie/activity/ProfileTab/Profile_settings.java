@@ -27,10 +27,15 @@ import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.activity.ChatFunction.ChatActivity;
 import com.bawaaba.rninja4.rookie.activity.ProfileView;
 import com.bawaaba.rninja4.rookie.activity.SearchActivity;
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
+import com.bawaaba.rninja4.rookie.dashboard_new.ChatFragment;
+import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
+import com.bawaaba.rninja4.rookie.dashboard_new.SearchFragment;
 import com.bawaaba.rninja4.rookie.firbase.Config;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
 import com.bawaaba.rninja4.rookie.helper.SessionManager;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
+import com.bawaaba.rninja4.rookie.utils.AppPreference;
 import com.gdacciaro.iOSDialog.iOSDialog;
 
 import org.json.JSONException;
@@ -77,23 +82,28 @@ public class Profile_settings extends AppCompatActivity {
             public void onTabSelected(int position) {
                 switch (position) {
                     case 0:
-                        Intent to_main = new Intent(Profile_settings.this, MainActivity.class);
-                        startActivity(to_main);
+                        BaseBottomHelperActivity.start(getApplicationContext(),null,null,null);
+                        /*Intent to_main = new Intent(Profile_settings.this, MainActivity.class);
+                        startActivity(to_main);*/
                         finish();
                         break;
                     case 1:
-                        Intent to_search = new Intent(Profile_settings.this, SearchActivity.class);
-                        startActivity(to_search);
+                        BaseBottomHelperActivity.start(getApplicationContext(), SearchFragment.class.getName(),null,null);
+                        /*Intent to_search = new Intent(Profile_settings.this, SearchActivity.class);
+                        startActivity(to_search);*/
                         finish();
                         break;
                     case 2:
-                        Intent to_inbox = new Intent(Profile_settings.this, ChatActivity.class);
-                        startActivity(to_inbox);
+                        BaseBottomHelperActivity.start(getApplicationContext(), ChatFragment.class.getName(),null,null);
+                        /*Intent to_inbox = new Intent(Profile_settings.this, ChatActivity.class);
+                        startActivity(to_inbox);*/
                         finish();
                         break;
                     case 3:
-                        Intent to_profile = new Intent(Profile_settings.this, ProfileView.class);
-                        startActivity(to_profile);
+                        AppPreference appPreference=ObjectFactory.getInstance().getAppPreference(getApplicationContext());
+                        BaseBottomHelperActivity.start(getApplicationContext(), ProfileViewFragment.class.getName(),appPreference.getUserId(),appPreference.getUserName());
+                        /*Intent to_profile = new Intent(Profile_settings.this, ProfileView.class);
+                        startActivity(to_profile);*/
                         finish();
                         break;
                     default:
@@ -240,9 +250,10 @@ public class Profile_settings extends AppCompatActivity {
                                 // Toast.makeText(Profile_settings.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                                 db.deleteUsers();
                                 session.setLogin(false);
-                                Intent intent = new Intent(Profile_settings.this, MainActivity.class);
+                                BaseBottomHelperActivity.start(getApplicationContext(),null,null,null);
+                                /*Intent intent = new Intent(Profile_settings.this, MainActivity.class);
                                 // intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
+                                startActivity(intent);*/
                                 finishAffinity();
                             } else {
                                 Log.e("working", "forget");

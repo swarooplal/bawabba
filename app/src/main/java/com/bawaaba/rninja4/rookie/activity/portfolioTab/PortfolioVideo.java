@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bawaaba.rninja4.rookie.R;
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
 import com.bawaaba.rninja4.rookie.helper.SessionManager;
 
@@ -156,8 +157,9 @@ public class PortfolioVideo extends AppCompatActivity  implements View.OnClickLi
         Intent from_profile = getIntent();
         String user_id = from_profile.getStringExtra("user_id");
         if (session.isLoggedIn() && db_id.equals(user_id)) {
-            Intent intent = new Intent(PortfolioVideo.this, com.bawaaba.rninja4.rookie.MainActivity.class);
-            startActivity(intent);
+            BaseBottomHelperActivity.start(getApplicationContext(),null,null,null);
+            /*Intent intent = new Intent(PortfolioVideo.this, com.bawaaba.rninja4.rookie.MainActivity.class);
+            startActivity(intent);*/
             finish();
         } else {
             super.onBackPressed();

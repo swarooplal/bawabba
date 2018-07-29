@@ -45,7 +45,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bawaaba.rninja4.rookie.activity.SearchResult;
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
+import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
 import com.bawaaba.rninja4.rookie.model.searchResult.SearchResultResponse;
+import com.bawaaba.rninja4.rookie.utils.AppPreference;
 import com.bumptech.glide.Glide;
 import com.bawaaba.rninja4.rookie.App.AppController;
 import com.bawaaba.rninja4.rookie.JSONParser;
@@ -583,8 +586,10 @@ public class EditDetails extends BaseActivity {
                             Toast.makeText(getApplicationContext(),
                                     "Your details have been updated successfully", Toast.LENGTH_SHORT).show();
 
-                            Intent to_profile = new Intent(EditDetails.this, ProfileView.class);
-                            startActivity(to_profile);
+                            AppPreference appPreference=ObjectFactory.getInstance().getAppPreference(getApplicationContext());
+                            BaseBottomHelperActivity.start(getApplicationContext(), ProfileViewFragment.class.getName(),appPreference.getUserId(),appPreference.getUserName());
+                           /* Intent to_profile = new Intent(EditDetails.this, ProfileView.class);
+                            startActivity(to_profile);*/
                             finish();
                         }else {
                             String errorMsg = jObj.getString("error_msg");

@@ -47,6 +47,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
+import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
+import com.bawaaba.rninja4.rookie.utils.AppPreference;
 import com.bumptech.glide.Glide;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
@@ -427,9 +430,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         if (session.isLoggedIn()) {
             // User is already logged in. Take him to main activity
-            Intent intent = new Intent(RegisterActivity.this, ProfileView.class);
+            AppPreference appPreference=ObjectFactory.getInstance().getAppPreference(getApplicationContext());
+            BaseBottomHelperActivity.start(getApplicationContext(), ProfileViewFragment.class.getName(),appPreference.getUserId(),appPreference.getUserName());
+            /*Intent intent = new Intent(RegisterActivity.this, ProfileView.class);
 
-            startActivity(intent);
+            startActivity(intent);*/
             finish();
         }
 

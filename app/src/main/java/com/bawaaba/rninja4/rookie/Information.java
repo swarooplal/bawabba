@@ -8,4 +8,12 @@ public class Information {
 
     public int imageID;
     public String titile;
+
+    public int getImageID() {
+        return imageID;
+    }
+
+    public String getTitile() {
+        return titile==null?"":titile;
+    }
 }

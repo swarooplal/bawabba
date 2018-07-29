@@ -63,6 +63,7 @@ import com.bawaaba.rninja4.rookie.activity.portfolioTab.PortfolioFile;
 import com.bawaaba.rninja4.rookie.activity.portfolioTab.PortfolioImage;
 import com.bawaaba.rninja4.rookie.activity.portfolioTab.PortfolioReview;
 import com.bawaaba.rninja4.rookie.activity.portfolioTab.PortfolioVideo;
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
 import com.bawaaba.rninja4.rookie.firbase.Config;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
 import com.bawaaba.rninja4.rookie.helper.SessionManager;
@@ -2333,8 +2334,9 @@ public class ProfileView extends TabActivity implements IConsts, ManagingDialogs
     private void logoutUser() {
         db.deleteUsers();
         session.setLogin(false);
-        Intent intent = new Intent(ProfileView.this, MainActivity.class);
-        startActivity(intent);
+        BaseBottomHelperActivity.start(getApplicationContext(),null,null,null);
+        /*Intent intent = new Intent(ProfileView.this, MainActivity.class);
+        startActivity(intent);*/
         finish();
     }
 

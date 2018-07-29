@@ -22,10 +22,13 @@ import android.widget.Toast;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.activity.ProfileView;
 import com.bawaaba.rninja4.rookie.activity.adapters.RegisterSkillsRecyclerviewAdapter;
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
+import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
 import com.bawaaba.rninja4.rookie.model.RegisterSkillsResponse;
 import com.bawaaba.rninja4.rookie.model.Skill;
 import com.bawaaba.rninja4.rookie.model.profile.Profileresponse;
+import com.bawaaba.rninja4.rookie.utils.AppPreference;
 import com.bawaaba.rninja4.rookie.utils.BaseActivity;
 import com.google.gson.Gson;
 
@@ -341,9 +344,10 @@ public class SkillEditActivity extends BaseActivity implements View.OnClickListe
                             if (jsonObject != null) {
                                 if (!jsonObject.getBoolean("error")) {
                                     Toast.makeText(SkillEditActivity.this, "Your skills have been updated successfully", Toast.LENGTH_SHORT).show();
-
-                                    Intent intent = new Intent(SkillEditActivity.this, ProfileView.class);
-                                    startActivity(intent);
+                                    AppPreference appPreference=ObjectFactory.getInstance().getAppPreference(getApplicationContext());
+                                    BaseBottomHelperActivity.start(getApplicationContext(), ProfileViewFragment.class.getName(),appPreference.getUserId(),appPreference.getUserName());
+                                   /* Intent intent = new Intent(SkillEditActivity.this, ProfileView.class);
+                                    startActivity(intent);*/
                                     finish();
                                 } else {
                                     Toast.makeText(SkillEditActivity.this, "Some error occurred", Toast.LENGTH_SHORT).show();

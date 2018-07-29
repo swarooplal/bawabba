@@ -32,11 +32,15 @@ import android.widget.Toast;
 import com.bawaaba.rninja4.rookie.MainActivity;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.dashboard.DashboardActivity;
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
+import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
+import com.bawaaba.rninja4.rookie.dashboard_new.Utilities;
 import com.bawaaba.rninja4.rookie.firbase.Config;
 import com.bawaaba.rninja4.rookie.firbase.NotificationUtils;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
 import com.bawaaba.rninja4.rookie.helper.SessionManager;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
+import com.bawaaba.rninja4.rookie.utils.AppPreference;
 import com.bawaaba.rninja4.rookie.utils.IConsts;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.quickblox.core.QBEntityCallback;
@@ -172,8 +176,10 @@ public class LoginActivity extends CoreBaseActivity implements IConsts {
         if (session.isLoggedIn()) {
             if(getIntent()==null || !getIntent().getBooleanExtra(EXTRA_ONLY_NEED_RESULT,false)) {
                 // User is already logged in. Take him to profile activity
-                Intent intent = new Intent(LoginActivity.this, ProfileView.class);
-                startActivity(intent);
+                AppPreference appPreference=ObjectFactory.getInstance().getAppPreference(getApplicationContext());
+                BaseBottomHelperActivity.start(getApplicationContext(), ProfileViewFragment.class.getName(),appPreference.getUserId(),appPreference.getUserName());
+                /*Intent intent = new Intent(LoginActivity.this, ProfileView.class);
+                startActivity(intent);*/
             }
             finish();
         }
@@ -184,6 +190,7 @@ public class LoginActivity extends CoreBaseActivity implements IConsts {
         btnLogin.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+                Utilities.hideKeyBoard(LoginActivity.this);
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
 
@@ -451,7 +458,7 @@ public class LoginActivity extends CoreBaseActivity implements IConsts {
     private void checkLogin(final String email, final String password) {
         pDialog.setMessage("Logging in ...");
         showDialog();
-
+Log.e("Check","started");
         Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getApplicationContext()).getApiService().login("app-client",
                 "123321",email,password,reg_id,"android"
         );
@@ -488,8 +495,10 @@ public class LoginActivity extends CoreBaseActivity implements IConsts {
                             boolean result = db.addUser(name, email, uid, token, verify_code, password);
                             if (result) {
                                 if(getIntent()==null || !getIntent().getBooleanExtra(EXTRA_ONLY_NEED_RESULT,false)) {
-                                    Intent intent = new Intent(LoginActivity.this, ProfileView.class);
-                                    startActivity(intent);
+                                    AppPreference appPreference=ObjectFactory.getInstance().getAppPreference(getApplicationContext());
+                                    BaseBottomHelperActivity.start(getApplicationContext(), ProfileViewFragment.class.getName(),appPreference.getUserId(),appPreference.getUserName());
+                                    /*Intent intent = new Intent(LoginActivity.this, ProfileView.class);
+                                    startActivity(intent);*/
                                 }
                                 finish();
                             }
@@ -510,7 +519,11 @@ public class LoginActivity extends CoreBaseActivity implements IConsts {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                try {
+                    Log.e("eee","",t);
+                    hideDialog();
+                } catch (Exception e) {
+                }
             }
         });
     }
@@ -535,8 +548,9 @@ public class LoginActivity extends CoreBaseActivity implements IConsts {
            //swaroop commented
            // perviously redirected log in actvity
 //           Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
-           Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-           startActivity(intent);
+           BaseBottomHelperActivity.start(LoginActivity.this,null,null,null);
+          /* Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+           startActivity(intent);*/
            finish();
        }
 

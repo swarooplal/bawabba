@@ -19,8 +19,12 @@ import com.bawaaba.rninja4.rookie.activity.ProfileTab.GaleryAdapter;
 import com.bawaaba.rninja4.rookie.activity.ProfileTab.ReviewResultData;
 import com.bawaaba.rninja4.rookie.activity.ProfileView;
 import com.bawaaba.rninja4.rookie.activity.SimpleDividerItemDecoration;
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
+import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
 import com.bawaaba.rninja4.rookie.helper.SessionManager;
+import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
+import com.bawaaba.rninja4.rookie.utils.AppPreference;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -170,8 +174,10 @@ public class PortfolioReview extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(PortfolioReview.this, ProfileView.class);
-        startActivity(intent);
+        AppPreference appPreference= ObjectFactory.getInstance().getAppPreference(getApplicationContext());
+        BaseBottomHelperActivity.start(getApplicationContext(), ProfileViewFragment.class.getName(),appPreference.getUserId(),appPreference.getUserName());
+       /* Intent intent = new Intent(PortfolioReview.this, ProfileView.class);
+        startActivity(intent);*/
         finish();
     }
 }

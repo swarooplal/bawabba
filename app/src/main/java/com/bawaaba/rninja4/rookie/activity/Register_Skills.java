@@ -16,6 +16,7 @@ import com.bawaaba.rninja4.rookie.JSONParser;
 import com.bawaaba.rninja4.rookie.MainActivity;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.activity.adapters.RegisterSkillsRecyclerviewAdapter;
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
 import com.bawaaba.rninja4.rookie.model.RegisterSkillsResponse;
 import com.bawaaba.rninja4.rookie.model.Skill;
@@ -196,9 +197,10 @@ public class Register_Skills extends BaseActivity implements View.OnClickListene
 
                                     Log.e("regerror","responseString");
                                     Toast.makeText(Register_Skills.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(Register_Skills.this, MainActivity.class);
+                                    BaseBottomHelperActivity.start(getApplicationContext(),null,null,null);
+                                    /*Intent intent = new Intent(Register_Skills.this, MainActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    startActivity(intent);
+                                    startActivity(intent);*/
                                     finishAffinity();
                                 } else {
                                     Toast.makeText(Register_Skills.this, jsonObject.getString("error_msg"), Toast.LENGTH_SHORT).show();

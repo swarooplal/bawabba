@@ -21,9 +21,12 @@ import android.widget.Toast;
 
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.activity.ProfileView;
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
+import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
 import com.bawaaba.rninja4.rookie.model.currencies.CurrenciesResponse;
 import com.bawaaba.rninja4.rookie.model.profile.Profileresponse;
+import com.bawaaba.rninja4.rookie.utils.AppPreference;
 import com.bawaaba.rninja4.rookie.utils.BaseActivity;
 import com.google.gson.Gson;
 
@@ -376,8 +379,10 @@ public class AddServices extends BaseActivity implements View.OnClickListener {
                             System.out.println("AddServiceActivity.onResponse" + responseString);
                             if (!jsonObject.getBoolean("error")) {
                                 Toast.makeText(AddServices.this, "Your services have been updated successfully", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(AddServices.this, ProfileView.class);
-                                startActivity(intent);
+                                AppPreference appPreference=ObjectFactory.getInstance().getAppPreference(getApplicationContext());
+                                BaseBottomHelperActivity.start(getApplicationContext(), ProfileViewFragment.class.getName(),appPreference.getUserId(),appPreference.getUserName());
+                                /*Intent intent = new Intent(AddServices.this, ProfileView.class);
+                                startActivity(intent);*/
                                 finish();
                             } else {
                                 Toast.makeText(AddServices.this, "Some error occurred", Toast.LENGTH_SHORT).show();

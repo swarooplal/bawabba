@@ -17,11 +17,16 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.ashokvarma.bottomnavigation.TextBadgeItem;
 import com.bawaaba.rninja4.rookie.MainActivity;
 import com.bawaaba.rninja4.rookie.R;
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
+import com.bawaaba.rninja4.rookie.dashboard_new.ChatFragment;
+import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
+import com.bawaaba.rninja4.rookie.dashboard_new.SearchFragment;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
 import com.bawaaba.rninja4.rookie.helper.SessionManager;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
 import com.bawaaba.rninja4.rookie.model.searchResult.SearchResultResponse;
 import com.bawaaba.rninja4.rookie.model.searchResult.User;
+import com.bawaaba.rninja4.rookie.utils.AppPreference;
 import com.bawaaba.rninja4.rookie.utils.Utils;
 import com.google.gson.Gson;
 
@@ -121,22 +126,25 @@ public class SearchResult extends AppCompatActivity implements View.OnClickListe
                 public void onTabSelected(int position) {
                     switch (position) {
                         case 0:
-                            Intent to_main = new Intent(SearchResult.this, MainActivity.class);
-                            startActivity(to_main);
+                            BaseBottomHelperActivity.start(getApplicationContext(),null,null,null);
+                            /*Intent to_main = new Intent(SearchResult.this, MainActivity.class);
+                            startActivity(to_main);*/
 //                        overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_in_left);
                             finish();
                             break;
                         case 1:
-                            Intent to_search = new Intent(SearchResult.this, SearchActivity.class);
-                            startActivity(to_search);
+                            BaseBottomHelperActivity.start(getApplicationContext(), SearchFragment.class.getName(),null,null);
+                           /* Intent to_search = new Intent(SearchResult.this, SearchActivity.class);
+                            startActivity(to_search);*/
 //                        overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_in_left);
                             finish();
                             break;
                         case 2:
                             if (session.isLoggedIn() && db_id != null) {
                                 ObjectFactory.getInstance().getAppPreference(getApplicationContext()).saveNewMessageArrived(false);
-                                Intent to_inbox = new Intent(SearchResult.this, com.bawaaba.rninja4.rookie.activity.ChatFunction.ChatActivity.class);
-                                startActivity(to_inbox);
+                                BaseBottomHelperActivity.start(getApplicationContext(), ChatFragment.class.getName(),null,null);
+                                /*Intent to_inbox = new Intent(SearchResult.this, com.bawaaba.rninja4.rookie.activity.ChatFunction.ChatActivity.class);
+                                startActivity(to_inbox);*/
                                 finish();
                             } else {
                                 Intent to_login = new Intent(SearchResult.this, LoginActivity.class);
@@ -147,8 +155,10 @@ public class SearchResult extends AppCompatActivity implements View.OnClickListe
                             finish();
                             break;
                         case 3:
-                            Intent to_profile = new Intent(SearchResult.this, ProfileView.class);
-                            startActivity(to_profile);
+                            AppPreference appPreference=ObjectFactory.getInstance().getAppPreference(getApplicationContext());
+                            BaseBottomHelperActivity.start(getApplicationContext(), ProfileViewFragment.class.getName(),appPreference.getUserId(),appPreference.getUserName());
+                            /*Intent to_profile = new Intent(SearchResult.this, ProfileView.class);
+                            startActivity(to_profile);*/
 //                        overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_in_left);
 
                             finish();

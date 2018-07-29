@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
+import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
 import com.bumptech.glide.Glide;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.activity.CircleTransform;
@@ -107,10 +109,12 @@ public class EditReviewRecyclerviewAdapter  extends RecyclerView.Adapter<EditRev
         holder.textProfileName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent to_profile = new Intent(context,ProfileView.class);
+                ReviewByMe r=profileresponse.getUserData().getReviewByMe().get(position);
+                BaseBottomHelperActivity.start(context, ProfileViewFragment.class.getName(),r.getUserId(),r.getCurrentName());
+                /*Intent to_profile = new Intent(context,ProfileView.class);
                 to_profile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                to_profile.putExtra("reg_id",profileresponse.getUserData().getReviewByMe().get(position).getUserId());
-                context.startActivity(to_profile);
+                to_profile.putExtra("reg_id",r.getUserId());
+                context.startActivity(to_profile);*/
 
             }
         });

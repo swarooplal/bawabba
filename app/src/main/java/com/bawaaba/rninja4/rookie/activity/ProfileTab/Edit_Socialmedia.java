@@ -10,8 +10,11 @@ import android.widget.Toast;
 
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.activity.ProfileView;
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
+import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
+import com.bawaaba.rninja4.rookie.utils.AppPreference;
 import com.bawaaba.rninja4.rookie.utils.BaseActivity;
 
 import org.json.JSONException;
@@ -302,9 +305,10 @@ public class Edit_Socialmedia extends BaseActivity implements View.OnClickListen
                             Log.e("EDIT JSON: ", "updated");
                             Toast.makeText(getApplicationContext(),
                                     "Your social media details have been updated successfully", Toast.LENGTH_LONG).show();
-
-                            Intent to_profile = new Intent(Edit_Socialmedia.this, ProfileView.class);
-                            startActivity(to_profile);
+                            AppPreference appPreference=ObjectFactory.getInstance().getAppPreference(getApplicationContext());
+                            BaseBottomHelperActivity.start(getApplicationContext(), ProfileViewFragment.class.getName(),appPreference.getUserId(),appPreference.getUserName());
+                            /*Intent to_profile = new Intent(Edit_Socialmedia.this, ProfileView.class);
+                            startActivity(to_profile);*/
                             finish();
 
                         } else {

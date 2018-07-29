@@ -1,9 +1,12 @@
 package com.bawaaba.rninja4.rookie.utils;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -59,6 +62,7 @@ public class Utils {
         }
         return formattedDate;
     }
+
     public static long dateToTimeInMillisecond(String givenDate) {
         long timeinmillis = 0;
         try {
@@ -94,6 +98,10 @@ public class Utils {
     public static String getDeviceId(Context context) {
         TelephonyManager telephonyManager =
                 (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+
+            return "";
+        }
         return telephonyManager.getDeviceId();
     }
     public static void hideSoftKeyboard(View view, Context context) {

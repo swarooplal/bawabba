@@ -12,6 +12,7 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.bawaaba.rninja4.rookie.MainActivity;
 import com.bawaaba.rninja4.rookie.R;
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
 import com.bawaaba.rninja4.rookie.database.BlockUserDataBaseHelper;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
 import com.bawaaba.rninja4.rookie.model.MessageEvent;
@@ -62,7 +63,7 @@ public class GcmPushListenerService extends CoreGcmPushListenerService {
             profileImg =  BitmapFactory.decodeResource(getResources(), R.drawable.user);
         }
         showUnreadMessages();
-        NotificationUtils.showNotification(this, MainActivity.class, personName, messages, profileImg, R.mipmap.ic_notif_b, personName.hashCode());
+        NotificationUtils.showNotification(this, BaseBottomHelperActivity.class, personName, messages, profileImg, R.mipmap.ic_notif_b, personName.hashCode());
     }
     private void showUnreadMessages() {
         Handler mHandler = new Handler(Looper.getMainLooper()) {

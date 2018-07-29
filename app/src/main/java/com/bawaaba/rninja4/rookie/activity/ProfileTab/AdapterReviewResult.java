@@ -3,6 +3,7 @@ package com.bawaaba.rninja4.rookie.activity.ProfileTab;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,9 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
+import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
+import com.bawaaba.rninja4.rookie.model.profile.Review;
 import com.bumptech.glide.Glide;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.activity.CircleTransform;
@@ -153,9 +157,12 @@ public class AdapterReviewResult extends RecyclerView.Adapter<RecyclerView.ViewH
             myHolder.setItemClickListener_review(new ItemClickListener_review() {
                 @Override
                 public void onItemClick(int pos) {
-                    Intent to_profile = new Intent(context, ProfileView.class);
+                    Review review1=profileresponse.getUserData().getReview().get(position);
+                    BaseBottomHelperActivity.start(context,ProfileViewFragment.class.getName(),review1.getUserId(),review1.getCurrentName());
+
+                    /*Intent to_profile = new Intent(context, ProfileView.class);
                     to_profile.putExtra("reg_id", profileresponse.getUserData().getReview().get(position).getUserId());
-                    context.startActivity(to_profile);
+                    context.startActivity(to_profile);*/
 
                 }
             });

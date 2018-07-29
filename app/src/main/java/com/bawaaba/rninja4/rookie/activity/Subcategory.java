@@ -29,9 +29,14 @@ import com.bawaaba.rninja4.rookie.JSONParser;
 import com.bawaaba.rninja4.rookie.MainActivity;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.SkillView;
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
+import com.bawaaba.rninja4.rookie.dashboard_new.ChatFragment;
+import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
+import com.bawaaba.rninja4.rookie.dashboard_new.SearchFragment;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
 import com.bawaaba.rninja4.rookie.helper.SessionManager;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
+import com.bawaaba.rninja4.rookie.utils.AppPreference;
 import com.bawaaba.rninja4.rookie.utils.Utils;
 
 import org.apache.http.NameValuePair;
@@ -98,20 +103,23 @@ public class Subcategory extends TabActivity {
             public void onTabSelected(int position) {
                 switch (position) {
                     case 0:
-                        Intent to_main = new Intent(Subcategory.this, MainActivity.class);
-                        startActivity(to_main);
+                        BaseBottomHelperActivity.start(getApplicationContext(),null,null,null);
+                        /*Intent to_main = new Intent(Subcategory.this, MainActivity.class);
+                        startActivity(to_main);*/
                         finish();
                         break;
                     case 1:
-                        Intent to_search = new Intent(Subcategory.this, SearchActivity.class);
-                        startActivity(to_search);
+                        BaseBottomHelperActivity.start(getApplicationContext(), SearchFragment.class.getName(),null,null);
+                        /*Intent to_search = new Intent(Subcategory.this, SearchActivity.class);
+                        startActivity(to_search);*/
                         finish();
                         break;
                     case 2:
                         if (session.isLoggedIn() && db_id != null) {
                             ObjectFactory.getInstance().getAppPreference(getApplicationContext()).saveNewMessageArrived(false);
-                            Intent to_inbox = new Intent(Subcategory.this, com.bawaaba.rninja4.rookie.activity.ChatFunction.ChatActivity.class);
-                            startActivity(to_inbox);
+                            BaseBottomHelperActivity.start(getApplicationContext(), ChatFragment.class.getName(),null,null);
+                           /* Intent to_inbox = new Intent(Subcategory.this, com.bawaaba.rninja4.rookie.activity.ChatFunction.ChatActivity.class);
+                            startActivity(to_inbox);*/
                             finish();
                         } else {
                             Intent to_login = new Intent(Subcategory.this, LoginActivity.class);
@@ -120,8 +128,10 @@ public class Subcategory extends TabActivity {
                         }
                         break;
                     case 3:
-                        Intent to_profile = new Intent(Subcategory.this, ProfileView.class);
-                        startActivity(to_profile);
+                        AppPreference appPreference=ObjectFactory.getInstance().getAppPreference(getApplicationContext());
+                        BaseBottomHelperActivity.start(getApplicationContext(), ProfileViewFragment.class.getName(),appPreference.getUserId(),appPreference.getUserName());
+                        /*Intent to_profile = new Intent(Subcategory.this, ProfileView.class);
+                        startActivity(to_profile);*/
                         finish();
                         break;
                     default:
@@ -358,7 +368,7 @@ public class Subcategory extends TabActivity {
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             JSONObject json = jsonParser.makeHttpRequest(Subcategory_URL, "GET", params, Client_service, Auth_key, token, user_id);
-
+            Log.e("ssssssss", "="+json.toString());
             if (json != null) {
                 try {
                     JSONArray subcategory = json.getJSONArray("subcategory");

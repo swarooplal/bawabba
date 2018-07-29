@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.bawaaba.rninja4.rookie.MainActivity;
 import com.bawaaba.rninja4.rookie.R;
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
 import com.bawaaba.rninja4.rookie.helper.SessionManager;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
@@ -241,8 +242,9 @@ public class Change_email extends BaseActivity implements View.OnClickListener {
                                         public void onClick(View view) {
                                             db.deleteUsers();
                                                 session.setLogin(false);
-                                                Intent intent = new Intent(Change_email.this, MainActivity.class); // for logout
-                                                startActivity(intent);
+                                            BaseBottomHelperActivity.start(getApplicationContext(),null,null,null);
+                                                /*Intent intent = new Intent(Change_email.this, MainActivity.class); // for logout
+                                                startActivity(intent);*/
                                                 finish();
                                                iOSDialog.dismiss();
                                         }

@@ -8,6 +8,7 @@ import android.widget.ProgressBar;
 
 import com.bawaaba.rninja4.rookie.MainActivity;
 import com.bawaaba.rninja4.rookie.R;
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
 import com.bawaaba.rninja4.rookie.utils.BaseActivity;
 
 public class SplashScreenActivity extends BaseActivity {
@@ -30,7 +31,7 @@ public class SplashScreenActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
+                Intent intent = new Intent(SplashScreenActivity.this, BaseBottomHelperActivity.class);
                 startActivity(intent);
                 finish();
             }

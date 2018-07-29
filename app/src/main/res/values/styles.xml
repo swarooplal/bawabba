@@ -163,6 +163,10 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="TabText" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textSize">13sp</item>
+    </style>
+
     <!-- Base application theme. -->
 
 

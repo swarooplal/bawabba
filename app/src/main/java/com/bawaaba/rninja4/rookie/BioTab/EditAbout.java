@@ -14,8 +14,11 @@ import android.widget.Toast;
 import com.bawaaba.rninja4.rookie.JSONParser;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.activity.ProfileView;
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
+import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
+import com.bawaaba.rninja4.rookie.utils.AppPreference;
 
 import org.apache.http.NameValuePair;
 import org.json.JSONException;
@@ -164,9 +167,10 @@ public class EditAbout extends AppCompatActivity {
 
                         Toast.makeText(getApplicationContext(),
                                 "updated", Toast.LENGTH_LONG).show();
-
-                        Intent to_profile = new Intent(EditAbout.this,ProfileView.class);
-                        startActivity(to_profile);
+                        AppPreference appPreference=ObjectFactory.getInstance().getAppPreference(getApplicationContext());
+                        BaseBottomHelperActivity.start(getApplicationContext(), ProfileViewFragment.class.getName(),appPreference.getUserId(),appPreference.getUserName());
+                        /*Intent to_profile = new Intent(EditAbout.this,ProfileView.class);
+                        startActivity(to_profile);*/
                         finish();
 
                     } catch (Exception e) {

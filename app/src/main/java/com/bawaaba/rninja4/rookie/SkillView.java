@@ -202,6 +202,7 @@ public class SkillView extends ListActivity {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             JSONObject json = jsonParser.makeHttpRequest(SUBCATEGORY_URL, "GET",
                     params, Client_service, Auth_key, token, user_id);
+            Log.e("Json","="+json.toString());
             try {
                 JSONArray skills = json.getJSONArray("skills");
                 for (int i = 0; i < skills.length(); i++) {

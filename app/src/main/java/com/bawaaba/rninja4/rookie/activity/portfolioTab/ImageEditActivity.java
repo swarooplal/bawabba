@@ -17,6 +17,11 @@ import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
+import com.bawaaba.rninja4.rookie.dashboard_new.ChatFragment;
+import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
+import com.bawaaba.rninja4.rookie.dashboard_new.SearchFragment;
+import com.bawaaba.rninja4.rookie.utils.AppPreference;
 import com.darsh.multipleimageselect.activities.AlbumSelectActivity;
 import com.darsh.multipleimageselect.helpers.Constants;
 import com.darsh.multipleimageselect.models.Image;
@@ -79,23 +84,28 @@ public class ImageEditActivity extends BaseActivity implements View.OnClickListe
             public void onTabSelected(int position) {
                 switch (position) {
                     case 0:
-                        Intent to_main = new Intent(ImageEditActivity.this, MainActivity.class);
-                        startActivity(to_main);
+                        BaseBottomHelperActivity.start(ImageEditActivity.this,null,null,null);
+                        /*Intent to_main = new Intent(ImageEditActivity.this, MainActivity.class);
+                        startActivity(to_main);*/
                         finish();
                         break;
                     case 1:
-                        Intent to_search = new Intent(ImageEditActivity.this, SearchActivity.class);
-                        startActivity(to_search);
+                        BaseBottomHelperActivity.start(getApplicationContext(), SearchFragment.class.getName(),null,null);
+                        /*Intent to_search = new Intent(ImageEditActivity.this, SearchActivity.class);
+                        startActivity(to_search);*/
                         finish();
                         break;
                     case 2:
-                        Intent to_inbox = new Intent(ImageEditActivity.this, ChatActivity.class);
-                        startActivity(to_inbox);
+                        BaseBottomHelperActivity.start(getApplicationContext(), ChatFragment.class.getName(),null,null);
+                        /*Intent to_inbox = new Intent(ImageEditActivity.this, ChatActivity.class);
+                        startActivity(to_inbox);*/
                         finish();
                         break;
                     case 3:
-                        Intent to_profile = new Intent(ImageEditActivity.this, ProfileView.class);
-                        startActivity(to_profile);
+                        AppPreference appPreference=ObjectFactory.getInstance().getAppPreference(getApplicationContext());
+                        BaseBottomHelperActivity.start(getApplicationContext(), ProfileViewFragment.class.getName(),appPreference.getUserId(),appPreference.getUserName());
+                       /* Intent to_profile = new Intent(ImageEditActivity.this, ProfileView.class);
+                        startActivity(to_profile);*/
                         finish();
                         break;
 

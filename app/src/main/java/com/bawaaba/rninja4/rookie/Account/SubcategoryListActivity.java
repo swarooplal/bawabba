@@ -14,9 +14,12 @@ import android.widget.Toast;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.activity.ProfileView;
 import com.bawaaba.rninja4.rookie.activity.adapters.RegisterSkillsRecyclerviewAdapter;
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
+import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
 import com.bawaaba.rninja4.rookie.model.RegisterSkillsResponse;
 import com.bawaaba.rninja4.rookie.model.Skill;
+import com.bawaaba.rninja4.rookie.utils.AppPreference;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -139,9 +142,11 @@ public class SubcategoryListActivity extends AppCompatActivity implements View.O
 //                                        Intent intent = new Intent(SubcategoryListActivity.this, RegisterActivity.class);
 //                                        startActivity(intent);
 //                                        finish();
-                                                Intent intent = new Intent(SubcategoryListActivity.this, ProfileView.class);
+                                                AppPreference appPreference=ObjectFactory.getInstance().getAppPreference(getApplicationContext());
+                                                BaseBottomHelperActivity.start(getApplicationContext(), ProfileViewFragment.class.getName(),appPreference.getUserId(),appPreference.getUserName());
+                                                /*Intent intent = new Intent(SubcategoryListActivity.this, ProfileView.class);
                                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                startActivity(intent);
+                                                startActivity(intent);*/
                                                 finishAffinity();
                                             }else {
                                                 Toast.makeText(SubcategoryListActivity.this, jsonObject.getString("error_msg"), Toast.LENGTH_SHORT).show();

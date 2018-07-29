@@ -25,6 +25,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.bawaaba.rninja4.rookie.BaseBottomMenuHelper;
 import com.bawaaba.rninja4.rookie.MainActivity;
 import com.bawaaba.rninja4.rookie.R;
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
 import com.bawaaba.rninja4.rookie.helper.SessionManager;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
@@ -444,8 +445,9 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(SearchActivity.this, MainActivity.class);
-        startActivity(intent);
+        BaseBottomHelperActivity.start(getApplicationContext(),null,null,null);
+       /* Intent intent = new Intent(SearchActivity.this, MainActivity.class);
+        startActivity(intent);*/
         finish();
     }
 

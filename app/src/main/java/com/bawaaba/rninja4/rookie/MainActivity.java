@@ -27,20 +27,14 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ashokvarma.bottomnavigation.BottomNavigationBar;
-import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.ashokvarma.bottomnavigation.TextBadgeItem;
-import com.bawaaba.rninja4.rookie.activity.LoginActivity;
-import com.bawaaba.rninja4.rookie.activity.ProfileView;
-import com.bawaaba.rninja4.rookie.activity.SearchActivity;
 import com.bawaaba.rninja4.rookie.activity.SearchResult;
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
 import com.bawaaba.rninja4.rookie.helper.SessionManager;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
 import com.bawaaba.rninja4.rookie.model.MessageEvent;
 import com.bawaaba.rninja4.rookie.model.searchResult.SearchResultResponse;
 import com.bawaaba.rninja4.rookie.utils.IConsts;
-import com.bawaaba.rninja4.rookie.utils.Utils;
 import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
@@ -58,7 +52,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 
-public class MainActivity extends BaseBottomHelperActivity implements IConsts {
+public class MainActivity extends AppCompatActivity implements IConsts {
 
     RecyclerView recyclerView;
     MycustomAdapter adapter;

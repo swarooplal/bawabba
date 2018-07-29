@@ -14,9 +14,12 @@ import android.widget.Toast;
 
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.activity.ProfileView;
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
+import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
 import com.bawaaba.rninja4.rookie.model.AddOtherUrl;
 import com.bawaaba.rninja4.rookie.model.profile.Profileresponse;
+import com.bawaaba.rninja4.rookie.utils.AppPreference;
 import com.bawaaba.rninja4.rookie.utils.BaseActivity;
 import com.google.gson.Gson;
 
@@ -189,8 +192,10 @@ public class EditUrlActivity  extends BaseActivity implements View.OnClickListen
                             System.out.println("AddServiceActivity.onResponse" + responseString);
                             if (!jsonObject.getBoolean("error")) {
                                 Toast.makeText(EditUrlActivity.this, "Your portfolio links updated successfully.", Toast.LENGTH_SHORT).show();
-                                Intent to_profile = new Intent(EditUrlActivity.this, ProfileView.class);
-                                startActivity(to_profile);
+                                AppPreference appPreference=ObjectFactory.getInstance().getAppPreference(getApplicationContext());
+                                BaseBottomHelperActivity.start(getApplicationContext(), ProfileViewFragment.class.getName(),appPreference.getUserId(),appPreference.getUserName());
+                                /*Intent to_profile = new Intent(EditUrlActivity.this, ProfileView.class);
+                                startActivity(to_profile);*/
                                 finish();
 
                             } else {

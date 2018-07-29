@@ -11,6 +11,9 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
+import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
+import com.bawaaba.rninja4.rookie.model.profile.Review;
 import com.bumptech.glide.Glide;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.activity.portfolioTab.ItemClickListener_search;
@@ -145,9 +148,8 @@ public class AdapterSearchResult extends RecyclerView.Adapter<RecyclerView.ViewH
         myHolder.setItemClickListener_serch(new ItemClickListener_search() {
             @Override
             public void onItemClick(int pos) {
-                Intent to_profile = new Intent(context, ProfileView.class);
-                to_profile.putExtra("reg_id", data.get(pos).getRegistration());
-                context.startActivity(to_profile);
+                User review1=data.get(pos);
+                BaseBottomHelperActivity.start(context,ProfileViewFragment.class.getName(),review1.getRegistration(),review1.getCurrentName());
 //                ((Activity)context).finish();
             }
         });

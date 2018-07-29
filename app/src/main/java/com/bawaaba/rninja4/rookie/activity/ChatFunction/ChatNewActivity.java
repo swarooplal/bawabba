@@ -25,6 +25,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
+import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
 import com.bumptech.glide.Glide;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.activity.ChatFunction.listener.QbChatDialogMessageListenerImp;
@@ -164,6 +166,7 @@ public class ChatNewActivity extends BaseActivity implements OnImagePickedListen
                                 photo[0] = qbUser.getCustomData();
                                 txtAuthorName.setText(qbUser.getFullName());
                                 final String user_loginid=qbUser.getLogin();
+                                final String user_name=qbUser.getFullName();
                                 Log.e("qbvaluecheck",user_loginid);
 
 
@@ -172,9 +175,11 @@ public class ChatNewActivity extends BaseActivity implements OnImagePickedListen
                                 txtAuthorName.setOnClickListener(new OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        Intent to_profile = new Intent(getApplicationContext(),ProfileView.class);
+                                        BaseBottomHelperActivity.start(getApplicationContext(), ProfileViewFragment.class.getName(),user_loginid,user_name);
+                                        /*Intent to_profile = new Intent(getApplicationContext(),ProfileView.class);
                                         to_profile.putExtra("reg_id",user_loginid);
-                                        getApplicationContext().startActivity(to_profile);
+                                        getApplicationContext().startActivity(to_profile);*/
+
                                     }
                                 });
                                 try {

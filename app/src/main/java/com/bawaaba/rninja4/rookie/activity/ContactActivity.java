@@ -183,9 +183,9 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
                             if (!error) {
                                 Toast.makeText(getApplicationContext(),
                                         "Your message has been sent successfully", Toast.LENGTH_LONG).show();
-                                Intent to_profile = new Intent(ContactActivity.this, ProfileView.class);
+                                /*Intent to_profile = new Intent(ContactActivity.this, ProfileView.class);
                                 to_profile.putExtra("reg_id",profile_id);
-                                startActivity(to_profile);
+                                startActivity(to_profile);*/
                                 finish();
                             } else {
                                 Toast.makeText(ContactActivity.this, jsonObject.getString("error_msg"), Toast.LENGTH_SHORT).show();
