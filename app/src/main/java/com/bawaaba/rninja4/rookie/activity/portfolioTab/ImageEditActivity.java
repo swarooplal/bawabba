@@ -2,6 +2,7 @@ package com.bawaaba.rninja4.rookie.activity.portfolioTab;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,6 +22,7 @@ import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
 import com.bawaaba.rninja4.rookie.dashboard_new.ChatFragment;
 import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
 import com.bawaaba.rninja4.rookie.dashboard_new.SearchFragment;
+import com.bawaaba.rninja4.rookie.dashboard_new.Utilities;
 import com.bawaaba.rninja4.rookie.utils.AppPreference;
 import com.darsh.multipleimageselect.activities.AlbumSelectActivity;
 import com.darsh.multipleimageselect.helpers.Constants;
@@ -67,6 +69,7 @@ public class ImageEditActivity extends BaseActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_edit);
+        Log.e("IMAGE","ENTER");
 
         BottomNavigationBar bottomNavigationView = (BottomNavigationBar)
                 findViewById(R.id.bottom_bar);
@@ -248,11 +251,28 @@ public class ImageEditActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==10 && grantResults.length==2 && grantResults[0]== PackageManager.PERMISSION_GRANTED && grantResults[1]== PackageManager.PERMISSION_GRANTED) {
+            selectMultipleImages();
+        }
+    }
+
     private void selectMultipleImages() {
-        Intent intent = new Intent(this, AlbumSelectActivity.class);
-     //set limit on number of images that can be selected, default is 10
-        intent.putExtra(Constants.INTENT_EXTRA_LIMIT, 10);
-        startActivityForResult(intent, Constants.REQUEST_CODE);
+        Log.e("IMAGE","=enetjjjr");
+        if (Utilities.hasPermission(this, 10, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE,android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, "Need Permission", true)) {
+            try {
+                Log.e("IMAGE","=enetr");
+                Intent intent = new Intent(this, AlbumSelectActivity.class);
+                //set limit on number of images that can be selected, default is 10
+                intent.putExtra(Constants.INTENT_EXTRA_LIMIT, 10);
+                startActivityForResult(intent, Constants.REQUEST_CODE);
+                Log.e("IMAGE","=STARTED");
+            } catch (Exception e) {
+                Log.e("IMAGE","",e);
+            }
+        }
 
     }
     @Override
