@@ -2,8 +2,10 @@ package com.bawaaba.rninja4.rookie.activity.portfolioTab;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
@@ -17,8 +19,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.bawaaba.rninja4.rookie.Manifest;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.activity.adapters.SelectedVideoGridRecyclerviewAdapter;
+import com.bawaaba.rninja4.rookie.dashboard_new.Utilities;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
 import com.farhanahmed.pico.Pico;
 
@@ -66,6 +70,7 @@ public class VideoAddActivity extends AppCompatActivity implements View.OnClickL
         initViews();
         addUrls();
     }
+
     private void initViews() {
         tvFromGallery = (AppCompatTextView) findViewById(R.id.tvFromGallery);
         tvFromURL = (AppCompatTextView) findViewById(R.id.tvFromURL);
@@ -110,7 +115,9 @@ public class VideoAddActivity extends AppCompatActivity implements View.OnClickL
                 selectedPos = 1;
                 break;
             case R.id.ivSelectFromGallery:
-                Pico.openMultipleFiles(VideoAddActivity.this, Pico.TYPE_VIDEO);
+                if (Utilities.hasPermission(this, 11, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE,android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, "Need Permission", true)) {
+                    Pico.openMultipleFiles(VideoAddActivity.this, Pico.TYPE_VIDEO);
+                }
                 break;
             case R.id.tvAddVideos:
                 if (selectedPos == 0) {
@@ -134,7 +141,7 @@ public class VideoAddActivity extends AppCompatActivity implements View.OnClickL
 
     private void adddelete() {
         View view = VideoAddActivity.this.getLayoutInflater().inflate(R.layout.layout_add_url, null);
-        final ImageView ivDelete=(ImageView)view.findViewById(R.id.ivDelete);
+        final ImageView ivDelete = (ImageView) view.findViewById(R.id.ivDelete);
         AppCompatEditText etAddUrl = (AppCompatEditText) view.findViewById(R.id.etAddUrl);
         urlEditTexts.remove(etAddUrl);
         llUrl.removeView(view);
@@ -145,13 +152,32 @@ public class VideoAddActivity extends AppCompatActivity implements View.OnClickL
         boolean status = true;
         for (int i = 0; i < urlEditTexts.size(); i++) {
             if (TextUtils.isEmpty(urlEditTexts.get(i).getText().toString().trim())) {
-               // urlEditTexts.get(i).setError("");
+                // urlEditTexts.get(i).setError("");
                 urlEditTexts.get(i).setBackgroundResource(R.drawable.red_alert_round);
                 Toast.makeText(this, "Please fill all required fields.", Toast.LENGTH_SHORT).show();
                 status = false;
             }
         }
         if (status) {
+
+
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==10 && grantResults.length==2 && grantResults[0]== PackageManager.PERMISSION_GRANTED && grantResults[1]== PackageManager.PERMISSION_GRANTED) {
+            uploadVideo();
+        } else if(requestCode==11 && grantResults.length==2 && grantResults[0]== PackageManager.PERMISSION_GRANTED && grantResults[1]== PackageManager.PERMISSION_GRANTED) {
+            onClick(findViewById(R.id.ivSelectFromGallery));
+        } else if(requestCode==12 && grantResults.length==2 && grantResults[0]== PackageManager.PERMISSION_GRANTED && grantResults[1]== PackageManager.PERMISSION_GRANTED) {
+            loadFileApi();
+        }
+    }
+
+    private void uploadVideo() {
+        if (Utilities.hasPermission(this, 10, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE,android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, "Need Permission", true)) {
             HashMap<String, String> postvalue = new HashMap<>();
             for (int i = 0; i < urlEditTexts.size(); i++) {
 //                postvalue.put("url[" + i + "]", "https://www.youtube.com/watch?v=JGwWNGJdvx8&app=desktop");
@@ -181,6 +207,7 @@ public class VideoAddActivity extends AppCompatActivity implements View.OnClickL
                     "portfolio_vid"
             );
 
+
             responseBodyCall.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -188,9 +215,10 @@ public class VideoAddActivity extends AppCompatActivity implements View.OnClickL
                     if (response.body() != null) {
                         try {
                             String responseString = new String(response.body().bytes());
+                            Log.e("VIDEOACT","="+responseString);
                             if (responseString != null) {
                                 JSONObject jsonObject = new JSONObject(responseString);
-                                Log.e("videochecking",responseString);
+                                Log.e("videochecking", responseString);
                                 System.out.println("AddServiceActivity.onResponse" + responseString);
                                 if (!jsonObject.getBoolean("error")) {
                                     Toast.makeText(VideoAddActivity.this, "Successfully added.", Toast.LENGTH_SHORT).show();
@@ -199,20 +227,19 @@ public class VideoAddActivity extends AppCompatActivity implements View.OnClickL
                                     Toast.makeText(VideoAddActivity.this, "Some error occurred", Toast.LENGTH_SHORT).show();
                                 }
                             }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        } catch (Exception e) {
+                            Log.e("VIDEOACT","",e);
                         }
                     }
                 }
+
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Log.e("VIDEOACT", "=", t);
                     dialog.dismiss();
                     Toast.makeText(VideoAddActivity.this, "failed to load..", Toast.LENGTH_SHORT).show();
                 }
             });
-
         }
     }
 
@@ -234,20 +261,21 @@ public class VideoAddActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void loadFileApi() {
-        MultipartBody.Part parts=null;
-        RequestBody userId =
-                RequestBody.create(
-                        MediaType.parse("multipart/form-data"), String.valueOf(ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId()));
-        RequestBody uploadType =
-                RequestBody.create(
-                        MediaType.parse("multipart/form-data"), "file");
+        if (Utilities.hasPermission(this, 12, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE,android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, "Need Permission", true)) {
+            MultipartBody.Part parts = null;
+            RequestBody userId =
+                    RequestBody.create(
+                            MediaType.parse("multipart/form-data"), String.valueOf(ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId()));
+            RequestBody uploadType =
+                    RequestBody.create(
+                            MediaType.parse("multipart/form-data"), "file");
 
-        RequestBody url =
-                RequestBody.create(
-                        MediaType.parse("multipart/form-data"), "no");
-        RequestBody table_name =
-                RequestBody.create(
-                        MediaType.parse("multipart/form-data"), "portfolio_vid");
+            RequestBody url =
+                    RequestBody.create(
+                            MediaType.parse("multipart/form-data"), "no");
+            RequestBody table_name =
+                    RequestBody.create(
+                            MediaType.parse("multipart/form-data"), "portfolio_vid");
 
    /*     for (int i = 0; i < filePath.size(); i++) {
             File file = new File(String.valueOf(Uri.parse(filePath.get(i)*//*.replaceAll(" ", "%20"))*//*)));
@@ -259,57 +287,59 @@ public class VideoAddActivity extends AppCompatActivity implements View.OnClickL
 
         }*/
 
-        File file = new File(String.valueOf(Uri.parse(filePath.get(0)/*.replaceAll(" ", "%20"))*/)));
+            File file = new File(String.valueOf(Uri.parse(filePath.get(0)/*.replaceAll(" ", "%20"))*/)));
 
-        RequestBody requestFile =
-                RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part imagenPerfil = MultipartBody.Part.createFormData("media_file",file.getName(), requestFile);
+            RequestBody requestFile =
+                    RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            MultipartBody.Part imagenPerfil = MultipartBody.Part.createFormData("media_file", file.getName(), requestFile);
 
-        final Dialog dialog = ObjectFactory.getInstance().getUtils(VideoAddActivity.this).showLoadingDialog(VideoAddActivity.this);
-        dialog.show();
-        Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(VideoAddActivity.this).getApiService().uploadVideoFile(
-                "app-client",
-                "123321",
-                ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId(),
-                ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getLoginToken(),
-                userId,
-                uploadType,
-                url,
-                table_name,
-                imagenPerfil);
-        responseBodyCall.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                dialog.dismiss();
-                if (response.body() != null) {
-                    try {
-                        String responseString = new String(response.body().bytes());
-                        if (responseString != null) {
-                            JSONObject jsonObject = new JSONObject(responseString);
-                            System.out.println("AddServiceActivity.onResponse" + responseString);
-                            if (!jsonObject.getBoolean("error")) {
-                                Toast.makeText(VideoAddActivity.this, "Successfully added.", Toast.LENGTH_SHORT).show();
-                                Log.e("videochecking",responseString);
-                                onBackPressed();
-                            } else {
-                                Toast.makeText(VideoAddActivity.this, "Some error occurred", Toast.LENGTH_SHORT).show();
+            final Dialog dialog = ObjectFactory.getInstance().getUtils(VideoAddActivity.this).showLoadingDialog(VideoAddActivity.this);
+            dialog.show();
+            Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(VideoAddActivity.this).getApiService().uploadVideoFile(
+                    "app-client",
+                    "123321",
+                    ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId(),
+                    ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getLoginToken(),
+                    userId,
+                    uploadType,
+                    url,
+                    table_name,
+                    imagenPerfil);
+            responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    dialog.dismiss();
+                    if (response.body() != null) {
+                        try {
+                            String responseString = new String(response.body().bytes());
+                            Log.e("VIDEOACT","="+responseString);
+                            if (responseString != null) {
+                                JSONObject jsonObject = new JSONObject(responseString);
+                                System.out.println("AddServiceActivity.onResponse" + responseString);
+                                if (!jsonObject.getBoolean("error")) {
+                                    Toast.makeText(VideoAddActivity.this, "Successfully added.", Toast.LENGTH_SHORT).show();
+                                    Log.e("videochecking", responseString);
+                                    onBackPressed();
+                                } else {
+                                    Toast.makeText(VideoAddActivity.this, "Some error occurred", Toast.LENGTH_SHORT).show();
+                                }
                             }
+                        } catch (Exception e) {
+                            Log.e("VIDEOACT","=",e);
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                dialog.dismiss();
-                Toast.makeText(VideoAddActivity.this, "failed to load..", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Log.e("VIDEOACT","=",t);
+                    dialog.dismiss();
+                    Toast.makeText(VideoAddActivity.this, "failed to load..", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -326,8 +356,8 @@ public class VideoAddActivity extends AppCompatActivity implements View.OnClickL
                 }
                 tvNumberofItemsSelected.setText(filePath.size() + " items selected");
 
-          //loadSelected videos showing the selected video
-               loadSelectedVideos(files);
+                //loadSelected videos showing the selected video
+                loadSelectedVideos(files);
             }
 
             @Override
@@ -337,6 +367,7 @@ public class VideoAddActivity extends AppCompatActivity implements View.OnClickL
             }
         });
     }
+
     private void loadSelectedVideos(List<File> files) {
         rvItemsList.setLayoutManager(new GridLayoutManager(VideoAddActivity.this, 3));
         SelectedVideoGridRecyclerviewAdapter selectedVideoGridRecyclerviewAdapter = new SelectedVideoGridRecyclerviewAdapter(this, files);
