@@ -12,8 +12,12 @@ import android.webkit.WebViewClient;
 
 import com.bawaaba.rninja4.rookie.R;
 
+import cn.jzvd.JZVideoPlayer;
+import cn.jzvd.JZVideoPlayerStandard;
+
 public class Portfolio_Video_Webview extends AppCompatActivity {
     WebView webView;
+    JZVideoPlayerStandard jzVideoPlayerStandard;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +25,7 @@ public class Portfolio_Video_Webview extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
+        jzVideoPlayerStandard   = (JZVideoPlayerStandard) findViewById(R.id.videoplayer);
 
         Intent from_adapter_video = this.getIntent();
         final String link = from_adapter_video.getExtras().getString("link");
@@ -100,4 +105,17 @@ public class Portfolio_Video_Webview extends AppCompatActivity {
                 }
 
             }
+
+    @Override
+    public void onBackPressed() {
+        if (JZVideoPlayer.backPress()) {
+            return;
+        }
+        super.onBackPressed();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JZVideoPlayer.releaseAllVideos();
+    }
            }

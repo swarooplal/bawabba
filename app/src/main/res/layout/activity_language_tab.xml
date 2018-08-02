@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="120dp"
     android:orientation="vertical"
     tools:context="com.bawaaba.rninja4.rookie.activity.ProfileTab.LanguageTab">
 
@@ -22,6 +22,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="6dp"
         app:container_enable_drag="false"
+
         app:container_background_color="#FFFFFF"
         app:container_border_color="#FFFFFF"
         app:tag_border_color="#BDBDBD"
@@ -36,15 +37,16 @@
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/lang_count"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/llEditPhoto"
+
         android:layout_gravity="center"
         android:fontFamily="sans-serif"
         android:gravity="center"
-        android:layout_centerInParent="true"
         android:text="No languages added yet."
         android:textAllCaps="false"
-        android:textSize="15sp"
-        android:textColor="#BDBDBD"/>
+        android:textColor="#BDBDBD"
+        android:textSize="15sp" />
 
     <LinearLayout
         android:id="@+id/llEditPhoto"

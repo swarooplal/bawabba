@@ -1,6 +1,5 @@
 package com.bawaaba.rninja4.rookie.activity.ProfileTab;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -20,7 +19,6 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.bawaaba.rninja4.rookie.R;
-import com.bawaaba.rninja4.rookie.activity.ProfileView;
 import com.bawaaba.rninja4.rookie.activity.adapters.RegisterSkillsRecyclerviewAdapter;
 import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
 import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
@@ -49,10 +47,11 @@ public class SkillEditActivity extends BaseActivity implements View.OnClickListe
     List<String> selectedItems = new ArrayList<>();
     private String skills;
     private String user_id;
-    private String category;
+    public String category_selection;
     private RecyclerView rvskills;
     private AppCompatTextView tvSave;
     private AppCompatEditText tvSearch;
+    String old_value;
 
     private DrawerLayout mDrawer;
     private Toolbar toolbar2;
@@ -76,7 +75,10 @@ public class SkillEditActivity extends BaseActivity implements View.OnClickListe
         Bundle bundle = getIntent().getExtras();
         skills = bundle.getString("skills");
         user_id = bundle.getString("user_id");
-        category = bundle.getString("category");
+        category_selection = bundle.getString("category");
+        old_value = category_selection;
+        Log.d("catoger>>>1", category_selection);
+        Log.d("catoger_old>>>1", old_value);
         initViews();
         searchLanguages();
         Log.e("skillcheckuseredit", String.valueOf(skills));
@@ -97,14 +99,15 @@ public class SkillEditActivity extends BaseActivity implements View.OnClickListe
 
         setupDrawerContent(nvDrawer);
         ObjectFactory.getInstance().getNetworkManager(SkillEditActivity.this).setCheckedItems(selectedItems);
-        apiCall(category);
+        apiCall(category_selection);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        drawerToggle = new ActionBarDrawerToggle(this,mDrawer,toolbar,R.string.drawer_open,R.string.drawer_close){
+        drawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
             }
+
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
@@ -124,16 +127,21 @@ public class SkillEditActivity extends BaseActivity implements View.OnClickListe
             }
         });
     }
+
     private void searchLanguages() {
     }
+
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            int category = 0;
+            String category = "0";
+
             @Override
             public boolean onNavigationItemSelected(final MenuItem menuItem) {
                 menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
+
+
                         apiCall(String.valueOf(category));
                         mDrawer.closeDrawer(Gravity.RIGHT);
                         //selectedItems.clear();
@@ -144,70 +152,99 @@ public class SkillEditActivity extends BaseActivity implements View.OnClickListe
 
                 switch (menuItem.getItemId()) {
                     case R.id.nav_menu1:
-                        category =0;
+                        category = "0";
+                        category_selection = category;
+                        Log.d("catoger>>>2", category + "");
+                        Log.d("catoger_old>>>1", old_value);
                         break;
                     case R.id.nav_menu2:
-                        category = 1;
+                        category = "1";
+                        category_selection = category;
+                        Log.d("catoger>>>2", category_selection);
+                        Log.d("catoger_old>>>1", old_value);
                         break;
                     case R.id.nav_menu3:
-                        category = 2;
+                        category = "2";
+                        category_selection = category;
+                        Log.d("catoger>>>2", category + "");
+                        Log.d("catoger_old>>>1", old_value);
                         break;
                     case R.id.nav_menu4:
-                        category = 3;
+                        Log.d("catoger>>>2", category + "");
+                        category = "3";
+                        category_selection = category;
                         break;
                     case R.id.nav_menu5:
-                        category = 4;
+                        category = "4";
+                        category_selection = category;
                         break;
                     case R.id.nav_menu6:
-                        category = 5;
+                        category = "5";
+                        category_selection = category;
                         break;
                     case R.id.nav_menu7:
-                        category = 6;
+                        category = "6";
+                        category_selection = category;
                         break;
                     case R.id.nav_menu8:
-                        category = 7;
+                        category = "7";
+                        category_selection = category;
                         break;
                     case R.id.nav_menu9:
-                        category = 8;
+                        category = "8";
+                        category_selection = category;
                         break;
                     case R.id.nav_menu10:
-                        category = 9;
+                        category = "9";
+                        category_selection = category;
                         break;
                     case R.id.nav_menu11:
-                        category = 10;
+                        category = "10";
+                        category_selection = category;
                         break;
                     case R.id.nav_menu12:
-                        category = 11;
+                        category = "11";
+                        category_selection = category;
                         break;
                     case R.id.nav_menu13:
-                        category = 12;
+                        category = "12";
+                        category_selection = category;
                         break;
                     case R.id.nav_menu14:
-                        category = 13;
+                        category = "13";
+                        category_selection = category;
                         break;
                     case R.id.nav_menu15:
-                        category = 14;
+                        category = "14";
+                        category_selection = category;
                         break;
                     case R.id.nav_menu16:
-                        category = 15;
+                        category = "15";
+                        category_selection = category;
                         break;
                     case R.id.nav_menu17:
-                        category = 16;
+                        category = "16";
+                        category_selection = category;
                         break;
                     case R.id.nav_menu18:
-                        category = 17;
+                        category = "17";
+                        category_selection = category;
                         break;
                     case R.id.nav_menu19:
-                        category = 18;
+                        category = "18";
+                        category_selection = category;
                         break;
                     case R.id.nav_menu20:
-                        category = 19;
+                        category = "19";
+                        category_selection = category;
                         break;
+
                 }
                 return true;
             }
         });
     }
+
     private void initViews() {
         tvSearch = (AppCompatEditText) findViewById(R.id.tvSearchHere);
         rvskills = (RecyclerView) findViewById(R.id.rvskills);
@@ -222,8 +259,18 @@ public class SkillEditActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void apiCall(String category) {
-        String url = "api/user/get_all_skills?category=" + category;
-        Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(SkillEditActivity.this).getApiService().getCategorySkills(url);
+
+        // swar0op tweaked the code
+        if (category_selection.equals(old_value)) {
+            Toast.makeText(getApplicationContext(), "Category Not changed", Toast.LENGTH_LONG).show();
+        } else {
+            selectedItems.clear();
+            ObjectFactory.getInstance().getNetworkManager(getApplicationContext()).setCheckedItems(selectedItems);
+        }
+
+        Log.d("catoger>>>2", category);
+        // String url = "api/user/get_all_skills?category=" + category;
+        Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(SkillEditActivity.this).getApiService().getCategorySkillsinInside(category);
         responseBodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -251,22 +298,28 @@ public class SkillEditActivity extends BaseActivity implements View.OnClickListe
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(SkillEditActivity.this, "failed to load..", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
     private void setAdapter(final List<Skill> subcategory) {
         String response = ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getProfileResponse();
         final Profileresponse profileresponse = new Gson().fromJson(response, Profileresponse.class);
-        if (profileresponse.getUserData().getSkills().size() > 0) {
-            List<String> checkedItems = new ArrayList<>();
-            for (int i = 0; i < profileresponse.getUserData().getSkills().size(); i++) {
-                checkedItems.add(String.valueOf(profileresponse.getUserData().getSkills().get(i)));
+        if (old_value.equals(category_selection))
+        {
+            if (profileresponse.getUserData().getSkills().size() > 0) {
+                List<String> checkedItems = new ArrayList<>();
+                for (int i = 0; i < profileresponse.getUserData().getSkills().size(); i++) {
+                    checkedItems.add(String.valueOf(profileresponse.getUserData().getSkills().get(i)));
+                }
+                ObjectFactory.getInstance().getNetworkManager(getApplicationContext()).setCheckedItems(checkedItems);
             }
-            ObjectFactory.getInstance().getNetworkManager(getApplicationContext()).setCheckedItems(checkedItems);
         }
+
 
         RegisterSkillsRecyclerviewAdapter registerSkillsRecyclerviewAdapter = new RegisterSkillsRecyclerviewAdapter(getApplicationContext(), subcategory);
         rvskills.setAdapter(registerSkillsRecyclerviewAdapter);
@@ -308,30 +361,30 @@ public class SkillEditActivity extends BaseActivity implements View.OnClickListe
                 break;
         }
     }
+
     private void apiCallToSaveData() {
         System.out.println("SkillEditActivity.apiCallToSaveData");
         ObjectFactory.getInstance().getNetworkManager(getApplicationContext()).getCheckedItems();
         Log.e("checkeditemslist", String.valueOf(ObjectFactory.getInstance().getNetworkManager(getApplicationContext()).getCheckedItems()));
         Log.e("checkeditemslistsize", String.valueOf(ObjectFactory.getInstance().getNetworkManager(getApplicationContext()).getCheckedItems().size()));
-        if((ObjectFactory.getInstance().getNetworkManager(getApplicationContext()).getCheckedItems().size()>10)){
+        if ((ObjectFactory.getInstance().getNetworkManager(getApplicationContext()).getCheckedItems().size() > 10)) {
             Toast.makeText(SkillEditActivity.this, "Maximum 10 skills are allowed.", Toast.LENGTH_SHORT).show();
             return;
         }
         String items = "";
-        for (int i = 0; i < ObjectFactory.getInstance().getNetworkManager(getApplicationContext()).getCheckedItems().size(); i++)
-        {
+        for (int i = 0; i < ObjectFactory.getInstance().getNetworkManager(getApplicationContext()).getCheckedItems().size(); i++) {
             if (i == 0) {
                 items = ObjectFactory.getInstance().getNetworkManager(getApplicationContext()).getCheckedItems().get(i);
                 Log.e("checkeditemscheck", items);
             } else {
-                items = items + "," +ObjectFactory.getInstance().getNetworkManager(getApplicationContext()).getCheckedItems().get(i);
+                items = items + "," + ObjectFactory.getInstance().getNetworkManager(getApplicationContext()).getCheckedItems().get(i);
             }
         }
-        Call<ResponseBody> responseBodyCall =ObjectFactory.getInstance().getRestClient(SkillEditActivity.this).getApiService().updateSkill("app-client", "123321", user_id,
-                ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getLoginToken(), user_id, items,category
+        Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(SkillEditActivity.this).getApiService().updateSkill("app-client", "123321", user_id,
+                ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getLoginToken(), user_id, items, category_selection
         );
-        Log.e("user_id",user_id);
-        Log.e("items",items);
+        Log.e("user_id", user_id);
+        Log.e("items", items);
 
         responseBodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -344,8 +397,8 @@ public class SkillEditActivity extends BaseActivity implements View.OnClickListe
                             if (jsonObject != null) {
                                 if (!jsonObject.getBoolean("error")) {
                                     Toast.makeText(SkillEditActivity.this, "Your skills have been updated successfully", Toast.LENGTH_SHORT).show();
-                                    AppPreference appPreference=ObjectFactory.getInstance().getAppPreference(getApplicationContext());
-                                    BaseBottomHelperActivity.start(getApplicationContext(), ProfileViewFragment.class.getName(),appPreference.getUserId(),appPreference.getUserName());
+                                    AppPreference appPreference = ObjectFactory.getInstance().getAppPreference(getApplicationContext());
+                                    BaseBottomHelperActivity.start(getApplicationContext(), ProfileViewFragment.class.getName(), appPreference.getUserId(), appPreference.getUserName());
                                    /* Intent intent = new Intent(SkillEditActivity.this, ProfileView.class);
                                     startActivity(intent);*/
                                     finish();
@@ -368,9 +421,10 @@ public class SkillEditActivity extends BaseActivity implements View.OnClickListe
             }
         });
     }
+
     @Override
     public void onBackPressed() {
-    super.onBackPressed();
+        super.onBackPressed();
     }
 }
 

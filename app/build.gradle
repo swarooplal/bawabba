@@ -104,20 +104,16 @@ dependencies {
     compile 'com.github.codekidX:storage-chooser:2.0.3'
     compile 'com.kbeanie:multipicker:1.1.31@aar'
     compile 'net.yanzm:mth:1.0.4'
-
     compile 'com.jakewharton:butterknife:8.8.1'
     compile 'com.github.orangegangsters:swipy:1.2.2@aar'
     compile "com.github.bumptech.glide:glide:${rootProject.glideVersion}"
-
     //  compile(name: 'sticky-list-headers', ext: 'aar')
     compile 'se.emilsjolander:stickylistheaders:2.7.0'
     compile 'com.github.yalantis:ucrop:2.2.1'
-
     compile "com.google.android.gms:play-services-gcm:11.8.0"
     compile "com.google.firebase:firebase-messaging:11.8.0"
     compile "com.google.firebase:firebase-core:11.8.0"
     compile 'com.gdacciaro:iosdialog:1.0.2'
-
     compile 'com.weiwangcn.betterspinner:library:1.1.0'
     compile 'com.thefinestartist:finestwebview:1.2.7'
     testImplementation 'junit:junit:4.12'
@@ -126,5 +122,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'com.roughike:bottom-bar:2.3.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    compile 'net.alhazmy13.MediaPicker:libary:2.4.0'
+    compile 'cn.jzvd:jiaozivideoplayer:6.2.12'
 }
 apply plugin: 'com.google.gms.google-services'

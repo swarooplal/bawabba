@@ -19,18 +19,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.bawaaba.rninja4.rookie.Manifest;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.activity.adapters.SelectedVideoGridRecyclerviewAdapter;
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
+import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
 import com.bawaaba.rninja4.rookie.dashboard_new.Utilities;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
-import com.farhanahmed.pico.Pico;
 
-import org.json.JSONException;
+import net.alhazmy13.mediapicker.Video.VideoPicker;
+
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -60,6 +60,7 @@ public class VideoAddActivity extends AppCompatActivity implements View.OnClickL
     private AppCompatTextView tvAddVideos;
     private ArrayList<String> filePath = new ArrayList<>();
     private ArrayList<AppCompatEditText> urlEditTexts = new ArrayList<>();
+    List<String> mPaths;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,12 +117,18 @@ public class VideoAddActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.ivSelectFromGallery:
                 if (Utilities.hasPermission(this, 11, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE,android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, "Need Permission", true)) {
-                    Pico.openMultipleFiles(VideoAddActivity.this, Pico.TYPE_VIDEO);
+//                    Pico.openMultipleFiles(VideoAddActivity.this, Pico.TYPE_VIDEO);
+                    new VideoPicker.Builder(VideoAddActivity.this)
+                            .mode(VideoPicker.Mode.CAMERA_AND_GALLERY)
+                            .directory(VideoPicker.Directory.DEFAULT)
+                            .extension(VideoPicker.Extension.MP4)
+                            .enableDebuggingMode(true)
+                            .build();
                 }
                 break;
             case R.id.tvAddVideos:
                 if (selectedPos == 0) {
-                    if (filePath.size() > 0)
+                    if (mPaths.size() > 0)
                         loadFileApi();
                     else {
                         Toast.makeText(this, "Please upload video file.", Toast.LENGTH_SHORT).show();
@@ -287,7 +294,7 @@ public class VideoAddActivity extends AppCompatActivity implements View.OnClickL
 
         }*/
 
-            File file = new File(String.valueOf(Uri.parse(filePath.get(0)/*.replaceAll(" ", "%20"))*/)));
+            File file = new File(String.valueOf(Uri.parse(mPaths.get(0)/*.replaceAll(" ", "%20"))*/)));
 
             RequestBody requestFile =
                     RequestBody.create(MediaType.parse("multipart/form-data"), file);
@@ -317,9 +324,8 @@ public class VideoAddActivity extends AppCompatActivity implements View.OnClickL
                                 JSONObject jsonObject = new JSONObject(responseString);
                                 System.out.println("AddServiceActivity.onResponse" + responseString);
                                 if (!jsonObject.getBoolean("error")) {
-                                    Toast.makeText(VideoAddActivity.this, "Successfully added.", Toast.LENGTH_SHORT).show();
-                                    Log.e("videochecking", responseString);
-                                    onBackPressed();
+
+                                    BaseBottomHelperActivity.start(getApplicationContext(), ProfileViewFragment.class.getName(),null,null);
                                 } else {
                                     Toast.makeText(VideoAddActivity.this, "Some error occurred", Toast.LENGTH_SHORT).show();
                                 }
@@ -344,31 +350,45 @@ public class VideoAddActivity extends AppCompatActivity implements View.OnClickL
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Pico.onActivityResult(this, requestCode, resultCode, data, new Pico.onActivityResultHandler() {
+        if (requestCode == VideoPicker.VIDEO_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
+          mPaths = (List<String>) data.getSerializableExtra(VideoPicker.EXTRA_VIDEO_PATH);
+            tvNumberofItemsSelected.setText(mPaths.size() + " items selected");
 
-            @Override
-            public void onActivityResult(List<File> files) {
-                filePath = new ArrayList<String>();
-                for (File file : files) {
-                    System.out.println("VideoAddActivity.onActivityResult " + file.getAbsolutePath());
-                    filePath.add(file.getAbsolutePath());
-                    StringBuffer stringBuffer = new StringBuffer();
-                }
-                tvNumberofItemsSelected.setText(filePath.size() + " items selected");
-
-                //loadSelected videos showing the selected video
-                loadSelectedVideos(files);
-            }
-
-            @Override
-            public void onFailure(Exception error) {
-                Log.e("ERROR", error.getMessage());
-                Toast.makeText(VideoAddActivity.this, "failed to load..", Toast.LENGTH_SHORT).show();
-            }
-        });
+            //loadSelected videos showing the selected video
+            loadSelectedVideos(mPaths);
+            //Your Code
+        }
     }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        Pico.onActivityResult(this, requestCode, resultCode, data, new Pico.onActivityResultHandler() {
+//
+//            @Override
+//            public void onActivityResult(List<File> files) {
+//                filePath = new ArrayList<String>();
+//
+//                for (File file : files) {
+//                    System.out.println("VideoAddActivity.onActivityResult " + file.getAbsolutePath());
+//                    filePath.add(file.getAbsolutePath());
+//                    StringBuffer stringBuffer = new StringBuffer();
+//                }
+//                tvNumberofItemsSelected.setText(filePath.size() + " items selected");
+//
+//                //loadSelected videos showing the selected video
+//                loadSelectedVideos(files);
+//            }
+//
+//            @Override
+//            public void onFailure(Exception error) {
+//                Log.e("ERROR", error.getMessage());
+//                Toast.makeText(VideoAddActivity.this, "failed to load..", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
-    private void loadSelectedVideos(List<File> files) {
+    private void loadSelectedVideos(List<String > files) {
         rvItemsList.setLayoutManager(new GridLayoutManager(VideoAddActivity.this, 3));
         SelectedVideoGridRecyclerviewAdapter selectedVideoGridRecyclerviewAdapter = new SelectedVideoGridRecyclerviewAdapter(this, files);
         rvItemsList.setAdapter(selectedVideoGridRecyclerviewAdapter);

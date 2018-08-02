@@ -18,24 +18,20 @@ import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.bawaaba.rninja4.rookie.R;
+import com.bawaaba.rninja4.rookie.activity.adapters.ImagesAsGridRecyclerviewAdapter;
 import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
 import com.bawaaba.rninja4.rookie.dashboard_new.ChatFragment;
 import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
 import com.bawaaba.rninja4.rookie.dashboard_new.SearchFragment;
 import com.bawaaba.rninja4.rookie.dashboard_new.Utilities;
+import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
+import com.bawaaba.rninja4.rookie.model.profile.Profileresponse;
 import com.bawaaba.rninja4.rookie.utils.AppPreference;
+import com.bawaaba.rninja4.rookie.utils.BaseActivity;
 import com.darsh.multipleimageselect.activities.AlbumSelectActivity;
 import com.darsh.multipleimageselect.helpers.Constants;
 import com.darsh.multipleimageselect.models.Image;
-import com.bawaaba.rninja4.rookie.MainActivity;
-import com.bawaaba.rninja4.rookie.R;
-import com.bawaaba.rninja4.rookie.activity.ChatFunction.ChatActivity;
-import com.bawaaba.rninja4.rookie.activity.ProfileView;
-import com.bawaaba.rninja4.rookie.activity.SearchActivity;
-import com.bawaaba.rninja4.rookie.activity.adapters.ImagesAsGridRecyclerviewAdapter;
-import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
-import com.bawaaba.rninja4.rookie.model.profile.Profileresponse;
-import com.bawaaba.rninja4.rookie.utils.BaseActivity;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.google.gson.Gson;
 
@@ -344,7 +340,7 @@ public class ImageEditActivity extends BaseActivity implements View.OnClickListe
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
                     dialog.dismiss();
-                    Toast.makeText(ImageEditActivity.this, "failed to load..", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ImageEditActivity.this, "hehehhehe..", Toast.LENGTH_SHORT).show();
                 }
             });
         }

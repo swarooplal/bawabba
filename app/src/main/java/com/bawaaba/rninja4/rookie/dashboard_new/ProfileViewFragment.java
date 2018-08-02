@@ -1,9 +1,6 @@
 package com.bawaaba.rninja4.rookie.dashboard_new;
 
-import android.app.Dialog;
-import android.app.FragmentManager;
 import android.app.LocalActivityManager;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -12,12 +9,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,7 +32,6 @@ import android.widget.Toast;
 import com.bawaaba.rninja4.rookie.BioTab.Description;
 import com.bawaaba.rninja4.rookie.BioTab.EditDetails;
 import com.bawaaba.rninja4.rookie.BioTab.Services;
-import com.bawaaba.rninja4.rookie.MainActivity;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.activity.ChatFunction.ChatNewActivity;
 import com.bawaaba.rninja4.rookie.activity.ChatFunction.listener.QbChatDialogMessageListenerImp;
@@ -51,7 +45,6 @@ import com.bawaaba.rninja4.rookie.activity.ProfileTab.LanguageTab;
 import com.bawaaba.rninja4.rookie.activity.ProfileTab.Profile_settings;
 import com.bawaaba.rninja4.rookie.activity.ProfileTab.SkillTab;
 import com.bawaaba.rninja4.rookie.activity.ProfileTab.SocialMedia;
-import com.bawaaba.rninja4.rookie.activity.ProfileView;
 import com.bawaaba.rninja4.rookie.activity.RegisterActivity;
 import com.bawaaba.rninja4.rookie.activity.portfolioTab.OtherFile;
 import com.bawaaba.rninja4.rookie.activity.portfolioTab.PortfolioAudio;
@@ -91,7 +84,6 @@ import com.quickblox.core.request.QBPagedRequestBuilder;
 import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
 
-import org.greenrobot.eventbus.EventBus;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
 import org.json.JSONArray;
@@ -110,8 +102,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-import static com.bawaaba.rninja4.rookie.utils.IConsts.QB_PASSWORD;
-
 public class ProfileViewFragment extends Fragment implements IConsts, DialogsManager.ManagingDialogsCallbacks, MyDialogFragment.InterfaceCommunicator {
 
 
@@ -127,7 +117,7 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
     private static final String VIDEOS_SPEC = "Videos";
     private static final String AUDIO_SPEC = "Audios";
     private static final String FILE_SPEC = "Pdf";
-    private static final String OTHER_SPEC = "OtherFiles";
+    private static final String OTHER_SPEC = "Other";
     private static final String REVIEW_SPEC = "Reviews";
     private static final String REVIEWBY_ME_SPEC = "";
 
@@ -151,7 +141,6 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
     private TabHost tabHost4;
     private TextView review_count;
     private TabWidget tw;
-
     private SQLiteHandler db;
     private SessionManager session;
     private LocalActivityManager mlam;
@@ -196,8 +185,6 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
     private void initViews(View v) {
         fabMessage = (FloatingActionButton) v.findViewById(R.id.fab1);
         ImageButton home = (ImageButton) v.findViewById(R.id.home);
-
-
         txtName = (TextView) v.findViewById(R.id.name);
 //        txtEmail = (TextView) findViewById(R.id.email);
         user_button = (ImageButton) v.findViewById(R.id.verify_button);
@@ -210,8 +197,6 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
 
         editReview = (TextView) v.findViewById(R.id.edit_review);
         fab_review = (ImageView) v.findViewById(R.id.fab_review);
-//        review_post=(TextView)findViewById(R.id.edit_review_post);
-//        post_review=(LinearLayout)findViewById(R.id.review_linear);
 
         fab = (FloatingActionButton) v.findViewById(R.id.fab);
         fabMessage = (FloatingActionButton) v.findViewById(R.id.fab1);
@@ -263,7 +248,8 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
                 String reg_id = profileId;
                 userRegID = reg_id;
                 profileuser(reg_id);
-            } else {
+            } else
+                {
                 String reg_id = user.get("uid");
                 userRegID = reg_id;
                 profileuser(reg_id);
@@ -588,8 +574,7 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
         SharedPreferences pref = getContext().getSharedPreferences(Config.SHARED_PREF, 0);
         reg_id = pref.getString("regId", null);
         Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getContext()).getApiService().login("app-client",
-                "123321", email, password, reg_id, "android"
-        );
+                "123321", email, password, reg_id,"android");
         responseBodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
@@ -1002,7 +987,7 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
 
 
                             } else {
-                                // tabHost4.setVisibility(View.GONE);
+
                                 //skills
                                 TabWidget widget = tabHost1.getTabWidget();
                                 String skills = user.getString("skills");
@@ -1035,6 +1020,18 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
                                 socialmediaSpec.setIndicator(SOCIALMEDIA_SPEC);
                                 socialmediaSpec.setContent(socialmediaIntent);
                                 tabHost1.addTab(socialmediaSpec);
+                                try {
+                                    final TabWidget tw = (TabWidget)tabHost1.findViewById(android.R.id.tabs);
+                                    for (int i = 0; i < tw.getChildCount(); ++i)
+                                    {
+                                        final View tabView = tw.getChildTabViewAt(i);
+                                        final TextView tv = (TextView)tabView.findViewById(android.R.id.title);
+                                        tv.setSingleLine(true);
+                                        tv.setAllCaps(false);
+                                        tv.setTextSize(14);
+                                    }
+                                } catch (Exception e) {
+                                }
 //                            tabHost1.getTabWidget().getChildAt(tabHost1.getCurrentTab()).getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
 
 
@@ -1131,7 +1128,7 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
                                         final TextView tv = (TextView)tabView.findViewById(android.R.id.title);
                                         tv.setSingleLine(true);
                                         tv.setAllCaps(false);
-                                        tv.setTextSize(11);
+                                        tv.setTextSize(14);
                                     }
                                 } catch (Exception e) {
                                 }
@@ -1207,7 +1204,7 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
                                 public void onClick(View v) {
                                     Intent myintent = new Intent(Intent.ACTION_SEND);
                                     myintent.setType("text/plain");
-                                    String shareBody = "http://www.bawabba.com/" + finalProfile_url1;
+                                    String shareBody = "https://test378.bawabba.com/" + finalProfile_url1;
                                     String shareSub = finalName1;
                                     myintent.putExtra(Intent.EXTRA_SUBJECT, shareSub);
                                     myintent.putExtra(Intent.EXTRA_TEXT, shareBody);
@@ -1548,7 +1545,8 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
 
                 }
             });
-        } catch (SmackException.NotConnectedException e) {
+        } catch (SmackException.NotConnectedException e)
+        {
             e.printStackTrace();
             Log.e("profile", "SmackException.NotConnectedException while setting privacy list :- " + e.getMessage());
         } catch (XMPPException.XMPPErrorException e) {

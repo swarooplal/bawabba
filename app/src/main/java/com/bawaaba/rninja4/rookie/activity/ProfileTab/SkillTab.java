@@ -74,6 +74,7 @@ public class SkillTab extends AppCompatActivity implements View.OnClickListener 
         }
         Intent from_Profile = getIntent();
         skills = from_Profile.getStringExtra("skills");
+        Log.d("skils>>>>>>",skills);
 
 
 

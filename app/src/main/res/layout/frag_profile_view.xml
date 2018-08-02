@@ -9,8 +9,7 @@
 
     >
 
-
-        <android.support.v4.widget.SwipeRefreshLayout
+    <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe"
             android:layout_gravity="top"
             android:layout_width="match_parent"
@@ -309,7 +308,7 @@
                             <TextView
                                 android:id="@+id/no_portfolio"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
                                 android:layout_marginTop="120dp"
                                 android:fontFamily="sans-serif"
                                 android:gravity="center"

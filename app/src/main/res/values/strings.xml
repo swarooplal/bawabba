@@ -155,6 +155,10 @@
     <string name="notification_title">New message arrived!</string>
     <string name="notification_title_new">Push Message!</string>
     <string name="change_email">A verification email has been sent  to your new email address.</string>
+    <string name="string_help_text">The permission is missing.\\n\\nTo grant this permission click on Settings, then Permissions and turn the permission on.\\n\\nThen click back twice to return to the app</string>
+    <string name="help">Help</string>
+    <string name="quit">exit</string>
     <string name="change_password">Your password changed Successfully.Please login with your new password again</string>
+    <string name="settings">Settings</string>
 </resources>
 

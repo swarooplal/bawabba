@@ -128,6 +128,11 @@ public class NetworkManager {
         this.checkedItems = new ArrayList<>();
         this.checkedItems = checkedItems;
     }
+    public void clearItmes()
+    {
+        this.checkedItems = new ArrayList<>();
+        checkedItems.clear();
+    }
 
     public List<String> getCheckedLangauges() {
         return checkedLangauges;

@@ -19,7 +19,6 @@
         android:layout_alignParentBottom="true"
         android:background="#fff"
         app:bnbMode="mode_fixed"
-
         app:menu="@menu/bottom_navigation" />
 </RelativeLayout>
 

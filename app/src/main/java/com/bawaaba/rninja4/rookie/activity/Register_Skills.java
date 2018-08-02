@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.bawaaba.rninja4.rookie.JSONParser;
-import com.bawaaba.rninja4.rookie.MainActivity;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.activity.adapters.RegisterSkillsRecyclerviewAdapter;
 import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
@@ -134,7 +133,7 @@ public class Register_Skills extends BaseActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tvComplete:
-                apiCallTOSignUp();
+                apiCallTOSignUp("Android");
                 break;
             default:
                 break;
@@ -142,7 +141,7 @@ public class Register_Skills extends BaseActivity implements View.OnClickListene
     }
 
 
-    private void apiCallTOSignUp() {
+    private void apiCallTOSignUp(String device) {
         String skills = "";
         for (int i = 0; i < ObjectFactory.getInstance().getNetworkManager(Register_Skills.this).getCheckedItems().size(); i++) {
             if (i == 0) {
@@ -165,7 +164,7 @@ public class Register_Skills extends BaseActivity implements View.OnClickListene
         final Dialog dialog = ObjectFactory.getInstance().getUtils(Register_Skills.this).showLoadingDialog(Register_Skills.this);
         dialog.show();
         Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(Register_Skills.this).getApiService().signUp("app-client", "123321",email,fullname,location,skills,
-                description,category,gender,password,DateofBirth,contactNumber,role,profile_image);
+                description,category,gender,password,DateofBirth,contactNumber,role,profile_image,device);
 
 
         final String finalSkills = skills;
@@ -238,7 +237,7 @@ public class Register_Skills extends BaseActivity implements View.OnClickListene
             String Auth_key = "123321";
             String token = "";
             String user_id = "";
-            String Register_skill_URL = "http://demo.rookieninja.com/api/user/category?category=" + position;
+            String Register_skill_URL = "https://test378.bawabba.com/api/user/category?category=" + position;
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             JSONObject json = jsonParser.makeHttpRequest(Register_skill_URL, "GET",
                     params, Client_service, Auth_key, token, user_id);

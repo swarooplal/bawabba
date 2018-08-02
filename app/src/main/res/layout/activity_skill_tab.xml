@@ -18,7 +18,7 @@
     <co.lujun.androidtagview.TagContainerLayout
         android:id="@+id/tagcontainerLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         app:container_background_color="#FFFFFF"
         app:container_border_color="#FFFFFF"
@@ -37,7 +37,6 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:background="@color/white"
-        android:layout_alignParentBottom="true"
         android:gravity="center"
         android:orientation="vertical">
 

@@ -3,6 +3,7 @@ package com.bawaaba.rninja4.rookie.activity.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
@@ -26,10 +27,10 @@ public class SelectedVideoGridRecyclerviewAdapter extends RecyclerView.Adapter<S
     RecyclerViewClickListener clickListener;
     List<String> checkedItems = new ArrayList<>();
     List<String> items = new ArrayList<>();
-    private List<File> dataArrayList;
+    private List<String> dataArrayList;
     private Context mContext;
 
-    public SelectedVideoGridRecyclerviewAdapter(Context context, List<File> dataArrayList) {
+    public SelectedVideoGridRecyclerviewAdapter(Context context, List<String> dataArrayList) {
         this.dataArrayList = dataArrayList;
         this.mContext = context;
     }
@@ -45,7 +46,10 @@ public class SelectedVideoGridRecyclerviewAdapter extends RecyclerView.Adapter<S
     @Override
     public void onBindViewHolder(MainViewHolder holder, int position) {
         if (dataArrayList.size() > 0) {
-            Bitmap bMap = ThumbnailUtils.createVideoThumbnail(dataArrayList.get(position).getAbsolutePath(), MediaStore.Video.Thumbnails.MICRO_KIND);
+
+            String file_path=dataArrayList.get(0);
+            File file = new File(String.valueOf(Uri.parse(file_path)/*.replaceAll(" ", "%20"))*/));
+            Bitmap bMap = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.MICRO_KIND);
 //            Glide.with(mContext).load(bMap).into(holder.ivImag/e);
             holder.ivImage.setImageBitmap(bMap);
         }

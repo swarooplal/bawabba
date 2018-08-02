@@ -9,10 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
+import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -78,7 +79,7 @@ public class AdapterVideo extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 video_list.add(videolink.toString());
 
             }
-           // Log.e("videoweb check", String.valueOf(video_list.get(1)));
+            Log.e("videoweb check", String.valueOf(video_list.get(1)));
             myHolder.setItemClickListener(new ItemClickListener() {
                 @Override
                 public void onItemClick(int pos) {
@@ -86,6 +87,8 @@ public class AdapterVideo extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     Intent to_video_web = new Intent(context,Portfolio_Video_Webview.class);
                     to_video_web.putExtra("link",video_list.get(pos));
                     context.startActivity(to_video_web);
+
+                    Toast.makeText(context,"Clicked",Toast.LENGTH_LONG).show();
 
                 }
             });

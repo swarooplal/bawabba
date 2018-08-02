@@ -12,6 +12,7 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -23,6 +24,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Query;
 import retrofit2.http.Url;
 
 /**
@@ -43,19 +45,29 @@ public class RestClient {
             this.context = context.getApplicationContext();
     }
 
-    private Retrofit getAdapter() {
+    public Retrofit getAdapter() {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+// set your desired log level
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.addInterceptor(logging);
+        httpClient.writeTimeout(200,TimeUnit.SECONDS);
+        httpClient.readTimeout(120, TimeUnit.SECONDS);
+        httpClient  .connectTimeout(120, TimeUnit.SECONDS)
+                .build();//
         OkHttpClient mOkHttpClient = new OkHttpClient()
                 .newBuilder()
-                .connectTimeout(50, TimeUnit.SECONDS)
-                .writeTimeout(50, TimeUnit.SECONDS)
-                .readTimeout(50, TimeUnit.SECONDS)
+                .connectTimeout(200, TimeUnit.SECONDS)
+                .writeTimeout(200, TimeUnit.SECONDS)
+                .readTimeout(200, TimeUnit.SECONDS)
                 .build();
 
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
                 .build();
         return retrofit;
     }
@@ -64,15 +76,14 @@ public class RestClient {
         WebServiceApi api = getAdapter().create(WebServiceApi.class);
         return api;
     }
-
-
+    //
     public interface WebServiceApi {
+        @GET("api/user/get_all_skills?")
+        Call<ResponseBody> getCategorySkillsinInside(
+                @Query("category") String category);
         @GET
         Call<ResponseBody> getCategorySkills(
                 @Url String url);
-
-        //http://demo.rookieninja.com/api/user/register
-
         @FormUrlEncoded
         @POST("api/user/register")
         Call<ResponseBody> signUp(
@@ -89,8 +100,8 @@ public class RestClient {
                 @Field("dob") String dateofbirth,
                 @Field("phone") String phone,
                 @Field("role") String role,
-                @Field("profile_img") String profile_image
-        );
+                @Field("profile_img") String profile_image,
+                @Field("device") String device);
 
         @FormUrlEncoded
         @POST("api/user/logout")
