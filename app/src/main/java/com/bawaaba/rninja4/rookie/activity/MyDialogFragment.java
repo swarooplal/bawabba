@@ -15,8 +15,10 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.IdRes;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -65,7 +67,21 @@ public class MyDialogFragment extends DialogFragment {
     private static int GALLERY_REQUEST_PROOF = 101;
     private static int GALLERY_REQUEST_KEY_CODE = 111;
     private Bitmap bitmap;
-    private String imageRating ="no";
+    private String imageRating = "no";
+
+
+    public MyDialogFragment() {
+    }
+
+    public void setFragmentContainerId(@IdRes int containerId) {
+        Bundle b = getArguments();
+        if (b == null) {
+            b = new Bundle();
+        }
+        b.putInt("id", containerId);
+        if (getArguments() == null)
+            setArguments(b);
+    }
 
     // onCreate --> (onCreateDialog) --> onCreateView --> onActivityCreated
     @Override
@@ -85,7 +101,7 @@ public class MyDialogFragment extends DialogFragment {
                 //pickImageSingle();
                 int result = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA);
                 int result1 = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
-                if ( result == PackageManager.PERMISSION_GRANTED) {
+                if (result == PackageManager.PERMISSION_GRANTED) {
                     if (result1 == PackageManager.PERMISSION_GRANTED) {
                         takePhoto();
                     } else {
@@ -120,7 +136,7 @@ public class MyDialogFragment extends DialogFragment {
 
 
                 if (!review.isEmpty() && !rating.isEmpty()) {
-                    interfaceCommunicator.sendRequestCode(rating, rate, review,imageRating);
+                    interfaceCommunicator.sendRequestCode(rating, rate, review, imageRating);
                     //  setReviewApi(rating, rate, review, dialog);
                 } else {
                     Toast.makeText(getActivity(),
@@ -160,8 +176,9 @@ public class MyDialogFragment extends DialogFragment {
     // If dialog is dismissed: onDismiss
     @Override
     public void onDismiss(DialogInterface dialog) {
-        Log.v(LOG_TAG,"onDismiss");
+        Log.v(LOG_TAG, "onDismiss");
     }
+
     private void takePhoto() {
         try {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -217,7 +234,7 @@ public class MyDialogFragment extends DialogFragment {
                 imageRating = getStringImage(bitmap);
                 File photopath = null;
                 photopath = saveToInternalStorage(photo);
-               choose_file.setText("1 item selected");
+                choose_file.setText("1 item selected");
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -243,6 +260,7 @@ public class MyDialogFragment extends DialogFragment {
             }
         }
     }
+
     private String getStringImage(Bitmap bmp) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -250,6 +268,7 @@ public class MyDialogFragment extends DialogFragment {
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return encodedImage;
     }
+
     private File saveToInternalStorage(Bitmap bitmap) throws IOException {
         if (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -275,17 +294,23 @@ public class MyDialogFragment extends DialogFragment {
         }
         return path;
     }
+
     public interface InterfaceCommunicator {
         //  setReviewApi(rating, rate, review, dialog);
         void sendRequestCode(String rating, float rate, String review, String imageRating);
     }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            interfaceCommunicator = (InterfaceCommunicator) activity;
+            if (activity instanceof AppCompatActivity && getArguments() != null && getArguments().getInt("id", 0) != 0) {
+                interfaceCommunicator=(InterfaceCommunicator)((AppCompatActivity)activity).getSupportFragmentManager().findFragmentById(getArguments().getInt("id"));
+            } else {
+                interfaceCommunicator = (InterfaceCommunicator) activity;
+            }
         } catch (ClassCastException e) {
-            throw new ClassCastException(getTargetFragment().toString() + " must implement ConfirmDeletePopupFragment.DialogListener");
+            throw new ClassCastException((getTargetFragment() != null ? getTargetFragment().toString() : "Fragment") + " must implement ConfirmDeletePopupFragment.DialogListener");
         }
     }
 }

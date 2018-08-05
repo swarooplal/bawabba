@@ -248,8 +248,7 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
                 String reg_id = profileId;
                 userRegID = reg_id;
                 profileuser(reg_id);
-            } else
-                {
+            } else {
                 String reg_id = user.get("uid");
                 userRegID = reg_id;
                 profileuser(reg_id);
@@ -324,9 +323,13 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
                 @Override
                 public void onClick(View v) {
 
-                    dialogFrag = new MyDialogFragment();
+                    if (getActivity() != null) {
+                        dialogFrag = new MyDialogFragment();
+                        dialogFrag.setFragmentContainerId(R.id.mainFrame);
 //                    FragmentManager fm = getFragmentManager();
-                    dialogFrag.show(getActivity().getFragmentManager(), "dialog");
+                        dialogFrag.show(getActivity().getFragmentManager(), "dialog");
+
+                    }
                 }
 
             });
@@ -549,7 +552,7 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
             //dialogsManager.addManagingDialogsCallbackListener(mActivity);
             dialogsManager.addManagingDialogsCallbackListener(this);
         } catch (Exception e) {
-            Log.e("Register","=",e);
+            Log.e("Register", "=", e);
         }
 
     }
@@ -574,7 +577,7 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
         SharedPreferences pref = getContext().getSharedPreferences(Config.SHARED_PREF, 0);
         reg_id = pref.getString("regId", null);
         Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getContext()).getApiService().login("app-client",
-                "123321", email, password, reg_id,"android");
+                "123321", email, password, reg_id, "android");
         responseBodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
@@ -808,7 +811,7 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
         System.out.println("setReviewApi prof" + ObjectFactory.getInstance().getAppPreference(getContext()).getUserId());
 //        final Dialog dialog = ObjectFactory.getInstance().getUtils(getContext()).showLoadingDialog(getContext());
 //        dialog.show();
-        ((BaseBottomHelperActivity)getActivity()).showProgress("Loading",false);
+        ((BaseBottomHelperActivity) getActivity()).showProgress("Loading", false);
         Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getContext()).getApiService().setRating(
                 "app-client",
                 "123321",
@@ -824,7 +827,7 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
         responseBodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-                ((BaseBottomHelperActivity)getActivity()).dismissProgress();
+                ((BaseBottomHelperActivity) getActivity()).dismissProgress();
                 if (response.body() != null) {
                     try {
                         String responseString = new String(response.body().bytes());
@@ -855,7 +858,7 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(getContext(), "Network Error", Toast.LENGTH_SHORT).show();
-                ((BaseBottomHelperActivity)getActivity()).dismissProgress();
+                ((BaseBottomHelperActivity) getActivity()).dismissProgress();
             }
         });
 
@@ -870,7 +873,7 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
         params.put("db_id", (db_id != null) ? db_id : "no");
 //        final Dialog dialog = ObjectFactory.getInstance().getUtils(getContext()).showLoadingDialog(getContext());
 //        dialog.show();
-        ((BaseBottomHelperActivity)getActivity()).showProgress("Loading",false);
+        ((BaseBottomHelperActivity) getActivity()).showProgress("Loading", false);
         Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getContext()).getApiService().profileDetails("app-client",
                 "123321", params);
 
@@ -880,7 +883,7 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
                 try {
 //                    dialog.dismiss();
-                    ((BaseBottomHelperActivity)getActivity()).dismissProgress();
+                    ((BaseBottomHelperActivity) getActivity()).dismissProgress();
                     swipe.setRefreshing(false);
 
                 } catch (Exception e) {
@@ -1021,11 +1024,10 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
                                 socialmediaSpec.setContent(socialmediaIntent);
                                 tabHost1.addTab(socialmediaSpec);
                                 try {
-                                    final TabWidget tw = (TabWidget)tabHost1.findViewById(android.R.id.tabs);
-                                    for (int i = 0; i < tw.getChildCount(); ++i)
-                                    {
+                                    final TabWidget tw = (TabWidget) tabHost1.findViewById(android.R.id.tabs);
+                                    for (int i = 0; i < tw.getChildCount(); ++i) {
                                         final View tabView = tw.getChildTabViewAt(i);
-                                        final TextView tv = (TextView)tabView.findViewById(android.R.id.title);
+                                        final TextView tv = (TextView) tabView.findViewById(android.R.id.title);
                                         tv.setSingleLine(true);
                                         tv.setAllCaps(false);
                                         tv.setTextSize(14);
@@ -1091,7 +1093,7 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
                                 if (document_count > 0 || db_id.equals(uid)) {
                                     FileSpec.setContent(FileIntent);
 //                                    FileSpec.setIndicator("", getResources().getDrawable(R.drawable.texttab));
-                                    FileSpec.setIndicator("PDF's",null);
+                                    FileSpec.setIndicator("PDF's", null);
                                     tabHost2.addTab(FileSpec);
                                 }
                                 // portfolio link
@@ -1121,11 +1123,10 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
                                 }
 
                                 try {
-                                    final TabWidget tw = (TabWidget)tabHost2.findViewById(android.R.id.tabs);
-                                    for (int i = 0; i < tw.getChildCount(); ++i)
-                                    {
+                                    final TabWidget tw = (TabWidget) tabHost2.findViewById(android.R.id.tabs);
+                                    for (int i = 0; i < tw.getChildCount(); ++i) {
                                         final View tabView = tw.getChildTabViewAt(i);
-                                        final TextView tv = (TextView)tabView.findViewById(android.R.id.title);
+                                        final TextView tv = (TextView) tabView.findViewById(android.R.id.title);
                                         tv.setSingleLine(true);
                                         tv.setAllCaps(false);
                                         tv.setTextSize(14);
@@ -1236,7 +1237,7 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 try {
 
-                    ((BaseBottomHelperActivity)getActivity()).dismissProgress();
+                    ((BaseBottomHelperActivity) getActivity()).dismissProgress();
                 } catch (Exception e) {
                 }
             }
@@ -1545,8 +1546,7 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
 
                 }
             });
-        } catch (SmackException.NotConnectedException e)
-        {
+        } catch (SmackException.NotConnectedException e) {
             e.printStackTrace();
             Log.e("profile", "SmackException.NotConnectedException while setting privacy list :- " + e.getMessage());
         } catch (XMPPException.XMPPErrorException e) {
