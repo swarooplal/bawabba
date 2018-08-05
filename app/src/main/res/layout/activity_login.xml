@@ -58,7 +58,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:orientation="vertical"
-            android:src="@drawable/ic_bawabba_android" />
+            android:src="@drawable/logo_bawabba" />
 
         <FrameLayout
             android:layout_width="wrap_content"
