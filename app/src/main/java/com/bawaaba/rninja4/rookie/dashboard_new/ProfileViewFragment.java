@@ -214,6 +214,8 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
         tabHost4 = (TabHost) v.findViewById(R.id.myFifthTabhost);
     }
 
+
+
     private void init(View v, @Nullable Bundle savedInstanceState) {
         profileId = getArguments().getString("regId");
         profileName = getArguments().getString("name");
@@ -839,6 +841,10 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
                                 if (!jsonObject.getBoolean("error")) {
                                     //dialogParent.dismiss();
                                     Toast.makeText(getContext(), "Successfully reviewed", Toast.LENGTH_SHORT).show();
+                                    try {
+                                        dialogFrag.dismiss();
+                                    } catch (Exception e) {
+                                    }
                                     ((BaseBottomHelperActivity) getActivity()).changeFragment(ProfileViewFragment.newInstance(profileId, profileName), true);
                                     // apiCallToUpdateProfileDatas();
 
@@ -1309,6 +1315,7 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
 
     @Override
     public void sendRequestCode(String rating, float rate, String review, String imageRating) {
+
         setReviewApi(rating, rate, review, imageRating);
 
     }

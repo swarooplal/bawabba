@@ -3,7 +3,10 @@ package com.bawaaba.rninja4.rookie.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
@@ -148,12 +151,21 @@ public class MyDialogFragment extends DialogFragment {
         return dialogView;
     }
 
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog= super.onCreateDialog(savedInstanceState);
+
+        return dialog;
+    }
+
+
+
     // If shown as dialog, set the width of the dialog window
     // onCreateView --> onActivityCreated -->  onViewStateRestored --> onStart --> onResume
     @Override
     public void onResume() {
         super.onResume();
-        Log.v(LOG_TAG, "onResume");
+        Log.e(LOG_TAG, "onResume="+getShowsDialog());
         if (getShowsDialog()) {
             // Set the width of the dialog to the width of the screen in portrait mode
             DisplayMetrics metrics = getActivity().getResources().getDisplayMetrics();
@@ -161,6 +173,8 @@ public class MyDialogFragment extends DialogFragment {
             getDialog().getWindow().setLayout(dialogWidth, WRAP_CONTENT);
         }
     }
+
+
 
     private void showToast(String buttonName) {
         Toast.makeText(getActivity(), "Clicked on \"" + buttonName + "\"", Toast.LENGTH_SHORT).show();
@@ -170,14 +184,11 @@ public class MyDialogFragment extends DialogFragment {
     @Override
     public void onCancel(DialogInterface dialog) {
         Log.v(LOG_TAG, "onCancel");
+        dismiss();
     }
 
-    // If dialog is cancelled: onCancel --> onDismiss
-    // If dialog is dismissed: onDismiss
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        Log.v(LOG_TAG, "onDismiss");
-    }
+
+
 
     private void takePhoto() {
         try {

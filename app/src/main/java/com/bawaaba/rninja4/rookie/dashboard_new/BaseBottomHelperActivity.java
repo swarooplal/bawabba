@@ -78,7 +78,7 @@ public class BaseBottomHelperActivity extends AppCompatActivity {
             bottomMenuHelper.changePosition(2);
         } else if (ProfileViewFragment.class.getName().equals(className)) {
             AppPreference appPreference=ObjectFactory.getInstance().getAppPreference(getApplicationContext());
-            boolean isOwnProfile=appPreference.getUserId()!=null && appPreference.getUserId().equals(profileId);
+            boolean isOwnProfile=appPreference.getUserId()==null || appPreference.getUserId().equals(profileId);
             changeFragment(ProfileViewFragment.newInstance(profileId, profileName), false);
             bottomMenuHelper.changePosition(isOwnProfile?3:0);
         } else {
