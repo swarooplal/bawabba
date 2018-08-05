@@ -148,10 +148,10 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/profile_details"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="70dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
             android:paddingTop="2dp"
-            android:paddingBottom="2dp"/>
+   />
 
         <!--<ImageView-->
         <!--android:id="@+id/img_profile"-->
