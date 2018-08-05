@@ -244,6 +244,17 @@ password:123456*/
                 @FieldMap Map<String, String> hashFields,
                 @Field("table_name") String table_name
         );
+        @FormUrlEncoded
+        @POST("api/user/delete_dp")
+        Call<ResponseBody> delete_profimg(
+                @Header("Client-Service") String client_service,
+                @Header("Auth-Key") String authkey,
+                @Header("User-Id") String userId,
+                @Header("Token") String Token,
+                @Field("user_id") String user_id
+
+        );
+
 
         @Multipart
         @POST("api/user/portfoliomedia")

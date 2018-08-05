@@ -125,5 +125,7 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     compile 'net.alhazmy13.MediaPicker:libary:2.4.0'
     compile 'cn.jzvd:jiaozivideoplayer:6.2.12'
+    compile 'com.hbb20:ccp:2.0.8'
+    compile 'com.optimus:editTextField:0.2.0'
 }
 apply plugin: 'com.google.gms.google-services'

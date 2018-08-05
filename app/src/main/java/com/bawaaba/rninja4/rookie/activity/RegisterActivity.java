@@ -41,26 +41,25 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
-import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
-import com.bawaaba.rninja4.rookie.utils.AppPreference;
-import com.bumptech.glide.Glide;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
 import com.bawaaba.rninja4.rookie.helper.SessionManager;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
 import com.bawaaba.rninja4.rookie.utils.Constants;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.hbb20.CountryCodePicker;
 import com.squareup.picasso.Picasso;
 import com.yalantis.ucrop.UCrop;
 
@@ -100,8 +99,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private Button btnRegister;
     //private Button btnRegister_hire;
     private TextView btnLinkToLogin;
-    private EditText FullName;
-    private EditText Email;
+    //    private EditText FullName;
+//    private EditText Email;
+    private com.optimus.edittextfield.EditTextField FullName;
+    private com.optimus.edittextfield.EditTextField Email;
     private EditText Password;
     private EditText confirm_Password;
     private AppCompatTextView InputLocation;
@@ -118,6 +119,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private ProgressDialog pDialog;
     private SessionManager session;
     private Bitmap bitmap;
+    private LinearLayout phone_layout;
     private Boolean isFabOpen = false;
     private FloatingActionButton fab, fab1, fab2;
     private Animation fab_open, fab_close, rotate_forward, rotate_backward;
@@ -139,13 +141,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private int year = 0;
     private int month = 0;
     private int day;
+    CountryCodePicker ccp;
 
     private TextView Faq;
     private TextView Termsofuse;
     private Button btnClear;
     private Button btnClear1;
     private CoordinatorLayout cordinator_layout;
-  //  private  io.github.kobakei.materialfabspeeddial.FabSpeedDial fab;
+    //  private  io.github.kobakei.materialfabspeeddial.FabSpeedDial fab;
 
 
 
@@ -196,28 +199,29 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         Role = (RadioGroup) findViewById(R.id.role);
         Role.check(R.id.freelance);
 
-        btnClear = (Button)findViewById(R.id.btn_clear);
-        btnClear1= (Button)findViewById(R.id.btn_clear1);
+//        btnClear = (Button)findViewById(R.id.btn_clear);
+//        btnClear1= (Button)findViewById(R.id.btn_clear1);
         Faq=(TextView)findViewById(R.id.faq);
         Termsofuse=(TextView)findViewById(R.id.terms);
 
-        FullName = (EditText) findViewById(R.id.fullname);
-        Email = (EditText) findViewById(R.id.email);
+        FullName = (com.optimus.edittextfield.EditTextField) findViewById(R.id.fullname);
+        Email = (com.optimus.edittextfield.EditTextField) findViewById(R.id.email);
         Password = (EditText) findViewById(R.id.password);
         confirm_Password = (EditText) findViewById(R.id.confirm_password);
         InputLocation = (AppCompatTextView) findViewById(R.id.place);
         contact_number=(EditText)findViewById(R.id.phone);
+        ccp = (CountryCodePicker) findViewById(R.id.ccp);
         DateofBirth = (EditText) findViewById(R.id.dob);
         Description = (EditText) findViewById(R.id.description);
 
         getSupportActionBar().hide();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        FullName .addTextChangedListener(textWatcher());
-        btnClear.setOnClickListener(onClickListener());
+        FullName.addTextChangedListener(textWatcher());
+        // btnClear.setOnClickListener(onClickListener());
 
         Email.addTextChangedListener(textWatcher1());
-        btnClear1.setOnClickListener(onClickListener1());
+        // btnClear1.setOnClickListener(onClickListener1());
 
         Password.addTextChangedListener(textWatcher2());
 
@@ -227,7 +231,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         DateofBirth.addTextChangedListener(textWatcher5());
 
-        contact_number.addTextChangedListener(textWatcher6());
+        //  contact_number.addTextChangedListener(textWatcher6());
         Description.addTextChangedListener(textWatcher7());
 
 
@@ -251,12 +255,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         user_image = (CircleImageView) findViewById(R.id.user_image);
         user_button = (ImageButton) findViewById(R.id.user_button);
-        FullName = (EditText) findViewById(R.id.fullname);
-        Email = (EditText) findViewById(R.id.email);
+        FullName = (com.optimus.edittextfield.EditTextField) findViewById(R.id.fullname);
+        Email = (com.optimus.edittextfield.EditTextField) findViewById(R.id.email);
         Password = (EditText) findViewById(R.id.password);
         confirm_Password = (EditText) findViewById(R.id.confirm_password);
         InputLocation = (AppCompatTextView) findViewById(R.id.place);
         contact_number=(EditText)findViewById(R.id.phone);
+        phone_layout=(LinearLayout)findViewById(R.id.phone_layout);
         Gender = (RadioGroup) findViewById(R.id.gender);
         Male = (RadioButton) findViewById(R.id.male);
         DateofBirth = (EditText) findViewById(R.id.dob);
@@ -272,69 +277,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         pDialog.setCancelable(false);
         session = new SessionManager(getApplicationContext());
         io.github.kobakei.materialfabspeeddial.FabSpeedDial fab=(io.github.kobakei.materialfabspeeddial.FabSpeedDial)findViewById(R.id.fab);
-//        fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab1 = (FloatingActionButton) findViewById(R.id.fab1);
-//        fab2 = (FloatingActionButton) findViewById(R.id.fab2);
-//        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
-//        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
-//        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_forward);
-//        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_backward);
-//        family = (RelativeLayout) findViewById(R.id.fab_family);
-//        cordinator_layout=(CoordinatorLayout) findViewById(R.id.codinator);
-//        fab.setOnClickListener(this);
-//        fab1.setOnClickListener(this);
-//        fab2.setOnClickListener(this);
-//        FullName.setOnTouchListener(new View.OnTouchListener() {
-//
-//            @Override
-//            public boolean onTouch(View view, MotionEvent ev)
-//            {
-//                hideKeyboard(view);
-//                return false;
-//            }
-//        });
-
-//        Email.setOnTouchListener(new View.OnTouchListener() {
-//
-//            @Override
-//            public boolean onTouch(View view, MotionEvent ev)
-//            {
-//                hideKeyboard(view);
-//                return false;
-//            }
-//        });
-//
-//        Password.setOnTouchListener(new View.OnTouchListener() {
-//
-//            @Override
-//            public boolean onTouch(View view, MotionEvent ev)
-//            {
-//                hideKeyboard(view);
-//                return false;
-//            }
-//        });
-//
-//        confirm_Password.setOnTouchListener(new View.OnTouchListener() {
-//
-//            @Override
-//            public boolean onTouch(View view, MotionEvent ev)
-//            {
-//                hideKeyboard(view);
-//                return false;
-//            }
-//        });
-//
-//        Description.setOnTouchListener(new View.OnTouchListener() {
-//
-//            @Override
-//            public boolean onTouch(View view, MotionEvent ev)
-//            {
-//                hideKeyboard(view);
-//                return false;
-//            }
-//        });
-
-
+        ccp.registerCarrierNumberEditText(contact_number);
 
 
         Role.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -374,8 +317,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         .into(user_image);
 
 
+
+
+
+//                Glide.with(this).load("imageUrl")
+//                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+//                        .into(user_image);
+
+
 //                Gender.setText(response.get("gender").toString());
-//
+
 //            profile_pic_data = new JSONObject(response.get("picture").toString());
 //            profile_pic_url = new JSONObject(profile_pic_data.getString("data"));
 //            Picasso.with(this).load(profile_pic_url.getString("url"))
@@ -384,7 +335,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
 //
 //                Picasso.with(this)
-//                        .load("https://graph.facebook.com/v2.2/" + .getUserId() + "/picture?height=120&type=normal") //extract as User instance method
+//                        .load("https://graph.facebook.com/v2.2/" +.getUserId() + "/picture?height=120&type=normal")
 //                        .transform(new CircleTransform())
 //                        .resize(120, 120)
 //                        .into(user_image);
@@ -393,6 +344,28 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 e.printStackTrace();
             }
         }
+        Bundle bundle = getIntent().getExtras();
+        String First_name = bundle.getString("linkName");
+        String Last_name = bundle.getString("lastName");
+        String Email_address = bundle.getString("email");
+        String picture = bundle.getString("picturl");
+        if(First_name!=null) {
+            FullName.setText(First_name);
+            Log.e("FirstNmaeLink",First_name);
+        }
+
+        if(Email_address!=null){
+            Email.setText(Email_address);
+        }
+
+        if(picture!=null){
+            Glide.with(RegisterActivity.this).load(picture).into(user_image);
+            Log.e("picture",picture);
+        }
+
+
+        //Log.e("LinkName",First_name);
+
 //        fab2.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -412,7 +385,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         fab.addOnMenuItemClickListener(new FabSpeedDial.OnMenuItemClickListener() {
             @Override
-            public void onMenuItemClick(FloatingActionButton fab, TextView textView, int itemId) {
+            public void onMenuItemClick(FloatingActionButton fab, TextView textView, int one) {
                 Intent intent = new Intent(RegisterActivity.this, LinkedinActivity.class);
                 startActivity(intent);
                 finish();
@@ -421,7 +394,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         fab.addOnMenuItemClickListener(new FabSpeedDial.OnMenuItemClickListener() {
             @Override
-            public void onMenuItemClick(FloatingActionButton fab, TextView textView, int itemId) {
+            public void onMenuItemClick(FloatingActionButton fab, TextView textView, int two) {
                 Intent intent = new Intent(RegisterActivity.this, FacebookActivity.class);
                 startActivity(intent);
                 finish();
@@ -430,11 +403,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         if (session.isLoggedIn()) {
             // User is already logged in. Take him to main activity
-            AppPreference appPreference=ObjectFactory.getInstance().getAppPreference(getApplicationContext());
-            BaseBottomHelperActivity.start(getApplicationContext(), ProfileViewFragment.class.getName(),appPreference.getUserId(),appPreference.getUserName());
-            /*Intent intent = new Intent(RegisterActivity.this, ProfileView.class);
+            Intent intent = new Intent(RegisterActivity.this, ProfileView.class);
 
-            startActivity(intent);*/
+            startActivity(intent);
             finish();
         }
 
@@ -482,6 +453,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 final String gender = (String) radioButton.getText();
                 String description = Description.getText().toString().trim();
                 String image = "";
+                final String contact= ccp.getFullNumberWithPlus();
+                ccp.registerCarrierNumberEditText(contact_number);
+                int spaces = fullname.replace(" ", "").length();
+                int password_spaces = password.replace(" ", "").length();
+                int description_spaces = description.replace(" ", "").length();
+                Log.e("spaces", String.valueOf(spaces));
+                Log.e("fullNumber", String.valueOf(contact.length()));
+
 
 
                 if (bitmap == null) {
@@ -496,6 +475,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 } else {
                     image = getStringImage(bitmap);
                 }
+
+//Profile image from Linked in to Bitmap
+                Bundle bundle = getIntent().getExtras();
+                String picture = bundle.getString("picturl");
+                if(picture!=null){
+                    Glide.with(RegisterActivity.this).load(picture).into(user_image);
+                    user_image.buildDrawingCache();
+                    Bitmap bitmap = user_image.getDrawingCache();
+                    image = getStringImage(bitmap);
+                }
+
                 if (userRole.matches("1")) {
                     final String finalImage = image;
                     final String finalEmail = email;
@@ -515,9 +505,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     }
 
                     if (phone.length() == 0) {
-                        contact_number.setBackgroundResource(R.drawable.red_alert);
+                        phone_layout.setBackgroundResource(R.drawable.red_alert);
                     }else{
-                        contact_number.setBackgroundResource(R.drawable.rectangular_edit2);
+                        phone_layout.setBackgroundResource(R.drawable.rectangular_edit2);
                     }
 
                     if (password.length() == 0) {
@@ -525,7 +515,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     }else{
                         Password.setBackgroundResource(R.drawable.rectangular_edit2);
                     }
-
                     if (confirm_password.length() == 0) {
                         confirm_Password.setBackgroundResource(R.drawable.red_alert);
                     }else{
@@ -549,6 +538,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         if (TextUtils.isEmpty(description))
                             description = "";
 
+                        if(spaces<3){
+                            FullName.setBackgroundResource(R.drawable.red_alert);
+                            Toast.makeText(getApplicationContext(),
+                                    "Minimum 3 characters are required for name", Toast.LENGTH_SHORT)
+                                    .show();
+                            return ;
+                        }
                         if (!isValidEmail(email) && !finalEmail.isEmpty()) {
                             Email.setBackgroundResource(R.drawable.red_alert);
                             Log.e("check", "check");
@@ -556,28 +552,31 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             return;
                         }
 
-                        if (phone != null && phone.length() < 13) {
-                            contact_number.setBackgroundResource(R.drawable.red_alert);
+                        if (phone != null && contact.length()!=13) {
+                            phone_layout.setBackgroundResource(R.drawable.red_alert);
                             Toast.makeText(RegisterActivity.this, "Minimum 13 digits are required for contact number with country code", Toast.LENGTH_SHORT).show();
                             return;
                         }
+
                         if ( phone.length()==0) {
-                            contact_number.setBackgroundResource(R.drawable.red_alert);
+                            phone_layout.setBackgroundResource(R.drawable.red_alert);
                             Toast.makeText(RegisterActivity.this, "Please enter your valid phone number", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        if (password != null && password.length() < 6) {
+                        if (password != null && password_spaces < 6) {
                             Password.setBackgroundResource(R.drawable.red_alert);
                             Toast.makeText(RegisterActivity.this, "Minimum 6 characters required in password field.", Toast.LENGTH_SHORT).show();
                             return;
                         }
+
                         if (!password.equals(confirm_password)) {
                             confirm_Password.setBackgroundResource(R.drawable.red_alert);
                             Toast.makeText(RegisterActivity.this, "Password not matching.Please enter again", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        if (password != null && password.length() > 50) {
+
+                        if (password != null && password_spaces > 50) {
                             Password.setBackgroundResource(R.drawable.red_alert);
                             Toast.makeText(RegisterActivity.this, "Password should not exceed more than 50 characters!", Toast.LENGTH_SHORT).show();
                             return;
@@ -607,9 +606,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                                                 if (jsonObject != null) {
                                                     if (!jsonObject.getBoolean("error")) {
-                                                        registerUser(fullname, finalEmail, finalPassword, dateofbirth, place, finalPhone, gender, userRole, finalImage);
+                                                        registerUser(fullname, finalEmail, finalPassword, dateofbirth, place, contact, gender, userRole, finalImage);
 
-                                                    } else {
+                                                    }else{
                                                         Toast.makeText(RegisterActivity.this, jsonObject.getString("error_msg"), Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
@@ -635,12 +634,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     }
                 }
 
-                   else {
-                        final String finalImage1 = image;
-                        final String finalEmail1 = email;
-                        final String finalPassword1 = password;
-                        final String finalDescription1 = description;
-                        final String finalPhone1 = phone;
+                else {
+                    final String finalImage1 = image;
+                    final String finalEmail1 = email;
+                    final String finalPassword1 = password;
+                    final String finalDescription1 = description;
+                    final String finalPhone1 = phone;
 
                     if (fullname.length() == 0) {
                         FullName.setBackgroundResource(R.drawable.red_alert);
@@ -655,9 +654,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     }
 
                     if (phone.length() == 0) {
-                        contact_number.setBackgroundResource(R.drawable.red_alert);
+                        phone_layout.setBackgroundResource(R.drawable.red_alert);
                     }else{
-                        contact_number.setBackgroundResource(R.drawable.rectangular_edit2);
+                        phone_layout.setBackgroundResource(R.drawable.rectangular_edit2);
                     }
 
                     if (password.length() == 0) {
@@ -690,117 +689,127 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         Description.setBackgroundResource(R.drawable.rectangular_edit2);
                     }
 
-                        if (!fullname.isEmpty() && !finalEmail1.isEmpty() && !finalPassword1.isEmpty() && !confirm_password.isEmpty() && !place.isEmpty() && !finalPhone1.isEmpty() && !dateofbirth.isEmpty() && !gender.isEmpty() && !userRole.isEmpty() && !finalDescription1.isEmpty()) {
+                    if (!fullname.isEmpty() && !finalEmail1.isEmpty() && !finalPassword1.isEmpty() && !confirm_password.isEmpty() && !place.isEmpty() && !finalPhone1.isEmpty() && !dateofbirth.isEmpty() && !gender.isEmpty() && !userRole.isEmpty() && !finalDescription1.isEmpty()) {
 
-                            if (!isValidEmail(email) && !finalEmail1.isEmpty()) {
-                                Email.setBackgroundResource(R.drawable.red_alert);
-                                Log.e("check", "check");
-                                Toast.makeText(RegisterActivity.this, "Please enter your valid email address", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
+                        if(spaces<3){
+                            FullName.setBackgroundResource(R.drawable.red_alert);
+                            Toast.makeText(getApplicationContext(),
+                                    "Minimum 3 characters are required for name", Toast.LENGTH_SHORT)
+                                    .show();
+                            return;
+                        }
 
-                            if (phone != null && phone.length() < 13) {
-                                contact_number.setBackgroundResource(R.drawable.red_alert);
-                                Toast.makeText(RegisterActivity.this, "Please enter your valid phone number", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
+                        if (!isValidEmail(email) && !finalEmail1.isEmpty()) {
+                            Email.setBackgroundResource(R.drawable.red_alert);
+                            Log.e("check", "check");
+                            Toast.makeText(RegisterActivity.this, "Please enter your valid email address", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 
-                            if(phone.length()<13){
-                                contact_number.setBackgroundResource(R.drawable.red_alert);
-                                Toast.makeText(RegisterActivity.this, "Minimum 13 digits are required for contact number with country code", Toast.LENGTH_SHORT).show();
-                            }
+                        if (phone.length()==0) {
+                            phone_layout.setBackgroundResource(R.drawable.red_alert);
+                            Toast.makeText(RegisterActivity.this, "Please enter your valid phone number", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 
-                            if (password != null && password.length() < 6) {
-                                Password.setBackgroundResource(R.drawable.red_alert);
-                                Toast.makeText(RegisterActivity.this, "Minimum 6 characters required in password field.", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            if (!password.equals(confirm_password)) {
-                                confirm_Password.setBackgroundResource(R.drawable.red_alert);
-                                Toast.makeText(RegisterActivity.this, "Password not matching.Please enter again", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            if (password != null && password.length() > 50) {
-                                Password.setBackgroundResource(R.drawable.red_alert);
-                                Toast.makeText(RegisterActivity.this, "Password should not exceed more than 50 characters!", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            if (description != null && description.length() < 50) {
-                                Description.setBackgroundResource(R.drawable.red_alert);
-                                Toast.makeText(RegisterActivity.this, "Description should be minimum of 50 characters.", Toast.LENGTH_SHORT).show();
+                        if((contact.length()!=13)){
+                            Log.e("contactlenght", String.valueOf(contact.length()));
+                            Log.e("problem1","problem1");
+                            phone_layout.setBackgroundResource(R.drawable.red_alert);
+                            Toast.makeText(RegisterActivity.this, "Minimum 13 digits are required for contact number with country code", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 
-                                return;
-                            }
+                        if (password != null && password_spaces < 6) {
+                            Password.setBackgroundResource(R.drawable.red_alert);
+                            Toast.makeText(RegisterActivity.this, "Minimum 6 characters required in password field.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if (!password.equals(confirm_password)) {
+                            confirm_Password.setBackgroundResource(R.drawable.red_alert);
+                            Toast.makeText(RegisterActivity.this, "Password not matching.Please enter again", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if (password != null && password.length() > 50) {
+                            Password.setBackgroundResource(R.drawable.red_alert);
+                            Toast.makeText(RegisterActivity.this, "Password should not exceed more than 50 characters!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if (description != null && description_spaces < 50) {
+                            Description.setBackgroundResource(R.drawable.red_alert);
+                            Toast.makeText(RegisterActivity.this, "Description should be minimum of 50 characters.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 //                        final Dialog dialog = ObjectFactory.getInstance().getUtils(RegisterActivity.this).showLoadingDialog(RegisterActivity.this);
 //                        dialog.show();
 
-                            if (!email.isEmpty()) {
-                                if (TextUtils.isEmpty(description)) {
-                                    description = "";
-                                }
-                                final String finalDescription = description;
+                        if(!email.isEmpty()) {
+                            if (TextUtils.isEmpty(description)) {
+                                description = "";
+                            }
+                            final String finalDescription = description;
 
-                                Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(RegisterActivity.this).getApiService().emailDescriptionValidation(
-                                        "app-client",
-                                        "123321",
+                            Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(RegisterActivity.this).getApiService().emailDescriptionValidation(
+                                    "app-client",
+                                    "123321",
 
-                                        email, finalDescription
-                                );
+                                    email, finalDescription
+                            );
 
-                                responseBodyCall.enqueue(new Callback<ResponseBody>() {
-                                    @Override
-                                    public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-                                        // dialog.dismiss();
-                                        if (response.body() != null) {
-                                            try {
-                                                String responseString = new String(response.body().bytes());
-                                                if (responseString != null) {
-                                                    JSONObject jsonObject = new JSONObject(responseString);
-                                                    System.out.println("PortfolioVideoEditActivity.onResponse " + responseString);
-                                                    if (jsonObject != null) {
-                                                        if (!jsonObject.getBoolean("error")) {
-                                                            Log.e("Role is checked", userRole);
+                            responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                                    // dialog.dismiss();
+                                    if (response.body() != null) {
+                                        try {
+                                            String responseString = new String(response.body().bytes());
+                                            if (responseString != null) {
+                                                JSONObject jsonObject = new JSONObject(responseString);
+                                                System.out.println("PortfolioVideoEditActivity.onResponse " + responseString);
+                                                if (jsonObject != null) {
+                                                    if (!jsonObject.getBoolean("error")) {
+                                                        Log.e("Role is checked", userRole);
 
-                                                            Intent to_registercategory = new Intent(RegisterActivity.this, Registration_Category.class);
-                                                            to_registercategory.putExtra("role", userRole);
-                                                            to_registercategory.putExtra("fullname", fullname);
-                                                            to_registercategory.putExtra("email", finalEmail1);
-                                                            to_registercategory.putExtra("password", finalPassword1);
-                                                            to_registercategory.putExtra("location", place);
-                                                            to_registercategory.putExtra("phone", finalPhone1);
-                                                            to_registercategory.putExtra("dob", dateofbirth);
-                                                            to_registercategory.putExtra("description", finalDescription);
-                                                            to_registercategory.putExtra("gender", gender);
-                                                            to_registercategory.putExtra("profile_img", finalImage1);
-                                                            startActivity(to_registercategory);
+                                                        Intent to_registercategory = new Intent(RegisterActivity.this, Registration_Category.class);
+                                                        to_registercategory.putExtra("role", userRole);
+                                                        to_registercategory.putExtra("fullname", fullname);
+                                                        to_registercategory.putExtra("email", finalEmail1);
+                                                        to_registercategory.putExtra("password", finalPassword1);
+                                                        to_registercategory.putExtra("location", place);
+                                                        to_registercategory.putExtra("phone", contact);
+                                                        to_registercategory.putExtra("dob", dateofbirth);
+                                                        to_registercategory.putExtra("description", finalDescription);
+                                                        to_registercategory.putExtra("gender", gender);
+                                                        to_registercategory.putExtra("profile_img", finalImage1);
+                                                        startActivity(to_registercategory);
 //                                                        finish();
-                                                        } else {
-                                                            Toast.makeText(RegisterActivity.this, jsonObject.getString("error_msg"), Toast.LENGTH_SHORT).show();
-                                                        }
+                                                    } else {
+                                                        Toast.makeText(RegisterActivity.this, jsonObject.getString("error_msg"), Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
-                                            } catch (IOException e) {
-                                                e.printStackTrace();
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
                                             }
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
                                         }
                                     }
+                                }
 
-                                    @Override
-                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                        // dialog.dismiss();
-                                        Toast.makeText(RegisterActivity.this, "failed..", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-
-                        } else {
-                            Toast.makeText(getApplicationContext(),
-                                    "Please enter required details", Toast.LENGTH_LONG)
-                                    .show();
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    // dialog.dismiss();
+                                    Toast.makeText(RegisterActivity.this, "failed..", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
+
+                    } else {
+                        Toast.makeText(getApplicationContext(),
+                                "Please enter required details", Toast.LENGTH_LONG)
+                                .show();
                     }
+                }
             }
             private boolean isValidEmail(String email) {
                 String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -868,31 +877,31 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         };
     }
 
-    private TextWatcher textWatcher6() {
-        return new TextWatcher(){
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                if (!contact_number.getText().toString().equals("")) { //if edittext include text
-                    contact_number.setBackgroundResource(R.drawable.rectangular_edit2);
-                }else{
-                    contact_number.setBackgroundResource(R.drawable.red_alert);
-                }
+//    private TextWatcher textWatcher6() {
+//        return new TextWatcher(){
 //
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        };
-    }
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//                if (!ccp.registerCarrierNumberEditText(contact_number)..equals("")) { //if edittext include text
+//                    phone_layout.setBackgroundResource(R.drawable.rectangular_edit2);
+//                }else{
+//                    phone_layout.setBackgroundResource(R.drawable.red_alert);
+//                }
+////
+//            }
+//
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        };
+//    }
 
 
     private TextWatcher textWatcher5() {
@@ -974,9 +983,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         };
     }
 
-
     private TextWatcher textWatcher2() {
-
         return new TextWatcher(){
 
             @Override
@@ -1007,6 +1014,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         if (getCurrentFocus() != null) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+
         }
         return super.dispatchTouchEvent(ev);
     }
@@ -1018,11 +1026,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 if (!Email.getText().toString().equals("")) { //if edittext include text
-                    btnClear1.setVisibility(View.VISIBLE);
+                    // btnClear1.setVisibility(View.VISIBLE);
                     Email.setBackgroundResource(R.drawable.rectangular_edit2);
 
                 } else { //not include text
-                    btnClear1.setVisibility(View.GONE);
+                    //  btnClear1.setVisibility(View.GONE);
                     Email.setBackgroundResource(R.drawable.red_alert);
                 }
 
@@ -1033,41 +1041,39 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
             @Override
             public void afterTextChanged(Editable s) {
-
-            }
-        };
-
-    }
-    private View.OnClickListener onClickListener1() {
-        return new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Email.setText("");
             }
         };
     }
+//    private View.OnClickListener onClickListener1() {
+//        return new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                Email.setText("");
+//            }
+//        };
+//    }
 
-    private View.OnClickListener onClickListener() {
-        return new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                FullName.setText("");
-            }
-        };
-    }
+    //    private View.OnClickListener onClickListener() {
+//        return new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                FullName.setText("");
+//            }
+//        };
+//    }
     private TextWatcher textWatcher() {
         return new TextWatcher(){
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 if (!FullName.getText().toString().equals("")) { //if edittext include text
-                    btnClear.setVisibility(View.VISIBLE);
+                    // btnClear.setVisibility(View.VISIBLE);
                     FullName.setBackgroundResource(R.drawable.rectangular_edit2);
 
                 } else { //not include text
-                    btnClear.setVisibility(View.GONE);
+                    // btnClear.setVisibility(View.GONE);
                     FullName.setBackgroundResource(R.drawable.red_alert);
                 }
             }
@@ -1126,10 +1132,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 new String[]{Manifest.permission.CAMERA},
                 MY_PERMISSIONS_REQUEST_CAMERA);
     }
-
     private String getStringImage(Bitmap bmp) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 90, baos);
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] imageBytes = baos.toByteArray();
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return encodedImage;
@@ -1155,7 +1160,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 Random rand = new Random();
                 int num = rand.nextInt(5000) + 1;
                 File path = new File(directory, "" + num + ".jpg");
-
 
                 UCrop.of(Uri.fromFile(photopath), Uri.fromFile(path))
                         .withAspectRatio(9, 9)
@@ -1240,7 +1244,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         FileOutputStream stream = null;
         try {
             stream = new FileOutputStream(path);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

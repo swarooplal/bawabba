@@ -38,7 +38,7 @@
     <string name="experience1"> I am here to Find more clients  \n (Profile will be visible in search) </string>
     <string name="experience2"> I am here to hire services \n (Profile will not be visible in search) </string>
     <string name="facebook_app_id">870003769833794</string>
-    <string name="resetpassword">Enter your email address below,and we will send you a link to \n reset your password.</string>
+    <string name="resetpassword">Enter your email address, we will send you a link to reset your password.</string>
     <string name="fb_login_protocol_scheme">fb1301643216544821</string>
     <string name="company">Company Name</string>
     <string name="Images">Portfolio Images</string>

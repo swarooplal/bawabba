@@ -44,31 +44,27 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.bawaaba.rninja4.rookie.activity.SearchResult;
-import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
-import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
-import com.bawaaba.rninja4.rookie.model.searchResult.SearchResultResponse;
-import com.bawaaba.rninja4.rookie.utils.AppPreference;
-import com.bumptech.glide.Glide;
 import com.bawaaba.rninja4.rookie.App.AppController;
 import com.bawaaba.rninja4.rookie.JSONParser;
 import com.bawaaba.rninja4.rookie.R;
 import com.bawaaba.rninja4.rookie.activity.CircleTransform;
-import com.bawaaba.rninja4.rookie.activity.ProfileView;
+import com.bawaaba.rninja4.rookie.dashboard_new.BaseBottomHelperActivity;
+import com.bawaaba.rninja4.rookie.dashboard_new.ProfileViewFragment;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
 import com.bawaaba.rninja4.rookie.model.profile.Profileresponse;
 import com.bawaaba.rninja4.rookie.utils.BaseActivity;
 import com.bawaaba.rninja4.rookie.utils.Constants;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.gson.Gson;
+import com.hbb20.CountryCodePicker;
 import com.yalantis.ucrop.UCrop;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -86,6 +82,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 
+import static com.bawaaba.rninja4.rookie.App.AppConfig.URL_EDIT_DETAILS;
+
 
 //import com.google.android.gms.location.places.Place;
 //import com.google.android.gms.location.places.ui.PlaceAutocomplete;
@@ -99,14 +97,14 @@ public class EditDetails extends BaseActivity {
     public static File IMG_URL = null;
     private static int GALLERY_REQUEST = 101;
     final CharSequence[] items = {"Take Photo",
-            "Choose from Library",
+            "Choose from Library","Delete Photo",
             "Cancel"};
     JSONParser jsonParser = new JSONParser();
     String profile_image;
-    private EditText FullName;
+    private com.optimus.edittextfield.EditTextField FullName;
     private AppCompatTextView Dateofbirth;
     private EditText ContactNumber;
-    private EditText ProfileUrl;
+    private com.optimus.edittextfield.EditTextField ProfileUrl;
     private AppCompatTextView Location;
     private CircleImageView user_image;
     private ImageButton user_button;
@@ -116,6 +114,7 @@ public class EditDetails extends BaseActivity {
     private Bitmap bitmap;
     private SQLiteHandler db;
     private AppCompatTextView Save;
+    private LinearLayout phone_layout;
     private RadioGroup Gender;
     private RadioButton male;
     private RadioButton female;
@@ -124,6 +123,8 @@ public class EditDetails extends BaseActivity {
     private int month = 0;
     private int day;
     private LinearLayout linearLayout;
+    public static final String DELETE_PHOTO = "Delete Photo";
+    CountryCodePicker ccp;
     private DatePickerDialog.OnDateSetListener pickerListener = new DatePickerDialog.OnDateSetListener() {
 
         // when dialog box is closed, below method will be called.
@@ -140,9 +141,7 @@ public class EditDetails extends BaseActivity {
                         .append("-").append(month + 1).append("-").append(day)
                         .append(" "));
             }
-//            year = year;
-//            month = month;
-//            day = day;
+
         }
     };
     @Override
@@ -150,30 +149,27 @@ public class EditDetails extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_bio);
 
-//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//        getSupportActionBar().setCustomView(R.layout.actiontitle_layout);
 
-            male = (RadioButton) findViewById(R.id.male);
-            female = (RadioButton) findViewById(R.id.female);
+        male = (RadioButton) findViewById(R.id.male);
+        female = (RadioButton) findViewById(R.id.female);
 
         String response = ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getProfileResponse();
         final Profileresponse profileresponse = new Gson().fromJson(response, Profileresponse.class);
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.gradient));
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         getSupportActionBar().hide();
 
         Intent from_profile = getIntent();
         String gender = from_profile.getStringExtra("gender");
-        Log.e("Gendercheck", gender);
+        profile_image = from_profile.getStringExtra("profile_img");
+        final String dp_exist = from_profile.getStringExtra("dp_exist");
+        // Log.e("Gendercheck", gender);
 
         if (gender.equalsIgnoreCase("Male")) {
             male.setChecked(true);
         } else {
             female.setChecked(true);
         }
-
         /*my edits*/
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
         if (SDK_INT > 8) {
@@ -185,13 +181,42 @@ public class EditDetails extends BaseActivity {
 
         user_image = (CircleImageView) findViewById(R.id.user_image);
         user_button = (ImageButton) findViewById(R.id.user_button);
-        FullName = (EditText) findViewById(R.id.fullname);
+        FullName = (com.optimus.edittextfield.EditTextField) findViewById(R.id.fullname);
         Dateofbirth = (AppCompatTextView) findViewById(R.id.dob);
         ContactNumber = (EditText) findViewById(R.id.phone);
-        ProfileUrl = (EditText) findViewById(R.id.profile_url);
+        ProfileUrl = (com.optimus.edittextfield.EditTextField) findViewById(R.id.profile_url);
         Location = (AppCompatTextView) findViewById(R.id.locat);
         Gender = (RadioGroup) findViewById(R.id.gender);
         linearLayout=(LinearLayout)findViewById(R.id.liner);
+        phone_layout=(LinearLayout)findViewById(R.id.phone_layout);
+        ccp = (CountryCodePicker) findViewById(R.id.ccp);
+        ccp.registerCarrierNumberEditText(ContactNumber);
+
+
+
+        Gender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(dp_exist.equals("No")) {
+                    switch (checkedId) {
+                        case R.id.male:
+                            user_image.setImageResource(R.drawable.boy_dp);
+                            Log.e("imagechange", "boy");
+                            break;
+                        case R.id.female:
+                            user_image.setImageResource(R.drawable.girl_dp);
+                            Log.e("imagechange", "girl");
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        });
+        //  }
+
+        Glide.with(getApplicationContext()).load(profile_image).transform(new CircleTransform(getApplicationContext())).into(user_image);
+        // Glide.with(getApplicationContext()).load(profile_image).placeholder(R.drawable.user_profile).dontAnimate().into(user_image);
 
         linearLayout.setOnTouchListener(new View.OnTouchListener() {
 
@@ -206,7 +231,7 @@ public class EditDetails extends BaseActivity {
 
         FullName .addTextChangedListener(textWatcher());
         Dateofbirth .addTextChangedListener(textWatcher1());
-        ContactNumber .addTextChangedListener(textWatcher2());
+//        ContactNumber .addTextChangedListener(textWatcher2());
         ProfileUrl.addTextChangedListener(textWatcher3());
         Location .addTextChangedListener(textWatcher4());
 
@@ -223,7 +248,6 @@ public class EditDetails extends BaseActivity {
             // RadioButton male = (RadioButton) findViewById(R.id.male);
             private RadioButton radioButton;
             private RadioGroup Gender;
-
             //boolean isMale = male.isChecked();
             @Override
             public void onClick(View v) {
@@ -238,11 +262,23 @@ public class EditDetails extends BaseActivity {
                 radioButton = (RadioButton) findViewById(selectedId);
                 final String gender = (String) radioButton.getText();
                 String image = "";
+                final String contact= ccp.getFullNumberWithPlus();
+                ccp.registerCarrierNumberEditText(ContactNumber);
+
+
+                int spaces = fullname.replace(" ", "").length();
 
                 if (fullname.length() == 0) {
                     FullName.setBackgroundResource(R.drawable.red_alert_round);
                 }else{
                     FullName.setBackgroundResource(R.drawable.grey_box);
+                }
+                if(spaces<3){
+                    FullName.setBackgroundResource(R.drawable.red_alert_round);
+                    Toast.makeText(getApplicationContext(),
+                            "Minimum 3 characters are required for name", Toast.LENGTH_SHORT)
+                            .show();
+                    return ;
                 }
 
                 if (dob.length() == 0) {
@@ -251,15 +287,15 @@ public class EditDetails extends BaseActivity {
                     Dateofbirth.setBackgroundResource(R.drawable.grey_box);
                 }
 
-                if(phone.length() == 0 &&phone.length()<13){
-                    ContactNumber.setBackgroundResource(R.drawable.red_alert_round);
+                if(phone.length() == 0 && contact.length()!=13){
+                    phone_layout.setBackgroundResource(R.drawable.red_alert_round);
                     Toast.makeText(getApplicationContext(),
                             "Minimum 13 digits are required for contact number with country code", Toast.LENGTH_SHORT)
                             .show();
                     return ;
                 }
-                if(phone.length()<13){
-                    ContactNumber.setBackgroundResource(R.drawable.red_alert_round);
+                if(contact.length()!=13){
+                    phone_layout.setBackgroundResource(R.drawable.red_alert_round);
                     Toast.makeText(getApplicationContext(),
                             "Minimum 13 digits are required for contact number with country code", Toast.LENGTH_SHORT)
                             .show();
@@ -274,7 +310,10 @@ public class EditDetails extends BaseActivity {
                     return;
                 }
 
-                if(profile_url.length()<3){
+                int url_spaces = profile_url.replace(" ", "").length();
+                Log.e("spaces", String.valueOf(url_spaces));
+
+                if(url_spaces<3){
                     ProfileUrl.setBackgroundResource(R.drawable.red_alert_round);
                     Toast.makeText(getApplicationContext(),
                             "Mininmum 3 characters required for profile URL", Toast.LENGTH_SHORT)
@@ -289,22 +328,32 @@ public class EditDetails extends BaseActivity {
                 }
 
                 if (bitmap == null) {
+
                     try {
                         URL url = new URL(profile_image);
-                        Bitmap imageBitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                        image = getStringImage(imageBitmap);
+                        Log.e("ImageURL", String.valueOf(url));
+                        //profile picture issue solving without image
+                        if(String.valueOf(url).contains("Bawabba_dp_")) {
+                            Bitmap imageBitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                            image = getStringImage(imageBitmap);
+                            Log.e("checkbitmap5", image);
+                        }else{
+                            image="no";
+                        }
 
                     } catch (IOException e) {
                         System.out.println(e);
                     }
-                } else {
-                    image = getStringImage(bitmap);
                 }
-
-                if (!fullname.isEmpty() && !dob.isEmpty() && !phone.isEmpty()&& !profile_url.isEmpty() && !place.isEmpty() && !gender.isEmpty()) {
+                else {
+                    image = getStringImage(bitmap);
+                    Log.e("checkbitmap4", String.valueOf(bitmap));
+                    Log.e("checkbitmap5", "dletecheckelse");
+                }
+                if(!fullname.isEmpty() && !dob.isEmpty() && !phone.isEmpty()&& !profile_url.isEmpty() && !place.isEmpty() && !gender.isEmpty()){
                     Intent from_profile = getIntent();
                     String user_id = from_profile.getStringExtra("user_id");
-                    editdetailsUser(user_id,image,fullname, dob, phone, profile_url, place, gender);
+                    editdetailsUser(user_id, fullname, dob, contact, profile_url, place, image, gender);
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Please enter your details!", Toast.LENGTH_SHORT)
@@ -318,7 +367,6 @@ public class EditDetails extends BaseActivity {
             public void onClick(View v) {
                /* Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);*/
-
 
                 int result = ContextCompat.checkSelfPermission(EditDetails.this, Manifest.permission.CAMERA);
                 int result1 = ContextCompat.checkSelfPermission(EditDetails.this, Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -389,28 +437,28 @@ public class EditDetails extends BaseActivity {
         };
     }
 
-    private TextWatcher textWatcher2() {
-        return new TextWatcher(){
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                if (!ContactNumber.getText().toString().equals("")) { //if edittext include text
-                    ContactNumber.setBackgroundResource(R.drawable.grey_box);
-
-                } else { //not include text
-                    ContactNumber.setBackgroundResource(R.drawable.red_alert_round);
-                }
-            }
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        };
-    }
+//    private TextWatcher textWatcher2() {
+//        return new TextWatcher(){
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//                if (!phone_layout.getText().toString().equals("")) { //if edittext include text
+//                    ContactNumber.setBackgroundResource(R.drawable.grey_box);
+//
+//                } else { //not include text
+//                    ContactNumber.setBackgroundResource(R.drawable.red_alert_round);
+//                }
+//            }
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        };
+//    }
 
     private TextWatcher textWatcher1() {
         return new TextWatcher(){
@@ -461,6 +509,8 @@ public class EditDetails extends BaseActivity {
     }
 
     private void takePhoto() {
+        Intent from_profile = getIntent();
+        final String gender = from_profile.getStringExtra("gender");
         try {
             AlertDialog.Builder builder = new AlertDialog.Builder(EditDetails.this);
             builder.setTitle(Constants.ProfileFragment.ADD_PHOTO);
@@ -480,6 +530,16 @@ public class EditDetails extends BaseActivity {
                         Intent galleryintent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         startActivityForResult(galleryintent, GALLERY_REQUEST);
 
+                    } else if (items[item].equals(DELETE_PHOTO)) {
+                        //user_image.setImageBitmap(null);
+
+                        if(gender.equals("Male")){
+                            user_image.setImageResource(R.drawable.boy_dp);
+                        }else{
+                            user_image.setImageResource(R.drawable.girl_dp);
+                        }
+                        //web service call for deleting profile picture.
+                        delete_profileimage();
                     } else if (items[item].equals(Constants.ProfileFragment.CANCEL)) {
                         dialog.dismiss();
                     }
@@ -489,6 +549,46 @@ public class EditDetails extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void delete_profileimage() {
+
+        db = new SQLiteHandler(getApplicationContext());
+
+        HashMap<String, String> user = db.getUserDetails();
+        final String user_id = user.get("uid");
+
+        Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getApplicationContext()).getApiService().delete_profimg("app-client",
+                "123321",
+                ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId(),
+                ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getLoginToken(),
+                ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId()
+        );
+        responseBodyCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                if (response.body() != null) {
+                    try {
+                        String responseString = new String(response.body().bytes());
+                        System.out.println("InboxFragment.onResponse" + responseString);
+                        Log.e("inbox repons", responseString);
+                        if (responseString != null) {
+                            JSONObject jsonObject = new JSONObject(responseString);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "failed to load..", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void alert() {
@@ -564,138 +664,6 @@ public class EditDetails extends BaseActivity {
         return encodedImage;
     }
 
-    private void editdetailsUser(final String user_id, final String image, final String fullname, final String dob, final String phone, final String profile_url, final String place, final String gender) {
-        final Dialog dialog = ObjectFactory.getInstance().getUtils(EditDetails.this).showLoadingDialog(EditDetails.this);
-        dialog.show();
-
-        Call<ResponseBody> responseBodyCall = ObjectFactory.getInstance().getRestClient(getApplicationContext()).getApiService().editUserDeatils("app-client",
-                "123321", ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getLoginToken(), ObjectFactory.getInstance().getAppPreference(getApplicationContext()).getUserId(),
-                user_id,image,fullname,dob,phone,profile_url,place,gender);
-
-        responseBodyCall.enqueue(new Callback<ResponseBody>() {
-
-            @Override
-            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-                if (response.body() != null) {
-                    dialog.dismiss();
-                    try {
-                        String responseString = new String(response.body().bytes());
-                        JSONObject jObj = new JSONObject(responseString);
-                        boolean error = jObj.getBoolean("error");
-                        if (!error) {
-                            Toast.makeText(getApplicationContext(),
-                                    "Your details have been updated successfully", Toast.LENGTH_SHORT).show();
-
-                            AppPreference appPreference=ObjectFactory.getInstance().getAppPreference(getApplicationContext());
-                            BaseBottomHelperActivity.start(getApplicationContext(), ProfileViewFragment.class.getName(),appPreference.getUserId(),appPreference.getUserName());
-                           /* Intent to_profile = new Intent(EditDetails.this, ProfileView.class);
-                            startActivity(to_profile);*/
-                            finish();
-                        }else {
-                            String errorMsg = jObj.getString("error_msg");
-                            Toast.makeText(getApplicationContext(),
-                                    errorMsg, Toast.LENGTH_LONG).show();
-                            dialog.dismiss();
-                        }
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
-        });
-
-
-    }
-
-//    private void editdetailmsUser(final String user_id, final String fullname, final String dob, final String phone, final String profile_url, final String place, final String image, final String gender) {
-//
-//        final Dialog dialog = ObjectFactory.getInstance().getUtils(EditDetails.this).showLoadingDialog(EditDetails.this);
-//        dialog.show();
-//
-//        db = new SQLiteHandler(getApplicationContext());
-//
-//        HashMap<String, String> user = db.getUserDetails();
-//        final String token = user.get("token");//token value after the user logedin
-//
-//        String tag_string_req = "req_register";
-//
-//        StringRequest strReq = new StringRequest(Request.Method.POST,
-//                URL_EDIT_DETAILS, new Response.Listener<String>() {
-//
-//            @Override
-//            public void onResponse(String response) {
-//
-//
-//                try {
-//                    Log.e(TAG, response);
-//                    JSONObject jObj = new JSONObject(response);
-//                    boolean error = jObj.getBoolean("error");
-//                    if (!error) {
-//                        Toast.makeText(getApplicationContext(),
-//                                "Your details have been updated successfully", Toast.LENGTH_SHORT).show();
-//
-//                        Intent to_profile = new Intent(EditDetails.this, ProfileView.class);
-//                        startActivity(to_profile);
-//                        finish();
-//                    }else {
-//                        String errorMsg = jObj.getString("error_msg");
-//                        Toast.makeText(getApplicationContext(),
-//                                errorMsg, Toast.LENGTH_LONG).show();
-//                        dialog.dismiss();
-//                    }
-//
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//
-//                Log.e(TAG, "Registration Error: " + error.getMessage());
-//                Toast.makeText(getApplicationContext(),
-//                        error.getMessage(), Toast.LENGTH_LONG).show();
-//                //hideDialog();
-//            }
-//        }) {
-//
-//            @Override
-//            protected Map<String, String> getParams() {
-//                Map<String, String> params = new HashMap<String, String>();
-//                params.put("user_id", user_id);
-//                params.put("profile_img", image);
-//                params.put("fullname", fullname);
-//                params.put("dob", dob);
-//                params.put("phone", phone);
-//                params.put("profile_url", profile_url);
-//                params.put("location", place);
-//                params.put("gender", gender);
-//                return params;
-//            }
-//
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                Map headers = new HashMap();
-//                headers.put("Client-Service", "app-client");
-//                headers.put("Auth-Key", "123321");
-//                headers.put("Token", token);
-//                headers.put("User-Id", user_id);
-//                return headers;
-//            }
-//        };
-//        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
-//    }
-
-    /*my edits*/
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -705,6 +673,7 @@ public class EditDetails extends BaseActivity {
                 photo = (Bitmap) data.getExtras().get("data");
                 bitmap = photo;
                 user_image.setImageBitmap(bitmap);
+                Log.e("checkbitmap", String.valueOf(bitmap));
 
                 File photopath = null;
                 photopath = saveToInternalStorage(photo);
@@ -736,6 +705,7 @@ public class EditDetails extends BaseActivity {
                 cursor.close();
                 Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
                 bitmap = yourSelectedImage;
+                Log.e("checkbitmap1", String.valueOf(bitmap));
 
                 File path = new File(filePath);
                 IMG_URL = path;
@@ -775,6 +745,7 @@ public class EditDetails extends BaseActivity {
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), resultUri);
                 user_image.setImageBitmap(bitmap);
+                Log.e("checkbitmap3", String.valueOf(bitmap));
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -792,7 +763,7 @@ public class EditDetails extends BaseActivity {
         } else if (resultCode == RESULT_CANCELED) {
             // The user canceled the operation.
         }
-        }
+    }
 
     private File saveToInternalStorage(Bitmap bitmap) throws IOException {
         if (ContextCompat.checkSelfPermission(this,
@@ -803,6 +774,7 @@ public class EditDetails extends BaseActivity {
             }
         }
         user_image.setImageBitmap(bitmap);
+        Log.e("checkbitmap4", String.valueOf(bitmap));
 
         ContextWrapper cw = new ContextWrapper(this);
         File directory = cw.getDir("patientphoto", Context.MODE_PRIVATE);
@@ -820,7 +792,6 @@ public class EditDetails extends BaseActivity {
         }
         return path;
     }
-
     public void findPlace(View view) {
         try {
             Intent intent =
@@ -834,6 +805,99 @@ public class EditDetails extends BaseActivity {
             // TODO: Handle the error.
         }
     }
+
+    private void editdetailsUser(final String user_id, final String fullname, final String dob, final String contact, final String profile_url, final String place, final String image, final String gender) {
+
+        Intent from_profile = getIntent();
+        final String dp_exist = from_profile.getStringExtra("dp_exist");
+        Log.e("dp_exist",dp_exist);
+
+
+        final Dialog dialog = ObjectFactory.getInstance().getUtils(EditDetails.this).showLoadingDialog(EditDetails.this);
+        dialog.show();
+
+        db = new SQLiteHandler(getApplicationContext());
+
+        HashMap<String, String> user = db.getUserDetails();
+        final String token = user.get("token");//token value after the user logedin
+
+        String tag_string_req = "req_register";
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                URL_EDIT_DETAILS, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    Log.e(TAG, response);
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+                    if (!error) {
+                        Toast.makeText(getApplicationContext(),
+                                "Your details have been updated successfully", Toast.LENGTH_SHORT).show();
+                        BaseBottomHelperActivity.start(getApplicationContext(), ProfileViewFragment.class.getName(),null,null);
+
+//                        Intent to_profile = new Intent(EditDetails.this, ProfileView.class);
+//                        startActivity(to_profile);
+//                        finish();
+                    }else {
+                        String errorMsg = jObj.getString("error_msg");
+                        Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Log.e(TAG, "Registration Error: " + error.getMessage());
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+                //hideDialog();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("user_id", user_id);
+
+                if (image.isEmpty()) {
+                    params.put("profile_img", "no");
+
+                } else {
+                    params.put("profile_img", image);
+                }
+                params.put("fullname", fullname);
+                params.put("dob", dob);
+                params.put("phone",contact);
+                params.put("profile_url", profile_url);
+                params.put("location", place);
+                params.put("gender", gender);
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map headers = new HashMap();
+                headers.put("Client-Service", "app-client");
+                headers.put("Auth-Key", "123321");
+                headers.put("Token", token);
+                headers.put("User-Id", user_id);
+                return headers;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
+    /*my edits*/
 
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -874,7 +938,7 @@ public class EditDetails extends BaseActivity {
         switch (id) {
             case 132:
 
-            return new DatePickerDialog(this, pickerListener, year, month, day);
+                return new DatePickerDialog(this, pickerListener, year, month, day);
         }
         return null;
     }
@@ -896,25 +960,35 @@ public class EditDetails extends BaseActivity {
             final String gender = from_profile.getStringExtra("gender");
             final String location = from_profile.getStringExtra("location");
             final String profile_url = from_profile.getStringExtra("profile_url");
+            final String dp_exist = from_profile.getStringExtra("dp_exist");
+
+
 
             EditDetails.this.runOnUiThread(new Runnable() {
-
-
                 @Override
                 public void run() {
-                    //  user_image = (ImageView) findViewById(R.id.user_image);
+
+//          Glide.with(getApplicationContext()).load(profile_image).transform(new CircleTransform(getApplicationContext())).into(user_image);
+                    //Picasso.with(getApplicationContext()).load(profile_image).into(user_image);
                     FullName.setText(name);
+                    FullName.setSelection(FullName.getText().length());
                     Dateofbirth.setText(dob);
-                    ContactNumber.setText(phone);
+                    //ccp.setFullNumber(String.valueOf(ContactNumber));
+//                    ContactNumber.setText(phone);
+                    ccp.setFullNumber(phone);
+                    Log.e("phone",phone);
+                    //  ccp.getFullNumberWithPlus();
+                    // final String contact= ccp.setFullNumber(phone);
+                    //  Log.e("contactnumber",phone);
+                    //
                     ProfileUrl.setText(profile_url);
                     Location.setText(location);
 
                     if(gender.equalsIgnoreCase("Male")){
                         male.setChecked(true);
-                    }else{
+                    } else{
                         female.setChecked(true);
                     }
-                    Glide.with(getApplicationContext()).load(profile_image).transform(new CircleTransform(getApplicationContext())).into(user_image);
                 }
             });
             return null;

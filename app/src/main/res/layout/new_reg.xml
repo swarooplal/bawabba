@@ -9,54 +9,54 @@
     android:layout_height="match_parent">
 
     <!--<RelativeLayout-->
-        <!--android:id="@+id/fab_family"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:alpha="0.7"-->
-        <!--android:background="#B2EBFF"-->
-        <!--android:orientation="vertical"-->
-        <!--android:visibility="gone"/>-->
+    <!--android:id="@+id/fab_family"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:alpha="0.7"-->
+    <!--android:background="#B2EBFF"-->
+    <!--android:orientation="vertical"-->
+    <!--android:visibility="gone"/>-->
 
     <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab2"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:layout_marginBottom="160dp"-->
-        <!--android:layout_marginRight="10dp"-->
-        <!--android:src="@drawable/facebook"-->
-        <!--android:visibility="invisible"-->
-        <!--app:fabSize="mini"-->
-        <!--app:backgroundTint="#3b5998"-->
-        <!--app:elevation="9dp"-->
-        <!--app:pressedTranslationZ="12dp"/>-->
+    <!--android:id="@+id/fab2"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="bottom|end"-->
+    <!--android:layout_marginBottom="160dp"-->
+    <!--android:layout_marginRight="10dp"-->
+    <!--android:src="@drawable/facebook"-->
+    <!--android:visibility="invisible"-->
+    <!--app:fabSize="mini"-->
+    <!--app:backgroundTint="#3b5998"-->
+    <!--app:elevation="9dp"-->
+    <!--app:pressedTranslationZ="12dp"/>-->
 
     <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab1"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:layout_marginBottom="90dp"-->
-        <!--android:layout_marginRight="10dp"-->
-        <!--android:src="@drawable/linkedin_new"-->
-        <!--app:fabSize="mini"-->
-        <!--app:backgroundTint="#4875B4"-->
-        <!--android:visibility="invisible"-->
-        <!--app:elevation="9dp"-->
-        <!--app:pressedTranslationZ="12dp"/>-->
+    <!--android:id="@+id/fab1"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="bottom|end"-->
+    <!--android:layout_marginBottom="90dp"-->
+    <!--android:layout_marginRight="10dp"-->
+    <!--android:src="@drawable/linkedin_new"-->
+    <!--app:fabSize="mini"-->
+    <!--app:backgroundTint="#4875B4"-->
+    <!--android:visibility="invisible"-->
+    <!--app:elevation="9dp"-->
+    <!--app:pressedTranslationZ="12dp"/>-->
     <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:layout_marginBottom="10dp"-->
-        <!--android:layout_marginRight="10dp"-->
-        <!--android:src="@drawable/add_more"-->
-        <!--app:backgroundTint="#2196f3"-->
-        <!--app:borderWidth="0dp"-->
-        <!--app:elevation="10dp"-->
-        <!--app:fabSize="mini"-->
-        <!--app:pressedTranslationZ="12dp" />-->
+    <!--android:id="@+id/fab"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="bottom|end"-->
+    <!--android:layout_marginBottom="10dp"-->
+    <!--android:layout_marginRight="10dp"-->
+    <!--android:src="@drawable/add_more"-->
+    <!--app:backgroundTint="#2196f3"-->
+    <!--app:borderWidth="0dp"-->
+    <!--app:elevation="10dp"-->
+    <!--app:fabSize="mini"-->
+    <!--app:pressedTranslationZ="12dp" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -88,11 +88,11 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:layout_weight="1"
+                        android:textStyle="bold"
                         android:gravity="center"
                         android:text="Create Bawabba Profile"
                         android:textColor="#FFFFFF"
                         android:textSize="18sp"/>
-
                 </LinearLayout>
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
@@ -106,6 +106,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:layout_marginTop="40dp"
                 android:gravity="center|top"
                 android:orientation="vertical">
 
@@ -124,7 +125,7 @@
                         android:buttonTint="#F9F9F9"
                         android:text="Hire"
                         android:textColor="#FFF"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"/>
 
                     <RadioButton
                         android:id="@+id/freelance"
@@ -134,8 +135,8 @@
                         android:checked="true"
                         android:text="Work"
                         android:textColor="#FFF"
-                        android:textSize="13sp"
-                        />
+                        android:textSize="13sp"/>
+
                 </RadioGroup>
 
                 <LinearLayout
@@ -188,7 +189,7 @@
                         android:layout_marginTop="3dp"
                         android:background="@drawable/imageuserreg"
                         app:civ_border_color="@color/white"
-                        app:civ_border_width="2dp" />
+                        app:civ_border_width="2dp"/>
 
                     <ImageButton
                         android:id="@+id/user_button"
@@ -199,7 +200,7 @@
                         android:layout_alignRight="@+id/user_image"
                         android:background="@drawable/camera_edit"
                         android:clickable="true"
-                        android:tint="#CFCFCF" />
+                        android:tint="#CFCFCF"/>
                 </RelativeLayout>
 
                 <FrameLayout
@@ -207,7 +208,7 @@
                     android:layout_height="70dp"
                     android:layout_margin="1dp">
 
-                    <EditText
+                    <com.optimus.edittextfield.EditTextField
                         android:id="@+id/fullname"
                         android:layout_width="320dp"
                         android:layout_height="50dp"
@@ -216,6 +217,8 @@
                         android:layout_marginTop="10dp"
                         android:background="@drawable/rectangular_edit2"
                         android:contextClickable="true"
+                        app:clearButtonMode="whileEditing"
+                        app:clearButtonDrawable="@drawable/cros_mark"
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 "
                         android:fontFamily="sans-serif"
                         android:hint="@string/hint_name"
@@ -224,72 +227,103 @@
                         android:paddingLeft="10dp"
                         android:textColor="#FF666666"
                         android:textColorHint="#CFCFCF"
-                        android:textSize="14sp" />
-                    <Button
-                        android:id="@+id/btn_clear"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_gravity="end|center_vertical|center_horizontal"
-                        android:layout_marginEnd="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/ic_error"
-                        android:visibility="gone"/>
-                </FrameLayout>
+                        android:textSize="14sp"/>
+                    <!--<Button-->
+                    <!--android:id="@+id/btn_clear"-->
+                    <!--android:layout_width="15dp"-->
+                    <!--android:layout_height="15dp"-->
+                    <!--android:imeOptions="actionNext"-->
+                    <!--android:layout_gravity="end|center_vertical|center_horizontal"-->
+                    <!--android:layout_marginEnd="20dp"-->
+                    <!--android:layout_marginRight="20dp"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:background="@drawable/ic_error"-->
+                    <!--android:visibility="gone"/>-->
 
+                </FrameLayout>
                 <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="70dp"
                     android:layout_margin="1dp">
 
-                <EditText
-                    android:id="@+id/email"
-                    android:layout_width="320dp"
-                    android:layout_height="50dp"
-                    android:layout_below="@+id/fullname"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/rectangular_edit2"
-                    android:fontFamily="sans-serif"
-                    android:hint="@string/hint_email"
-                    android:maxLength="50"
-                    android:inputType="textEmailAddress"
-                    android:paddingLeft="10dp"
-                    android:textAllCaps="false"
-                    android:textColor="#FF666666"
-                    android:textColorHint="#CFCFCF"
-                    android:textSize="14sp" />
+                    <com.optimus.edittextfield.EditTextField
+                        android:id="@+id/email"
+                        android:layout_width="320dp"
+                        android:layout_height="50dp"
+                        android:layout_below="@+id/fullname"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/rectangular_edit2"
+                        android:fontFamily="sans-serif"
+                        app:clearButtonMode="whileEditing"
+                        app:clearButtonDrawable="@drawable/cros_mark"
+                        android:hint="@string/hint_email"
+                        android:maxLength="50"
+                        android:inputType="textEmailAddress"
+                        android:paddingLeft="10dp"
+                        android:textAllCaps="false"
+                        android:textColor="#FF666666"
+                        android:textColorHint="#CFCFCF"
+                        android:textSize="14sp"/>
 
-                <Button
-                    android:id="@+id/btn_clear1"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_gravity="end|center"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/ic_error"
-                    android:visibility="gone"/>
+                    <!--<Button-->
+                    <!--android:id="@+id/btn_clear1"-->
+                    <!--android:layout_width="15dp"-->
+                    <!--android:layout_height="15dp"-->
+                    <!--android:layout_gravity="end|center"-->
+                    <!--android:layout_marginEnd="20dp"-->
+                    <!--android:layout_marginRight="20dp"-->
+                    <!--android:layout_marginTop="12dp"-->
+                    <!--android:background="@drawable/ic_error"-->
+                    <!--android:visibility="gone"/>-->
 
                 </FrameLayout>
 
-                <EditText
-                    android:id="@+id/phone"
+                <LinearLayout
+                    android:id="@+id/phone_layout"
                     android:layout_width="320dp"
                     android:layout_height="50dp"
-                    android:layout_below="@+id/confirm_layout"
-                    android:layout_gravity="center"
                     android:layout_marginTop="19dp"
+                    android:gravity="center_horizontal"
                     android:background="@drawable/rectangular_edit2"
-                    android:fontFamily="sans-serif"
-                    android:hint="@string/contact"
-                    android:inputType="phone"
-                    android:maxLength="15"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:textColor="#FF666666"
-                    android:textColorHint="#CFCFCF"
-                    android:textSize="14sp"/>
+                    android:weightSum="1"
+                    android:orientation="horizontal">
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/ccp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="200dp"
+                        android:layout_weight="0.20"
+                        android:gravity="center_vertical"
+                        android:layout_gravity="center_vertical"
+                        app:ccp_contentColor="#FF666666"
+                        app:ccp_showNameCode="false"
+                        app:ccp_textSize="16sp"
+                        app:ccp_autoFormatNumber="false"
+                        app:ccp_autoDetectCountry="false"
+                        android:background="@null"
+                        app:ccpDialog_fastScroller_bubbleColor="@color/white"
+                        app:ccp_defaultNameCode="ae"
+                        app:ccp_countryPreference="ae,bh,sa,eg"/>
+
+                    <EditText
+                        android:layout_width="220dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="0.80"
+                        android:id="@+id/phone"
+                        android:background="@null"
+                        android:layout_below="@+id/confirm_layout"
+                        android:editable="false"
+                        android:gravity="left"
+                        android:layout_marginTop="14dp"
+                        android:fontFamily="sans-serif"
+                        android:inputType="phone"
+                        android:maxLength="11"
+                        android:textColor="#FF666666"
+                        android:textColorHint="#CFCFCF"
+                        android:textSize="16sp"/>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/password_layout"
@@ -402,7 +436,8 @@
                         android:padding="5dp"
                         android:scaleType="centerInside"
                         android:src="@drawable/placeholder"
-                        android:tint="@color/white" />
+                        android:tint="@color/white"/>
+
                 </LinearLayout>
 
                 <EditText
@@ -488,18 +523,18 @@
                     android:textStyle="normal"/>
 
                 <!--<Button-->
-                    <!--android:id="@+id/btnRegister_hire"-->
-                    <!--android:layout_width="150dp"-->
-                    <!--android:layout_height="40dp"-->
-                    <!--android:visibility="gone"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:layout_marginTop="10dp"-->
-                    <!--android:background="@drawable/new_button"-->
-                    <!--android:text="Sign Up"-->
-                    <!--android:textAllCaps="false"-->
-                    <!--android:textColor="@color/white"-->
-                    <!--android:textSize="15dp"-->
-                    <!--android:textStyle="normal" />-->
+                <!--android:id="@+id/btnRegister_hire"-->
+                <!--android:layout_width="150dp"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:visibility="gone"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:background="@drawable/new_button"-->
+                <!--android:text="Sign Up"-->
+                <!--android:textAllCaps="false"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textSize="15dp"-->
+                <!--android:textStyle="normal" />-->
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -510,32 +545,33 @@
                     android:layout_margin="10dp"
                     android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/faq"
-                    android:layout_width="60dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:text="FAQ   |"
-                    android:textColor="#494949"
-                    android:textSize="15dp"/>
+                    <TextView
+                        android:id="@+id/faq"
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="sans-serif"
+                        android:gravity="center"
+                        android:text="FAQ   |"
+                        android:textColor="#494949"
+                        android:textSize="15dp"/>
 
-                <TextView
-                    android:id="@+id/terms"
-                    android:layout_width="120dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:layout_toRightOf="@+id/faq"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:textColor="#494949"
-                    android:text="Terms of Service"
-                    android:textSize="15dp" />
+                    <TextView
+                        android:id="@+id/terms"
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_toRightOf="@+id/faq"
+                        android:fontFamily="sans-serif"
+                        android:gravity="center"
+                        android:textColor="#494949"
+                        android:text="Terms of Service"
+                        android:textSize="15dp" />
                 </RelativeLayout>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
+
     <io.github.kobakei.materialfabspeeddial.FabSpeedDial
         android:id="@+id/fab"
         android:layout_width="match_parent"
@@ -545,5 +581,4 @@
         app:fab_miniFabTextColor="#FFF"
         app:fab_miniFabBackgroundColor="#0083C9"
         app:fab_menu="@menu/fab"/>
-
 </android.support.design.widget.CoordinatorLayout>

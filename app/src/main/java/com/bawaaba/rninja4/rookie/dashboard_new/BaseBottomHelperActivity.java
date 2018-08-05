@@ -1,10 +1,8 @@
 package com.bawaaba.rninja4.rookie.dashboard_new;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
@@ -12,24 +10,13 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ashokvarma.bottomnavigation.BottomNavigationBar;
-import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.ashokvarma.bottomnavigation.TextBadgeItem;
 import com.bawaaba.rninja4.rookie.R;
-import com.bawaaba.rninja4.rookie.activity.ChatFunction.ChatActivity;
-import com.bawaaba.rninja4.rookie.activity.LoginActivity;
-import com.bawaaba.rninja4.rookie.activity.ProfileView;
-import com.bawaaba.rninja4.rookie.activity.SearchActivity;
 import com.bawaaba.rninja4.rookie.helper.SQLiteHandler;
 import com.bawaaba.rninja4.rookie.helper.SessionManager;
 import com.bawaaba.rninja4.rookie.manager.ObjectFactory;
@@ -43,10 +30,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -257,7 +242,7 @@ public class BaseBottomHelperActivity extends AppCompatActivity {
                                 ObjectFactory.getInstance().getAppPreference(getApplicationContext()).setSearchResult(responseString);
                                 JSONArray user = jObj.getJSONArray("user");
 
-                                changeFragment(SearchResultFragment.newInstance(user.toString()), false);
+                                changeFragment(SearchResultFragment.newInstance(user.toString()),   false);
 //
 //                                Intent to_searchresult = new Intent(getContext(), SearchResult.class);
 //                                to_searchresult.putExtra("search_result", user.toString());

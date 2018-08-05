@@ -26,9 +26,13 @@ public class Portfolio_Video_Webview extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         jzVideoPlayerStandard   = (JZVideoPlayerStandard) findViewById(R.id.videoplayer);
-
         Intent from_adapter_video = this.getIntent();
         final String link = from_adapter_video.getExtras().getString("link");
+
+        jzVideoPlayerStandard.setUp(link,
+                JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL,"");
+
+
 
         Log.e("video intent check",link);
 

@@ -909,6 +909,7 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
                             final String category = user.getString("category");
                             final String gender = user.getString("gender");
                             final String verify = user.getString("verify");
+                            final String dp_exist = user.getString("dp_exist");
 
                             if (verify.matches("0")) {
                                 user_button.setVisibility(View.VISIBLE);
@@ -955,6 +956,7 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
                                     to_editdetails.putExtra("location", finalLocation);
                                     to_editdetails.putExtra("profile_url", finalProfile_url);
                                     to_editdetails.putExtra("gender", gender);
+                                    to_editdetails.putExtra("dp_exist", dp_exist);
                                     startActivity(to_editdetails);
                                     //   finish();
                                 }
