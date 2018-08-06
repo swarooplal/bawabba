@@ -1,5 +1,6 @@
 package com.bawaaba.rninja4.rookie.dashboard_new;
 
+import android.app.Dialog;
 import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +16,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
@@ -162,6 +165,7 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
     public String reg_id;
     QBPrivacyListsManager privacyListsManager;
     TinyDB tinyDB;
+    String finalName;
 
     public static ProfileViewFragment newInstance(String regId, String name) {
 
@@ -213,7 +217,6 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
         tabHost3 = (TabHost) v.findViewById(R.id.myFourthTabhost);
         tabHost4 = (TabHost) v.findViewById(R.id.myFifthTabhost);
     }
-
 
 
     private void init(View v, @Nullable Bundle savedInstanceState) {
@@ -274,22 +277,8 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
         fabMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+             bottomSheetContact();
 
-                if (session.isLoggedIn() && db_id != null) {
-
-//                    Intent to_chat = new Intent(ProfileView.this, ChatActivity.class);
-//                    startActivity(to_chat);
-                    //first freelancer implemented                 //createChatSesion();
-                    showQbUserInformation();
-                } else {
-                    if (profileId != null) {
-
-
-                        Intent to_contacts = new Intent(getContext(), ContactActivity.class);
-                        to_contacts.putExtra("profile_id", profileId);
-                        startActivity(to_contacts);
-                    }
-                }
             }
         });
 
@@ -684,6 +673,8 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
 
     }
 
+    // swarooplal
+
     private void showQbUserInformation() {
         try {
             QBSystemMessagesManager qbSystemMessagesManager = QBChatService.getInstance().getSystemMessagesManager();
@@ -936,7 +927,7 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
                             });
                             Log.e("role", role);
                             final String finalProfile_image = profile_image;
-                            final String finalName = name;
+                          finalName = name;
                             final String finalDob = dob;
                             final String finalContactnumber = contactnumber;
                             final String finalLocation = location;
@@ -1340,14 +1331,72 @@ public class ProfileViewFragment extends Fragment implements IConsts, DialogsMan
             }
         }
     }
+    // bottom sheet for selecting the user to swicth inbox or chat
+    public void bottomSheetContact()
+    {
+        final LayoutInflater li = LayoutInflater.from(getActivity());
+        final View view = li.inflate(R.layout.contact_bottom, null);
+        final Dialog mBottomSheetDialog = new Dialog(getActivity(), R.style.MaterialDialogSheet);
+        RelativeLayout rlSendToMail=(RelativeLayout) view.findViewById(R.id.rl_sendto_email);
+        RelativeLayout rlSendToMessage=(RelativeLayout) view.findViewById(R.id.rl_sendto_message);
+        RelativeLayout rlCancel=(RelativeLayout) view.findViewById(R.id.rl_cancel);
+        TextView tvusernameEmail=(TextView)view.findViewById(R.id.text_sendto_mail);
+        TextView tvusernameMessage=(TextView)view.findViewById(R.id.text_sendto_mesage);
+        tvusernameEmail.setText("Send Email to  "+finalName);
+        tvusernameMessage.setText("Send Message to  "+finalName);
+        mBottomSheetDialog.setContentView(view);
+        mBottomSheetDialog.setCancelable(true);
+        mBottomSheetDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        mBottomSheetDialog.getWindow().setGravity(Gravity.BOTTOM);
+        mBottomSheetDialog.show();
+
+        rlSendToMail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent to_contacts = new Intent(getContext(), ContactActivity.class);
+                to_contacts.putExtra("profile_id", profileId);
+                startActivity(to_contacts);
+
+            }
+        });
+        rlSendToMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (session.isLoggedIn() && db_id != null) {
+
+//                    Intent to_chat = new Intent(ProfileView.this, ChatActivity.class);
+//                    startActivity(to_chat);
+                    //first freelancer implemented                 //createChatSesion();
+                   Toast.makeText(getActivity(),"Chat functionality not avalible now,Please try after some time",Toast.LENGTH_LONG).show();
+                } else {
+                    if (profileId != null) {
+
+
+                        Intent to_contacts = new Intent(getContext(), ContactActivity.class);
+                        to_contacts.putExtra("profile_id", profileId);
+                        startActivity(to_contacts);
+                    }
+                }
+
+            }
+        });
+        rlCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBottomSheetDialog.dismiss();
+
+            }
+        });
+    }
 
     public void init_modal_bottomsheet() {
         View modalbottomsheet = getLayoutInflater().inflate(R.layout.modal_bottomsheet, null);
-        dialog = new BottomSheetDialog(getContext());
+        dialog = new BottomSheetDialog( getActivity());
         dialog.setContentView(modalbottomsheet);
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
-
         btn_reportuser = (Button) modalbottomsheet.findViewById(R.id.btn_reportuser);
         btn_reportuser.setOnClickListener(new View.OnClickListener() {
             @Override
